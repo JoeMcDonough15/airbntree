@@ -1,7 +1,0 @@
-node_modules
-.env
-*.db
-build 
-.DS_Store
-datetests.js
-m4-mocha-specs
