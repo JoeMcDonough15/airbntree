@@ -55,7 +55,22 @@ export const restoreUserThunk = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
   const user = await response.json();
   dispatch(restoreUser(user));
-  return user; // ! Do we need this?
+};
+
+export const signupUserThunk = (userDetails) => async (dispatch) => {
+  try {
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify(userDetails),
+    });
+
+    const newUser = await response.json();
+    dispatch(loginUser(newUser));
+    return newUser;
+  } catch (errorResponse) {
+    const error = await errorResponse.json();
+    return error;
+  }
 };
 
 // default session state - no one logged in
