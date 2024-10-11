@@ -8,5 +8,5 @@ export default defineConfig(({ mode }) => ({
     react(),
     eslint({ lintOnStart: true, failOnError: mode === "production" }),
   ],
-  server: { open: true },
+  server: { open: true, proxy: { "/api": "http://localhost:8000" } },
 }));
