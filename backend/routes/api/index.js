@@ -28,8 +28,4 @@ router.use("/review-images", reviewImagesRouter);
 
 router.use("/bookings", bookingsRouter); // BOOKING ROUTER
 
-router.post("/test", (req, res) => {
-  res.json({ requestBody: req.body });
-});
-
 module.exports = router;

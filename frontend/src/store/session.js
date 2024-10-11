@@ -18,19 +18,22 @@ export const logoutUser = () => {
 };
 
 export const loginUserThunk = (userCredentials) => async (dispatch) => {
-  // talk to the API to log in a user to set our third token, the JWT token, thus logging a user in.  After logging a user in, we should have a _csrf token, an XSRF-TOKEN, and a JWT Token (just called token) in the browser's cookies.
-  const response = await csrfFetch("/api/session", {
-    method: "POST",
-    body: JSON.stringify({
-      credential: userCredentials.credential,
-      password: userCredentials.password,
-    }),
-  }); // headers will be set from within csrfFetch(), as it is defined to use the XSRF-TOKEN that will be retrieved from cookies, as well as set the 'Content-Type' to 'application/json.
-
-  const user = await response.json(); // looks like: { id, email, username, firstName, lastName }
-
-  dispatch(loginUser(user));
-  return response; // ? keep an eye out to see if we use this return value somewhere, or we if just access the user's details from state.session inside our useSelectors across the app
+  try {
+    // talk to the API to log in a user to set our third token, the JWT token, thus logging a user in.  After logging a user in, we should have a _csrf token, an XSRF-TOKEN, and a JWT Token (just called token) in the browser's cookies.
+    const response = await csrfFetch("/api/session", {
+      method: "POST",
+      body: JSON.stringify({
+        credential: userCredentials.credential,
+        password: userCredentials.password,
+      }),
+    }); // headers will be set from within csrfFetch(), as it is defined to use the XSRF-TOKEN that will be retrieved from cookies, as well as set the 'Content-Type' to 'application/json.
+    const user = await response.json(); // after parsing, it looks like: { id, email, username, firstName, lastName }
+    dispatch(loginUser(user));
+    return user;
+  } catch (errorResponse) {
+    const error = await errorResponse.json();
+    return error;
+  }
 };
 
 export const logoutUserThunk = () => async (dispatch) => {
@@ -42,7 +45,6 @@ export const logoutUserThunk = () => async (dispatch) => {
 
 // default session state - no one logged in
 const sessionReducer = (state = { user: null }, action) => {
-  console.log("user: ", action.user);
   switch (action.type) {
     case LOGIN_USER:
       // this is what state.user should look like if someone is logged in: { id, email, username, firstName, lastName }
