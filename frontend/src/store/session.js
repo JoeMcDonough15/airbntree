@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOGIN_USER = "session/login";
 const LOGOUT_USER = "session/logout";
+const RESTORE_USER = "session/userLoggedIn";
 
 export const loginUser = (user) => {
   return {
@@ -14,6 +15,13 @@ export const logoutUser = () => {
   return {
     type: LOGOUT_USER,
     user: { user: null },
+  };
+};
+
+export const restoreUser = (user) => {
+  return {
+    type: RESTORE_USER,
+    user,
   };
 };
 
@@ -43,6 +51,13 @@ export const logoutUserThunk = () => async (dispatch) => {
   return message;
 };
 
+export const restoreUserThunk = () => async (dispatch) => {
+  const response = await csrfFetch("/api/session");
+  const user = await response.json();
+  dispatch(restoreUser(user));
+  return user; // ! Do we need this?
+};
+
 // default session state - no one logged in
 const sessionReducer = (state = { user: null }, action) => {
   switch (action.type) {
@@ -51,6 +66,8 @@ const sessionReducer = (state = { user: null }, action) => {
       return { ...state, user: action.user };
     case LOGOUT_USER:
       return { ...state, user: null };
+    case RESTORE_USER:
+      return { ...state, user: action.user };
     default:
       return state;
   }

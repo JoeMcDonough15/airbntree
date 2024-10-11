@@ -1,10 +1,31 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage/LoginFormPage";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { restoreUserThunk } from "./store/session";
+
+const Layout = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(restoreUserThunk()).then(() => {
+      setIsLoaded(true);
+    });
+  }, [dispatch]);
+
+  return <>{isLoaded && <Outlet />}</>;
+};
 
 const router = createBrowserRouter([
-  { path: "/", element: <h1>Welcome</h1> },
-  { path: "/login", element: <LoginFormPage /> },
-  { path: "/*", element: <h1>Not Found</h1> },
+  {
+    element: <Layout />,
+    children: [
+      { path: "/", element: <h1>Welcome</h1> },
+      { path: "/login", element: <LoginFormPage /> },
+      { path: "/*", element: <h1>Not Found</h1> },
+    ],
+  },
 ]);
 
 function App() {
