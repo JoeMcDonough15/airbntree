@@ -14,7 +14,6 @@ export const loginUser = (user) => {
 export const logoutUser = () => {
   return {
     type: LOGOUT_USER,
-    user: { user: null },
   };
 };
 
@@ -54,7 +53,8 @@ export const logoutUserThunk = () => async (dispatch) => {
 export const restoreUserThunk = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
   const user = await response.json();
-  dispatch(restoreUser(user));
+  const currentUser = user.user;
+  dispatch(restoreUser(currentUser));
 };
 
 export const signupUserThunk = (userDetails) => async (dispatch) => {
@@ -74,13 +74,13 @@ export const signupUserThunk = (userDetails) => async (dispatch) => {
 };
 
 // default session state - no one logged in
-const sessionReducer = (state = { user: null }, action) => {
+const sessionReducer = (state = {}, action) => {
   switch (action.type) {
     case LOGIN_USER:
       // this is what state.user should look like if someone is logged in: { id, email, username, firstName, lastName }
       return { ...state, user: action.user };
     case LOGOUT_USER:
-      return { ...state, user: null };
+      return { ...state, user: action.user };
     case RESTORE_USER:
       return { ...state, user: action.user };
     default:
