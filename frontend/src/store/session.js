@@ -34,7 +34,8 @@ export const loginUserThunk = (userCredentials) => async (dispatch) => {
         password: userCredentials.password,
       }),
     }); // headers will be set from within csrfFetch(), as it is defined to use the XSRF-TOKEN that will be retrieved from cookies, as well as set the 'Content-Type' to 'application/json.
-    const user = await response.json(); // after parsing, it looks like: { id, email, username, firstName, lastName }
+    const parsedResponse = await response.json(); // after parsing, it looks like: { user: { id, email, username, firstName, lastName } }
+    const user = parsedResponse.user; //  an object with user details properties
     dispatch(loginUser(user));
     return user;
   } catch (errorResponse) {
@@ -52,8 +53,8 @@ export const logoutUserThunk = () => async (dispatch) => {
 
 export const restoreUserThunk = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
-  const user = await response.json();
-  const currentUser = user.user;
+  const parsedResponse = await response.json(); // always an object with a user property
+  const currentUser = parsedResponse.user; //  either null or an object with user details properties
   dispatch(restoreUser(currentUser));
 };
 

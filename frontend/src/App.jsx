@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { restoreUserThunk } from "./store/session";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
+import Navigation from "./components/Navigation";
 
 const Layout = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -15,7 +16,12 @@ const Layout = () => {
     });
   }, [dispatch]);
 
-  return <>{isLoaded && <Outlet />}</>;
+  return (
+    <>
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && <Outlet />}
+    </>
+  );
 };
 
 const router = createBrowserRouter([
