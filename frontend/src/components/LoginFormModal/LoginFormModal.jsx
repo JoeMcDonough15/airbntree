@@ -1,25 +1,15 @@
 import { useState, useEffect } from "react";
 import { loginUserThunk } from "../../store/session";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../context/Modal";
 
-const LoginFormPage = () => {
+const LoginFormModal = () => {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [userErrors, setUserErrors] = useState({});
   const [submitDisabled, setSubmitDisabled] = useState();
-  const user = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  if (user) {
-    navigate("/");
-  }
-
-  const resetForm = () => {
-    setCredential("");
-    setPassword("");
-  };
+  const { closeModal } = useModal();
 
   useEffect(() => {
     // any client side errors?  disable submit. No client side errors or client side errors fixed?  enable submit.
@@ -38,19 +28,21 @@ const LoginFormPage = () => {
     const errors = handleClientSideErrors();
     setUserErrors(errors); // will schedule a re-render and set userErrors to either be an empty object, or an object with error properties.  Calling the setUserErrors() here will update the state of userErrors and disable submit button if necessary
     if (Object.values(errors).length > 0) return; // to avoid accidentally submitting with errors, use the most up to date value for errors, which would be the return of our synchronous function handleErrors();  NOT stateful userErrors, which will not update until next render.
-    // if we get here, we are submitting the form
+    // if we get here, we are submitting the form to log a user in
     const userLoginInfo = {
       credential,
       password,
     };
     const response = await dispatch(loginUserThunk(userLoginInfo));
-    // check for server side validation errors, i.e. invalid credentials
+    // check for server side validation errors, i.e. invalid credentials, and keep modal open
     if (response.message) {
       setUserErrors(response);
     } else {
-      resetForm();
+      // if we successfully logged in, close the modal
+      closeModal();
     }
   };
+
   return (
     <>
       <h1>Login</h1>
@@ -92,4 +84,4 @@ const LoginFormPage = () => {
   );
 };
 
-export default LoginFormPage;
+export default LoginFormModal;
