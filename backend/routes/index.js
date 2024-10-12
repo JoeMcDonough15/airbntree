@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const apiRouter = require("./api");
+const serveStatic = require("serve-static");
 
 router.use("/api", apiRouter);
 
@@ -18,7 +19,16 @@ if (process.env.NODE_ENV === "production") {
   });
 
   // Serve the static assets in the frontend's build folder
-  router.use(express.static(path.resolve("../../frontend/dist")));
+  // router.use(express.static(path.resolve("../../frontend/dist")));
+  router.use(
+    serveStatic(path.resolve("../../frontend/dist"), {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith(".js")) {
+          res.setHeader("Content-Type", "application/javascript");
+        }
+      },
+    })
+  );
 
   // Serve the frontend's index.html file at all other routes NOT starting with /api
   router.get(/^(?!\/?api).*/, (req, res) => {
