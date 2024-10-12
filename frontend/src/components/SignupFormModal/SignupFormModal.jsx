@@ -88,7 +88,7 @@ const SignupFormModal = () => {
         <label>
           Password
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -98,7 +98,7 @@ const SignupFormModal = () => {
         <label>
           Confirm Password
           <input
-            type="text"
+            type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
