@@ -2,13 +2,13 @@
 const express = require("express");
 const router = express.Router();
 const apiRouter = require("./api");
-const path = require("path");
 
 router.use("/api", apiRouter);
 
 // Static routes
 // serve React build files in production
 if (process.env.NODE_ENV === "production") {
+  const path = require("path");
   // serve the frontend's index.html at the root route
   router.get("/", (req, res) => {
     res.cookie("XSRF-TOKEN", req.csrfToken());
@@ -16,18 +16,18 @@ if (process.env.NODE_ENV === "production") {
       path.resolve(__dirname, "../../frontend", "dist", "index.html")
     );
   });
+
+  // Serve the static assets in the frontend's build folder
+  router.use(express.static(path.resolve("../../frontend/dist")));
+
+  // Serve the frontend's index.html file at all other routes NOT starting with /api
+  router.get(/^(?!\/?api).*/, (req, res) => {
+    res.cookie("XSRF-TOKEN", req.csrfToken());
+    return res.sendFile(
+      path.resolve(__dirname, "../../frontend", "dist", "index.html")
+    );
+  });
 }
-
-// Serve the static assets in the frontend's build folder
-router.use(express.static(path.resolve("../../frontend/dist")));
-
-// Serve the frontend's index.html file at all other routes NOT starting with /api
-router.get(/^(?!\/?api).*/, (req, res) => {
-  res.cookie("XSRF-TOKEN", req.csrfToken());
-  return res.sendFile(
-    path.resolve(__dirname, "../../frontend", "dist", "index.html")
-  );
-});
 
 // Add a XSRF-TOKEN cookie in development.  Combination of the code we used last module and this module so that we still have the token returned for logging, and for use with Postman if we wanted to manually test backend routes.
 if (process.env.NODE_ENV !== "production") {
