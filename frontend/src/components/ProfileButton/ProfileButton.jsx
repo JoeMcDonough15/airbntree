@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import * as sessionActions from "../../store/session";
-import OpenModalButton from "../OpenModalButton";
+import OpenModalController from "../OpenModalController";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import "./ProfileButton.css";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logoutUserThunk());
+    setShowMenu(false);
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -56,18 +58,23 @@ function ProfileButton({ user }) {
           </>
         ) : (
           <>
-            <li>
-              <OpenModalButton
-                buttonText="Log In"
-                modalComponent={<LoginFormModal />}
-              />
-            </li>
-            <li>
-              <OpenModalButton
-                buttonText="Sign Up"
-                modalComponent={<SignupFormModal />}
-              />
-            </li>
+            <OpenModalController
+              controllerText="Log In"
+              elementName="li"
+              onButtonClick={() => {
+                setShowMenu(false);
+              }}
+              modalComponent={<LoginFormModal />}
+            />
+
+            <OpenModalController
+              controllerText="Sign Up"
+              elementName="li"
+              onButtonClick={() => {
+                setShowMenu(false);
+              }}
+              modalComponent={<SignupFormModal />}
+            />
           </>
         )}
       </ul>

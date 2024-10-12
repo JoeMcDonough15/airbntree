@@ -1,8 +1,9 @@
 import { useModal } from "../../context/Modal";
 
-const OpenModalButton = ({
+const OpenModalController = ({
+  elementName, // type of element to render
   modalComponent, // component to render inside the modal
-  buttonText, // text of the button that opens the modal
+  controllerText, // text of the modal operator that opens the modal
   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
   onModalClose, // optional: callback function that will be called once the modal is closed
 }) => {
@@ -13,7 +14,15 @@ const OpenModalButton = ({
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button onClick={onClick}>{buttonText}</button>;
+  return (
+    <>
+      {elementName === "li" ? (
+        <li onClick={onClick}>{controllerText}</li>
+      ) : elementName === "button" ? (
+        <button onClick={onClick}>{controllerText}</button>
+      ) : null}
+    </>
+  );
 };
 
-export default OpenModalButton;
+export default OpenModalController;
