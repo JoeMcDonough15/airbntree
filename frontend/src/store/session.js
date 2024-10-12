@@ -65,7 +65,8 @@ export const signupUserThunk = (userDetails) => async (dispatch) => {
       body: JSON.stringify(userDetails),
     });
 
-    const newUser = await response.json();
+    const parsedResponse = await response.json();
+    const newUser = parsedResponse.user;
     dispatch(loginUser(newUser));
     return newUser;
   } catch (errorResponse) {
