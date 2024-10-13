@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Logo from "../Logo";
 import ProfileButton from "../ProfileButton";
 // import "./Navigation.css";
 
@@ -9,7 +10,7 @@ function Navigation({ isLoaded }) {
   return (
     <ul>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/">{<Logo />}</NavLink>
       </li>
       {isLoaded && (
         <li>

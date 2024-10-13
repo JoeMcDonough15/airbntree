@@ -1,1 +1,43 @@
-/* TODO: Add sitewide styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  font: inherit;
+  text-decoration: none;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+/* <uniquifier>: Use a unique and descriptive class name 
+ <weight>: Use a value from 100 to 1000 */
+
+html {
+  font-family: "Afacad Flux", sans-serif;
+  /* font-optical-sizing: auto; */
+  /* font-weight: <weight>; */
+  /* font-style: normal; */
+  /* font-variation-settings: */
+  /* "slnt" 0; */
+
+  /* colors */
+}
+
+.main-container,
+.flex-container,
+.col {
+  display: flex;
+}
+
+.main-container {
+  margin: auto;
+}
+
+.col {
+  flex-direction: column;
+}
