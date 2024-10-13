@@ -1,0 +1,49 @@
+.login-modal {
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px 20px;
+  width: 400px;
+}
+
+.login-modal input,
+.login-modal label,
+.login-submit-button {
+  width: 100%;
+}
+
+.form-container,
+.login-submit-button,
+.demo-user {
+  margin-top: 20px;
+}
+
+.form-container,
+.form-container input {
+  width: 100%;
+}
+
+.form-container {
+  gap: 10px;
+}
+
+.login-submit-button {
+  border: 2px solid var(--dark-gray);
+  box-shadow: 2px 2px var(--dark-gray);
+  padding: 10px 40px;
+}
+
+.login-submit-button.active-button {
+  background-color: var(--red);
+  border-color: var(--black);
+  box-shadow: 2px 2px var(--black);
+  color: var(--white);
+}
+
+.demo-user {
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.demo-user:hover {
+  cursor: pointer;
+}

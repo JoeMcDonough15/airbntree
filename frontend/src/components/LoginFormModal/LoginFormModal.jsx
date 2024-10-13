@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { loginUserThunk } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import "./LoginFormModal.css";
 
 const LoginFormModal = () => {
   const [credential, setCredential] = useState("");
@@ -35,39 +36,48 @@ const LoginFormModal = () => {
   };
 
   return (
-    <>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="credential">Username or email</label>
-        <input
-          id="credential"
-          onChange={(e) => {
-            setCredential(e.target.value);
-          }}
-          value={credential}
-          type="text"
-        />
-        {(userErrors.credential || userErrors.message) && (
-          <span>
-            {userErrors.message ? userErrors.message : userErrors.credential}
-          </span>
-        )}
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          value={password}
-          type="password"
-        />
-        {(userErrors.password || userErrors.message) && (
-          <span>
-            {userErrors.message ? userErrors.message : userErrors.password}
-          </span>
-        )}
+    <div className="login-modal flex-container col">
+      <h1 className="login-header">Login</h1>
+      {userErrors.message && (
+        <span className="error-text">
+          The provided credentials were invalid
+        </span>
+      )}
+      <form
+        className="form-container flex-container col"
+        onSubmit={handleSubmit}
+      >
+        <label htmlFor="">
+          <input
+            id="credential"
+            onChange={(e) => {
+              setCredential(e.target.value);
+            }}
+            value={credential}
+            type="text"
+            placeholder="Username or email"
+          />
+        </label>
 
-        <button disabled={submitDisabled} type="submit">
+        <label>
+          <input
+            id="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+            type="password"
+            placeholder="Password"
+          />
+        </label>
+
+        <button
+          className={`login-submit-button ${
+            !submitDisabled ? " active-button" : ""
+          }`}
+          disabled={submitDisabled}
+          type="submit"
+        >
           Login
         </button>
       </form>
@@ -79,7 +89,7 @@ const LoginFormModal = () => {
       >
         Demo User
       </p>
-    </>
+    </div>
   );
 };
 

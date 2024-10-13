@@ -1,9 +1,30 @@
+/* resets */
+
 * {
-  border: none;
   box-sizing: border-box;
   font: inherit;
   margin: 0;
   padding: 0;
+}
+
+/* global styles  */
+
+html {
+  /* body font styles */
+  font-family: "Afacad Flux", sans-serif;
+  font-size: 14pt;
+  font-style: normal;
+  font-weight: normal;
+
+  /* colors */
+  --black: #000;
+  --brown: brown;
+  --dark-gray: #999;
+  --green: green;
+  --light-brown: burlywood;
+  --light-gray: #ccc;
+  --red: #ff5a5f;
+  --white: #fff;
 }
 
 h1,
@@ -29,30 +50,16 @@ li {
   list-style: none;
 }
 
+input {
+  border: 2px solid var(--black);
+  padding: 0.2em;
+}
+
 button:hover {
   cursor: pointer;
 }
 
-/* <uniquifier>: Use a unique and descriptive class name 
- <weight>: Use a value from 100 to 1000 */
-
-html {
-  /* body font styles */
-  font-family: "Afacad Flux", sans-serif;
-  font-size: 14pt;
-  font-style: normal;
-  font-weight: normal;
-
-  /* colors */
-  --black: #000;
-  --brown: brown;
-  --dark-gray: #999;
-  --green: green;
-  --light-brown: burlywood;
-  --light-gray: #ccc;
-  --red: #ff5a5f;
-  --white: #fff;
-}
+/* containers */
 
 .main-container,
 .flex-container,
@@ -66,4 +73,8 @@ html {
 
 .col {
   flex-direction: column;
+}
+
+.error-text {
+  color: var(--red);
 }
