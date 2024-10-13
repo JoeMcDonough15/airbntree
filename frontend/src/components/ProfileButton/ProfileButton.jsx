@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
+import { MdMenu } from "react-icons/md";
 import * as sessionActions from "../../store/session";
 import OpenModalController from "../OpenModalController";
 import LoginFormModal from "../LoginFormModal";
@@ -41,7 +42,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
+      <button className="profile-button flex-container" onClick={toggleMenu}>
+        <MdMenu />
         <FaUserCircle />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -59,21 +61,20 @@ function ProfileButton({ user }) {
         ) : (
           <>
             <OpenModalController
-              controllerText="Log In"
-              elementName="li"
-              onButtonClick={() => {
-                setShowMenu(false);
-              }}
-              modalComponent={<LoginFormModal />}
-            />
-
-            <OpenModalController
               controllerText="Sign Up"
               elementName="li"
               onButtonClick={() => {
                 setShowMenu(false);
               }}
               modalComponent={<SignupFormModal />}
+            />
+            <OpenModalController
+              controllerText="Log In"
+              elementName="li"
+              onButtonClick={() => {
+                setShowMenu(false);
+              }}
+              modalComponent={<LoginFormModal />}
             />
           </>
         )}

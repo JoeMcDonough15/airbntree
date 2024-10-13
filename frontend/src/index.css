@@ -1,11 +1,26 @@
 * {
+  border: none;
   box-sizing: border-box;
+  font: inherit;
   margin: 0;
   padding: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 24pt;
+}
+
 a {
-  font: inherit;
   text-decoration: none;
 }
 
@@ -14,18 +29,29 @@ li {
   list-style: none;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 /* <uniquifier>: Use a unique and descriptive class name 
  <weight>: Use a value from 100 to 1000 */
 
 html {
+  /* body font styles */
   font-family: "Afacad Flux", sans-serif;
-  /* font-optical-sizing: auto; */
-  /* font-weight: <weight>; */
-  /* font-style: normal; */
-  /* font-variation-settings: */
-  /* "slnt" 0; */
+  font-size: 14pt;
+  font-style: normal;
+  font-weight: normal;
 
   /* colors */
+  --black: #000;
+  --brown: brown;
+  --dark-gray: #999;
+  --green: green;
+  --light-brown: burlywood;
+  --light-gray: #ccc;
+  --red: #ff5a5f;
+  --white: #fff;
 }
 
 .main-container,

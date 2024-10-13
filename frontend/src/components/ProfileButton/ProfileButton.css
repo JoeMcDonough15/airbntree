@@ -1,3 +1,24 @@
+.profile-button,
+.profile-dropdown {
+  background-color: var(--white);
+}
+
+.profile-button {
+  align-items: center;
+  border: 2px solid var(--light-gray);
+  border-radius: 20em;
+  gap: 5px;
+  padding: 6px 10px;
+}
+
+.profile-dropdown {
+  border: 2px solid var(--black);
+  padding: 5px 70px 5px 20px;
+  position: absolute;
+  right: 20px;
+  top: 58px;
+}
+
 .profile-dropdown.hidden {
   display: none;
 }

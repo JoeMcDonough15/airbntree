@@ -7,7 +7,9 @@ const Logo = () => {
       <div className="icon-container flex-container">
         <FaTree style={{ color: "green" }} />
       </div>
-      <p className="logo-text">AirbnTree</p>
+      <p className="logo-text">
+        <span className="brown-logo-text">Airbn</span>Tree
+      </p>
     </div>
   );
 };
