@@ -12,35 +12,26 @@ const LoginFormModal = () => {
   const { closeModal } = useModal();
 
   useEffect(() => {
-    // any client side errors?  disable submit. No client side errors or client side errors fixed?  enable submit.
-    setSubmitDisabled(userErrors.credential || userErrors.password);
-  }, [userErrors]); // anytime this value changes, the useEffect hook should run
+    setSubmitDisabled(credential.length < 4 || password.length < 6);
+  }, [credential, password]); // anytime these values changes, the useEffect hook should run
 
-  const handleClientSideErrors = () => {
-    const errors = {};
-    // check credential and password local state and see if they pass client side validation.  If not, set and return errors
-    return errors;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // check for client side validation errors here to avoid Bad Request error from server
-    const errors = handleClientSideErrors();
-    setUserErrors(errors); // will schedule a re-render and set userErrors to either be an empty object, or an object with error properties.  Calling the setUserErrors() here will update the state of userErrors and disable submit button if necessary
-    if (Object.values(errors).length > 0) return; // to avoid accidentally submitting with errors, use the most up to date value for errors, which would be the return of our synchronous function handleErrors();  NOT stateful userErrors, which will not update until next render.
-    // if we get here, we are submitting the form to log a user in
-    const userLoginInfo = {
-      credential,
-      password,
-    };
-    const response = await dispatch(loginUserThunk(userLoginInfo));
-    // check for server side validation errors, i.e. invalid credentials, and keep modal open
+  const logUserIn = async (userDetails) => {
+    const response = await dispatch(loginUserThunk(userDetails));
     if (response.message) {
       setUserErrors(response);
     } else {
       // if we successfully logged in, close the modal
       closeModal();
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userLoginInfo = {
+      credential,
+      password,
+    };
+    logUserIn(userLoginInfo);
   };
 
   return (
@@ -80,6 +71,14 @@ const LoginFormModal = () => {
           Login
         </button>
       </form>
+      <p
+        onClick={() => {
+          logUserIn({ credential: "Demo-lition", password: "password" });
+        }}
+        className="demo-user"
+      >
+        Demo User
+      </p>
     </>
   );
 };
