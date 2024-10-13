@@ -23,3 +23,32 @@
   border-radius: 0.5em;
   position: absolute;
 }
+
+#modal-content .form-container,
+#modal-content .form-container input,
+#modal-content .form-container label,
+#modal-content .form-submit-button {
+  width: 100%;
+}
+
+#modal-content .form-container,
+#modal-content .form-submit-button {
+  margin-top: 20px;
+}
+
+#modal-content .form-container {
+  gap: 10px;
+}
+
+#modal-content .form-submit-button {
+  border: 2px solid var(--dark-gray);
+  box-shadow: 2px 2px var(--dark-gray);
+  padding: 10px 40px;
+}
+
+#modal-content .form-submit-button.active-button {
+  background-color: var(--red);
+  border-color: var(--black);
+  box-shadow: 2px 2px var(--black);
+  color: var(--white);
+}

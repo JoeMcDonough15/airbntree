@@ -37,7 +37,7 @@ const LoginFormModal = () => {
 
   return (
     <div className="login-modal flex-container col">
-      <h1 className="login-header">Login</h1>
+      <h1>Login</h1>
       {userErrors.message && (
         <span className="error-text">
           The provided credentials were invalid
@@ -72,7 +72,7 @@ const LoginFormModal = () => {
         </label>
 
         <button
-          className={`login-submit-button ${
+          className={`form-submit-button ${
             !submitDisabled ? " active-button" : ""
           }`}
           disabled={submitDisabled}
