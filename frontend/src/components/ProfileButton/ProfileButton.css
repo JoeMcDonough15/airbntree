@@ -19,6 +19,10 @@
   top: 58px;
 }
 
+.profile-dropdown > li:hover {
+  cursor: pointer;
+}
+
 .profile-dropdown.hidden {
   display: none;
 }
