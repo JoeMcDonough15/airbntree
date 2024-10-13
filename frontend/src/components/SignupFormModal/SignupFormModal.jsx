@@ -35,7 +35,6 @@ const SignupFormModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setUserErrors({});
     const response = await dispatch(
       sessionActions.signupUserThunk({
         email,

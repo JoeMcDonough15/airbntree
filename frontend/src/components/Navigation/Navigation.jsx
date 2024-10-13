@@ -13,10 +13,14 @@ function Navigation({ isLoaded }) {
         <li>
           <NavLink to="/">{<Logo />}</NavLink>
         </li>
+
         {isLoaded && (
-          <li>
-            <ProfileButton user={sessionUser} />
-          </li>
+          <div className="flex-container logged-in-nav-list">
+            {sessionUser && <li className="create-spot">Create a New Spot</li>}
+            <li>
+              <ProfileButton user={sessionUser} />
+            </li>
+          </div>
         )}
       </ul>
     </nav>

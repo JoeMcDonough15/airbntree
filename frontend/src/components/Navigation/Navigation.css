@@ -1,5 +1,6 @@
 .nav-bar,
-.nav-list-container {
+.nav-list-container,
+.logged-in-nav-list {
   align-items: center;
 }
 
@@ -12,4 +13,12 @@
   justify-content: space-between;
   padding: 0 20px;
   width: 100%;
+}
+
+.logged-in-nav-list {
+  gap: 20px;
+}
+
+.create-spot {
+  color: var(--green);
 }
