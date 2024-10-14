@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { getAllSpotsThunk } from "../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import SpotTile from "./SpotTile";
+import "./HomePage.css";
 
 const HomePage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const allSpots = useSelector((state) => state.spots.spotsArray);
 
@@ -14,18 +14,9 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="spots-container">
+      <div className="grid-container spots-container">
         {allSpots.map((spot) => {
-          return (
-            <div
-              onClick={() => {
-                navigate(`/spots/${spot.id}`);
-              }}
-              key={spot.id}
-            >
-              {spot.id}
-            </div>
-          );
+          return <SpotTile key={spot.id} spotId={spot.id} />;
         })}
       </div>
     </>

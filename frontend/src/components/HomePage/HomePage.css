@@ -1,0 +1,7 @@
+.grid-container.spots-container {
+  border: 1px solid red;
+}
+
+.spot-tile {
+  width: 100%;
+}

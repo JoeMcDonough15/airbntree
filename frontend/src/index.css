@@ -50,6 +50,10 @@ li {
   list-style: none;
 }
 
+img {
+  max-width: 100%;
+}
+
 input {
   border: 2px solid var(--black);
   padding: 0.2em;
@@ -61,18 +65,20 @@ button:hover {
 
 /* containers */
 
-.main-container,
 .flex-container,
 .col {
   display: flex;
 }
 
-.main-container {
-  margin: auto;
-}
-
 .col {
   flex-direction: column;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ! not responsive */
+  margin: 50px auto;
+  width: 88%;
 }
 
 /* global text styles */
