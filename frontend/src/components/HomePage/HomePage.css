@@ -1,7 +1,9 @@
-.grid-container.spots-container {
-  border: 1px solid red;
+.spot-tile {
+  gap: 4px;
+  width: 100%;
 }
 
-.spot-tile {
-  width: 100%;
+.location-and-rating {
+  align-items: center;
+  justify-content: space-between;
 }

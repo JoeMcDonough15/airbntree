@@ -66,7 +66,8 @@ button:hover {
 /* containers */
 
 .flex-container,
-.col {
+.col,
+.icon-container {
   display: flex;
 }
 
@@ -76,9 +77,15 @@ button:hover {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* ! not responsive */
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.8em;
   margin: 50px auto;
   width: 88%;
+}
+
+.icon-container {
+  align-items: center;
+  justify-content: center;
 }
 
 /* global text styles */
@@ -97,4 +104,24 @@ button:hover {
   display: flex;
   gap: 5px;
   padding: 6px 10px;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 840px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 675px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

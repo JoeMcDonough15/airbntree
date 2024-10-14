@@ -1,4 +1,5 @@
 import { FaStar } from "react-icons/fa6";
+import "./SpotRating.css";
 
 const SpotRating = ({ rating }) => {
   if (rating && !rating.toString().includes(".")) {
@@ -6,10 +7,12 @@ const SpotRating = ({ rating }) => {
   }
   return (
     <>
-      <div className="rating">
-        <FaStar />
+      <div className="rating flex-container">
+        <div className="icon-container">
+          <FaStar />
+        </div>
+        <span>{rating ? rating : "New"}</span>
       </div>
-      <span>{rating}</span>
     </>
   );
 };

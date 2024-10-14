@@ -1,5 +1,14 @@
+import fixPrice from "./fixPrice";
+import "./SpotPrice.css";
+
 const SpotPrice = ({ price }) => {
-  return <p className="price">{price} night</p>;
+  price = fixPrice(price);
+  return (
+    <p>
+      {" "}
+      <span className="price">{price}</span> night
+    </p>
+  );
 };
 
 export default SpotPrice;
