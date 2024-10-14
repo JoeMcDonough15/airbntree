@@ -96,7 +96,7 @@ const spotsData = [
   {
     ownerId: 9,
     address: "West 54th St",
-    city: "Seattle",
+    city: "Eugene",
     state: "Oregon",
     country: "United States of America",
     lat: 77.2348978,
@@ -122,7 +122,7 @@ const spotsData = [
     ownerId: 6,
     address: "10 Fatal Fields",
     city: "New Orleans",
-    state: "Louisana",
+    state: "Louisiana",
     country: "United States of America",
     lat: 45,
     lng: -134,
