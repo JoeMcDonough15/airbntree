@@ -13,7 +13,14 @@ const BookReservation = ({ price, rating, numReviews }) => {
           <NumReviews numReviews={numReviews} />
         </div>
       </div>
-      <button className="full-width-button active-button">Reserve</button>
+      <button
+        onClick={() => {
+          window.alert("Feature coming soon");
+        }}
+        className="full-width-button active-button"
+      >
+        Reserve
+      </button>
     </div>
   );
 };
