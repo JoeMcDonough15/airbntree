@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           isUrl: true,
-          len: [1, 150],
+          len: [1, 550],
         },
       },
       preview: {

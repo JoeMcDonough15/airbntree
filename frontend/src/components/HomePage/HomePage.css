@@ -1,0 +1,9 @@
+.spot-tile {
+  gap: 4px;
+  width: 100%;
+}
+
+.location-and-rating {
+  align-items: center;
+  justify-content: space-between;
+}

@@ -1,3 +1,25 @@
+.profile-dropdown {
+  background-color: var(--white);
+  border: 2px solid var(--black);
+  padding: 5px 70px 5px 20px;
+  position: absolute;
+  right: 20px;
+  top: 58px;
+}
+
+.profile-dropdown.flex-container.col {
+  align-items: center;
+  padding: 5px 20px;
+}
+
+.profile-dropdown > li:hover {
+  cursor: pointer;
+}
+
 .profile-dropdown.hidden {
   display: none;
+}
+
+.logout-button {
+  margin-top: 15px;
 }

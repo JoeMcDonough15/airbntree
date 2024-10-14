@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
+import "./SignupFormModal.css";
 
 const SignupFormModal = () => {
   const dispatch = useDispatch();
@@ -12,102 +13,123 @@ const SignupFormModal = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userErrors, setUserErrors] = useState({});
+  const [submitDisabled, setSubmitDisabled] = useState();
   const { closeModal } = useModal();
+
+  useEffect(() => {
+    let disabled;
+    if (
+      email.length === 0 ||
+      username.length < 4 ||
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      password.length < 6 ||
+      confirmPassword !== password
+    ) {
+      disabled = true;
+    } else {
+      disabled = false;
+    }
+    setSubmitDisabled(disabled);
+  }, [email, username, firstName, lastName, password, confirmPassword]); // anytime these values changes, the useEffect hook should run
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // ! their code.  I'd prefer to have a handleErrors() that runs and returns out of here before submitting if there are any client side errors
-    if (password === confirmPassword) {
-      setUserErrors({});
-      const response = await dispatch(
-        sessionActions.signupUserThunk({
-          email,
-          username,
-          firstName,
-          lastName,
-          password,
-        })
-      );
-      if (response.errors) {
-        setUserErrors(response.errors);
-        return;
-      }
-      closeModal();
-    } else {
-      return setUserErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
-      });
+    const response = await dispatch(
+      sessionActions.signupUserThunk({
+        email,
+        username,
+        firstName,
+        lastName,
+        password,
+      })
+    );
+    if (response.errors) {
+      setUserErrors(response.errors); // errors are coming from the backend
+      return;
     }
+    closeModal(); // only close modal if there are no errors because of return on line 50
   };
 
   return (
-    <>
+    <div className="signup-form-modal flex-container col">
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      {Object.values(userErrors).map((userError, index) => {
+        return (
+          <span key={index} className="error-text">
+            {userError}
+          </span>
+        );
+      })}
+      <form
+        className="form-container flex-container col"
+        onSubmit={handleSubmit}
+      >
         <label>
-          Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder="Email"
           />
         </label>
-        {userErrors.email && <p>{userErrors.email}</p>}
         <label>
-          Username
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            placeholder="Username"
           />
         </label>
-        {userErrors.username && <p>{userErrors.username}</p>}
         <label>
-          First Name
           <input
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            placeholder="First Name"
           />
         </label>
-        {userErrors.firstName && <p>{userErrors.firstName}</p>}
         <label>
-          Last Name
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            placeholder="Last Name"
           />
         </label>
-        {userErrors.lastName && <p>{userErrors.lastName}</p>}
         <label>
-          Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder="Password"
           />
         </label>
-        {userErrors.password && <p>{userErrors.password}</p>}
         <label>
-          Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            placeholder="Confirm Password"
           />
         </label>
-        {userErrors.confirmPassword && <p>{userErrors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <button
+          className={`form-submit-button ${
+            !submitDisabled ? " active-button" : ""
+          }`}
+          disabled={submitDisabled}
+          type="submit"
+        >
+          Sign Up
+        </button>
       </form>
-    </>
+    </div>
   );
 };
 

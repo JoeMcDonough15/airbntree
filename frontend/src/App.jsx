@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { restoreUserThunk } from "./store/session";
 import Navigation from "./components/Navigation";
+import HomePage from "./components/HomePage";
 
 const Layout = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,7 +27,15 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: "/", element: <h1>Welcome</h1> },
+      { path: "/", element: <HomePage /> },
+      {
+        path: "/spots",
+        children: [
+          { path: ":spotId", element: <h1>Spot by id</h1> },
+          { path: "new", element: <h1>create a new spot form</h1> },
+          { path: "current", element: <h1>all spots by current user</h1> },
+        ],
+      },
       { path: "/*", element: <h1>Not Found</h1> },
     ],
   },
