@@ -11,10 +11,72 @@ const SpotForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [previewImage, setPreviewImage] = useState("");
-  //   const [additionalImages, setAdditionalImages] = useState([]);
+  const [spotImageTwo, setSpotImageTwo] = useState("");
+  const [spotImageThree, setSpotImageThree] = useState("");
+  const [spotImageFour, setSpotImageFour] = useState("");
+  const [spotImageFive, setSpotImageFive] = useState("");
+  const [userErrors, setUserErrors] = useState({});
+
+  const handleErrors = () => {
+    const errors = {};
+
+    // required fields errors
+    const requiredFields = {
+      country: country,
+      address: address,
+      city: city,
+      state: state,
+      name: name,
+      price: price,
+      previewImage: previewImage,
+    };
+
+    Object.keys(requiredFields).forEach((requiredField) => {
+      if (requiredFields[requiredField].length === 0) {
+        errors[requiredField] = `${requiredField} is required`;
+      }
+    });
+
+    // description length minimum error
+    if (description.length < 30) {
+      errors[description] = "Description needs a minimum of 30 characters";
+    }
+
+    // any image file extension error
+    const spotImages = [
+      previewImage,
+      spotImageTwo,
+      spotImageThree,
+      spotImageFour,
+      spotImageFive,
+    ];
+
+    const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
+    spotImages.forEach((spotImage, index) => {
+      if (
+        !spotImage.endsWith(".png") &&
+        !spotImage.endsWith(".jpg") &&
+        !spotImage.endsWith(".jpeg")
+      ) {
+        if (index === 0) {
+          errors["previewImage"] = incorrectFileExtension;
+        } else {
+          errors[`spotImage${index + 1}`] = incorrectFileExtension;
+        }
+      }
+    });
+
+    return errors;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errors = handleErrors();
+    if (Object.keys(errors).length > 0) {
+      setUserErrors(errors);
+      return;
+    }
+    // submit the form to the backend, call a thunk action to update the DB and redux store
   };
 
   return (
@@ -29,7 +91,7 @@ const SpotForm = () => {
           inputVal={country}
           setInputVal={setCountry}
           inputId="country-input"
-          errorText="Country is required"
+          errorText={userErrors.country}
           errorIsInline
         />
         <FormField
@@ -38,27 +100,30 @@ const SpotForm = () => {
           inputVal={address}
           setInputVal={setAddress}
           inputId="address-input"
-          errorText="Address is required"
+          errorText={userErrors.address}
           errorIsInline
         />
-        <FormField
-          labelText="City"
-          inputType="text"
-          inputVal={city}
-          setInputVal={setCity}
-          inputId="city-input"
-          errorText="City is required"
-          errorIsInline
-        />
-        <FormField
-          labelText="State"
-          inputType="text"
-          inputVal={state}
-          setInputVal={setState}
-          inputId="state-input"
-          errorText="State is required"
-          errorIsInline
-        />
+        <div className="flex-container">
+          <FormField
+            labelText="City"
+            inputType="text"
+            inputVal={city}
+            setInputVal={setCity}
+            inputId="city-input"
+            errorText={userErrors.city}
+            errorIsInline
+          />
+          <span style={{ alignSelf: "flex-end" }}>,</span>
+          <FormField
+            labelText="State"
+            inputType="text"
+            inputVal={state}
+            setInputVal={setState}
+            inputId="state-input"
+            errorText={userErrors.state}
+            errorIsInline
+          />
+        </div>
       </FormSection>
       <FormSection
         headerText="Describe your place to guests"
@@ -70,7 +135,7 @@ const SpotForm = () => {
           inputVal={description}
           setInputVal={setDescription}
           inputId="description-input"
-          errorText="Description needs a minimum of 30 characters"
+          errorText={userErrors.description}
         />
       </FormSection>
       <FormSection
@@ -83,7 +148,7 @@ const SpotForm = () => {
           inputVal={name}
           setInputVal={setName}
           inputId="name-input"
-          errorText="Name is required"
+          errorText={userErrors.name}
         />
       </FormSection>
       <FormSection
@@ -96,7 +161,7 @@ const SpotForm = () => {
           inputVal={price}
           setInputVal={setPrice}
           inputId="price-input"
-          errorText="Price is required"
+          errorText={userErrors.price}
         />
       </FormSection>
       <FormSection
@@ -108,8 +173,40 @@ const SpotForm = () => {
           inputType="text"
           inputVal={previewImage}
           setInputVal={setPreviewImage}
-          inputId="preview-img-url-input"
-          errorText="Preview image is required."
+          inputId="preview-img-input"
+          errorText={userErrors.previewImage}
+        />
+        <FormField
+          labelText="Image URL"
+          inputType="text"
+          inputVal={spotImageTwo}
+          setInputVal={setSpotImageTwo}
+          inputId="spot-image-two-input"
+          errorText={userErrors.spotImage2}
+        />
+        <FormField
+          labelText="Image URL"
+          inputType="text"
+          inputVal={spotImageThree}
+          setInputVal={setSpotImageThree}
+          inputId="spot-image-three-input"
+          errorText={userErrors.spotImage3}
+        />
+        <FormField
+          labelText="Image URL"
+          inputType="text"
+          inputVal={spotImageFour}
+          setInputVal={setSpotImageFour}
+          inputId="spot-image-four-input"
+          errorText={userErrors.spotImage4}
+        />
+        <FormField
+          labelText="Image URL"
+          inputType="text"
+          inputVal={spotImageFive}
+          setInputVal={setSpotImageFive}
+          inputId="spot-image-five-input"
+          errorText={userErrors.spotImage5}
         />
       </FormSection>
       <button className="active-button">Create Spot</button>

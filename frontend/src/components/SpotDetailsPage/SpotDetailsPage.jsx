@@ -24,7 +24,7 @@ const SpotDetailsPage = () => {
     state,
     country,
     Owner: { firstName, lastName },
-    SpotImages,
+    // SpotImages,
     price,
     avgStarRating,
     description,

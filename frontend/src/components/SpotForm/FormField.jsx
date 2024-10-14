@@ -15,7 +15,7 @@ const FormField = ({
         <>
           <div className="flex-container">
             <label htmlFor={inputId}>{labelText}</label>
-            <ErrorText text={errorText} />
+            {errorText && <ErrorText text={errorText} />}
           </div>
           <input
             value={inputVal}
@@ -56,7 +56,7 @@ const FormField = ({
               </>
             )}
           </label>
-          <ErrorText text={errorText} />
+          {errorText && <ErrorText text={errorText} />}
         </>
       )}
     </div>
