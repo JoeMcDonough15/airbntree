@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getSpotDetailsThunk } from "../../store/spots";
 import FormSection from "./FormSection";
 import FormField from "./FormField";
+import "./SpotForm.css";
 
 const SpotForm = () => {
+  const { spotId } = useParams(); // will be undefined if creating a new spot
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -16,6 +21,65 @@ const SpotForm = () => {
   const [spotImageFour, setSpotImageFour] = useState("");
   const [spotImageFive, setSpotImageFive] = useState("");
   const [userErrors, setUserErrors] = useState({});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // if creating a new spot, get out of here!  Keep the fields as empty strings in the stateful inputs.
+    if (!spotId) return;
+
+    // if editing a spot that exists, we want to set that spot to be the currentSpot and then use
+    // the thunk's return value as data to populate all of the stateful input fields
+    dispatch(getSpotDetailsThunk(spotId)).then((currentSpot) => {
+      // now call all of the state setting functions with the currentSpot's data
+      const {
+        country,
+        address,
+        city,
+        state,
+        description,
+        name,
+        price,
+        SpotImages, // an array of objects where one is the preview
+      } = currentSpot;
+      setCountry(country);
+      setAddress(address);
+      setCity(city);
+      setState(state);
+      setDescription(description);
+      setName(name);
+      setPrice(price);
+      setPreviewImage(SpotImages.find((image) => image.preview).url);
+
+      const otherImages = SpotImages.filter((image) => !image.preview);
+      if (otherImages.length > 0) {
+        setSpotImageTwo(otherImages[0].url);
+      }
+      if (otherImages.length > 1) {
+        setSpotImageThree(otherImages[1].url);
+      }
+      if (otherImages.length > 2) {
+        setSpotImageFour(otherImages[2].url);
+      }
+      if (otherImages.length > 3) {
+        setSpotImageFive(otherImages[3].url);
+      }
+    });
+  }, [
+    spotId,
+    dispatch,
+    setCountry,
+    setAddress,
+    setCity,
+    setState,
+    setDescription,
+    setName,
+    setPrice,
+    setPreviewImage,
+    setSpotImageTwo,
+    setSpotImageThree,
+    setSpotImageFour,
+    setSpotImageFive,
+  ]); // none of this data should change throughout the lifecycle of this SpotForm component
 
   const handleErrors = () => {
     const errors = {};
@@ -39,7 +103,7 @@ const SpotForm = () => {
 
     // description length minimum error
     if (description.length < 30) {
-      errors[description] = "Description needs a minimum of 30 characters";
+      errors["description"] = "Description needs a minimum of 30 characters";
     }
 
     // any image file extension error
@@ -58,9 +122,9 @@ const SpotForm = () => {
         !spotImage.endsWith(".jpg") &&
         !spotImage.endsWith(".jpeg")
       ) {
-        if (index === 0) {
+        if (index === 0 && spotImage.length > 0) {
           errors["previewImage"] = incorrectFileExtension;
-        } else {
+        } else if (spotImage.length > 0) {
           errors[`spotImage${index + 1}`] = incorrectFileExtension;
         }
       }

@@ -9,7 +9,7 @@ import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
-  const spot = useSelector((state) => state.spots.currentSpot);
+  const spot = useSelector((state) => state.spots.currentSpotDetails);
   const dispatch = useDispatch();
 
   useEffect(() => {

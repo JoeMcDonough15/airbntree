@@ -31,9 +31,14 @@ export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
   const spotDetails = await response.json();
   dispatch(getSpotDetails(spotDetails));
+  return spotDetails;
 };
 
-const initialState = { spotsArray: [], spotsFlattened: {}, currentSpot: {} };
+const initialState = {
+  spotsArray: [],
+  spotsFlattened: {},
+  currentSpotDetails: {},
+};
 const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_SPOTS: {
@@ -56,7 +61,7 @@ const spotsReducer = (state = initialState, action) => {
     }
 
     case GET_SPOT_DETAILS: {
-      const newState = { ...state, currentSpot: action.spotDetails };
+      const newState = { ...state, currentSpotDetails: action.spotDetails };
       return newState;
     }
 

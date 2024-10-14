@@ -32,12 +32,13 @@ const FormField = ({
           <label htmlFor={inputId}>
             {inputType === "textarea" ? (
               <textarea
+                value={inputVal}
                 id={inputId}
                 onChange={(e) => {
-                  setInputVal(e.target.innerText);
+                  setInputVal(e.target.value);
                 }}
               >
-                {inputVal}
+                {/* {inputVal} */}
               </textarea>
             ) : (
               <>
