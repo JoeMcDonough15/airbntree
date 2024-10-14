@@ -5,6 +5,7 @@ import { restoreUserThunk } from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import SpotDetails from "./components/SpotDetailsPage";
+import CreateASpotPage from "./components/CreateASpotPage";
 
 const Layout = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
         path: "/spots",
         children: [
           { path: ":spotId", element: <SpotDetails /> },
-          { path: "new", element: <h1>create a new spot form</h1> },
+          { path: "new", element: <CreateASpotPage /> },
           { path: "current", element: <h1>all spots by current user</h1> },
         ],
       },
