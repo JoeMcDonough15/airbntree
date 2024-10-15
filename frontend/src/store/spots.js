@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GET_ALL_SPOTS = "spots/getAllSpots";
 const GET_SPOT_DETAILS = "spots/getSpotDetails";
+const ADD_NEW_SPOT = "spots/addNewSpot";
 
 export const getAllSpots = (spotsArr) => {
   return {
@@ -14,6 +15,13 @@ export const getSpotDetails = (spotDetails) => {
   return {
     type: GET_SPOT_DETAILS,
     spotDetails,
+  };
+};
+
+export const addNewSpot = (newSpot) => {
+  return {
+    type: ADD_NEW_SPOT,
+    newSpot,
   };
 };
 
@@ -32,6 +40,27 @@ export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   const spotDetails = await response.json();
   dispatch(getSpotDetails(spotDetails));
   return spotDetails;
+};
+
+export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
+  // in case there are any server side errors with validation, use a try/catch block
+  try {
+    // talk to the server and offer up this new spot
+    const response = await csrfFetch("/api/spots", {
+      method: "POST",
+      body: JSON.stringify(spotDetails),
+    });
+    const newSpot = await response.json(); // ! Is the data we want nested inside the parsed response?
+    // dispatch an action to update our redux store
+    dispatch(addNewSpot(newSpot));
+    // return the spot back to the SpotForm component from where we submitted this request
+    return newSpot;
+  } catch (response) {
+    const errorResponse = response.json();
+    console.log("response inside catch blocK : ", errorResponse);
+    // return the error response back to the SpotForm component from where we submitted this request
+    return errorResponse;
+  }
 };
 
 const initialState = {
@@ -56,12 +85,24 @@ const spotsReducer = (state = initialState, action) => {
         spotsFlattened: spotsObj,
       };
 
-      // return
       return newState;
     }
 
     case GET_SPOT_DETAILS: {
       const newState = { ...state, currentSpotDetails: action.spotDetails };
+      return newState;
+    }
+
+    case ADD_NEW_SPOT: {
+      const newState = {
+        ...state,
+        spotsArray: [...state.spotsArray, action.newSpot],
+        spotsFlattened: {
+          ...state.spotsFlattened,
+          [action.newSpot.id]: action.newSpot,
+        },
+        currentSpotDetails: action.newSpot,
+      };
       return newState;
     }
 

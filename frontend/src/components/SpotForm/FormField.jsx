@@ -37,9 +37,7 @@ const FormField = ({
                 onChange={(e) => {
                   setInputVal(e.target.value);
                 }}
-              >
-                {/* {inputVal} */}
-              </textarea>
+              ></textarea>
             ) : (
               <>
                 {inputId === "price-input" && (
@@ -48,6 +46,12 @@ const FormField = ({
                 <input
                   value={inputVal}
                   onChange={(e) => {
+                    if (inputId === "price-input") {
+                      let priceAsNum = Number(
+                        Number(e.target.value).toFixed(2)
+                      );
+                      e.target.value = priceAsNum;
+                    }
                     setInputVal(e.target.value);
                   }}
                   placeholder={labelText}

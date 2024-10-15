@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getSpotDetailsThunk } from "../../store/spots";
+import { getSpotDetailsThunk, createNewSpotThunk } from "../../store/spots";
 import FormSection from "./FormSection";
 import FormField from "./FormField";
 import "./SpotForm.css";
@@ -23,12 +23,14 @@ const SpotForm = () => {
   const [userErrors, setUserErrors] = useState({});
   const dispatch = useDispatch();
 
+  // ? Use effect hook to populate fields with data from a spot if we are updating one
   useEffect(() => {
     // if creating a new spot, get out of here!  Keep the fields as empty strings in the stateful inputs.
     if (!spotId) return;
 
-    // if editing a spot that exists, we want to set that spot to be the currentSpot and then use
-    // the thunk's return value as data to populate all of the stateful input fields
+    // if editing a spot that exists, we want to set that spot from the url to be the currentSpot
+    // by dispatching a thunk action, and then use
+    // the thunk's return value as the currentSpot to populate all of the stateful input fields
     dispatch(getSpotDetailsThunk(spotId)).then((currentSpot) => {
       // now call all of the state setting functions with the currentSpot's data
       const {
@@ -81,6 +83,7 @@ const SpotForm = () => {
     setSpotImageFive,
   ]); // none of this data should change throughout the lifecycle of this SpotForm component
 
+  // ? Handle any errors before submitting
   const handleErrors = () => {
     const errors = {};
 
@@ -104,6 +107,12 @@ const SpotForm = () => {
     // description length minimum error
     if (description.length < 30) {
       errors["description"] = "Description needs a minimum of 30 characters";
+    }
+
+    // price must be non negative number error
+    let priceAsNum = Number(Number(price).toFixed(2));
+    if (isNaN(priceAsNum) || priceAsNum < 0) {
+      errors["price"] = "Price must be a positive number";
     }
 
     // any image file extension error
@@ -133,14 +142,51 @@ const SpotForm = () => {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  // ? Handle the submission of the form, whether creating or updating
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = handleErrors();
     if (Object.keys(errors).length > 0) {
       setUserErrors(errors);
       return;
     }
+
+    setUserErrors({});
+
+    const spotDetails = {
+      country,
+      address,
+      city,
+      state,
+      description,
+      name,
+      price: Number(price),
+      lat: 27.234897234, // hard coded for now, optional inputs for MVP
+      lng: 73.3834583, // hard coded for now, optional inputs for MVP
+    };
+
+    let response;
     // submit the form to the backend, call a thunk action to update the DB and redux store
+    if (!spotId) {
+      response = await dispatch(createNewSpotThunk(spotDetails));
+    } else {
+      //   response = await dispatch(editASpotThunk(spotDetails)); // ! to be built
+    }
+
+    console.log("response inside SpotForm: ", response);
+    if (response.errors) {
+      setUserErrors(response.errors);
+      return;
+    }
+
+    // ? Deal with images after spot is created/updated
+    // const spotImageData = {
+    //   previewImage,
+    //   spotImageTwo,
+    //   spotImageThree,
+    //   spotImageFour,
+    //   spotImageFive,
+    // };
   };
 
   return (

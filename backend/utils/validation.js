@@ -15,8 +15,9 @@ const handleValidationErrors = (req, _res, next) => {
     err.errors = errors;
     err.status = 400;
     err.message = "Bad Request";
-    next(err);
+    return next(err);
   }
+
   next();
 };
 
@@ -86,7 +87,7 @@ const validateSpotDetails = [
     .withMessage("Description is required"),
   check("price")
     .exists({ checkFalsy: true })
-    .isInt({ min: 0 })
+    .isFloat({ min: 0 })
     .withMessage("Price per day must be a positive number"),
   handleValidationErrors,
 ];
