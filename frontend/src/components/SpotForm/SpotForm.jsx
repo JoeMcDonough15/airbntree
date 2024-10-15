@@ -11,8 +11,8 @@ import FormSection from "./FormSection";
 import FormField from "./FormField";
 import "./SpotForm.css";
 
-const SpotForm = () => {
-  const { spotId } = useParams(); // will either be undefined if creating a new spot or will be the spotId of the spot to edit if editing a spot
+const SpotForm = ({ spotId }) => {
+  // const { spotId } = useParams(); // will either be undefined if creating a new spot or will be the spotId of the spot to edit if editing a spot
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");

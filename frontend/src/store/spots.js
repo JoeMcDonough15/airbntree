@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GET_ALL_SPOTS = "spots/getAllSpots";
 const GET_SPOT_DETAILS = "spots/getSpotDetails";
+const GET_ALL_SPOTS_BY_USER = "spots/getAllSpotsByUser";
 const ADD_NEW_SPOT = "spots/addNewSpot";
 const DELETE_SPOT_IMAGE = "spots/deleteSpotImage";
 const ADD_SPOT_IMAGE = "spots/addSpotImage";
@@ -17,6 +18,13 @@ export const getSpotDetails = (spotDetails) => {
   return {
     type: GET_SPOT_DETAILS,
     spotDetails,
+  };
+};
+
+export const getAllSpotsByUser = (spotsArr) => {
+  return {
+    type: GET_ALL_SPOTS_BY_USER,
+    spotsArr,
   };
 };
 
@@ -56,6 +64,16 @@ export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   const spotDetails = await response.json();
   dispatch(getSpotDetails(spotDetails));
   return spotDetails;
+};
+
+export const getAllSpotsByUserThunk = () => async (dispatch) => {
+  const response = await csrfFetch("/api/spots/current");
+  const parsedResponse = await response.json();
+  const spots = parsedResponse.Spots;
+
+  dispatch(getAllSpotsByUser(spots));
+
+  return spots;
 };
 
 export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
@@ -108,6 +126,7 @@ export const deleteSpotImageThunk = (spotId, imageData) => async (dispatch) => {
 const initialState = {
   spotsArray: [],
   spotsFlattened: {},
+  spotsByCurrentUser: [],
   currentSpotDetails: {},
 };
 const spotsReducer = (state = initialState, action) => {
@@ -132,6 +151,19 @@ const spotsReducer = (state = initialState, action) => {
 
     case GET_SPOT_DETAILS: {
       const newState = { ...state, currentSpotDetails: action.spotDetails };
+      return newState;
+    }
+
+    case GET_ALL_SPOTS_BY_USER: {
+      const spotsObj = {};
+      action.spotsArr.forEach((spot) => {
+        spotsObj[spot.id] = spot;
+      });
+      const newState = {
+        ...state,
+        spotsByCurrentUser: action.spotsArr,
+        spotsFlattened: spotsObj,
+      };
       return newState;
     }
 

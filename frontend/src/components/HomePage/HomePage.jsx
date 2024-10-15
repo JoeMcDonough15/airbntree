@@ -1,8 +1,8 @@
 import { getAllSpotsThunk } from "../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import SpotTile from "./SpotTile";
-import "./HomePage.css";
+import SpotTile from "../SpotTile";
+// import "./HomePage.css";
 
 const HomePage = () => {
   const dispatch = useDispatch();

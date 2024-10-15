@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
@@ -58,7 +58,9 @@ function ProfileButton({ user }) {
             <div>
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
-              <li>Manage Spots</li>
+              <li>
+                <NavLink to="/spots/current">Manage Spots</NavLink>
+              </li>
             </div>
             <li>
               <button className="oval-button logout-button" onClick={logout}>

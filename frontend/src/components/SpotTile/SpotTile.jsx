@@ -4,8 +4,9 @@ import TileImage from "../TileImage";
 import SpotLocation from "../SpotLocation";
 import SpotRating from "../SpotRating";
 import SpotPrice from "../SpotPrice";
+import "./SpotTile.css";
 
-const SpotTile = ({ spotId }) => {
+const SpotTile = ({ spotId, children }) => {
   const spot = useSelector((state) => state.spots.spotsFlattened[spotId]);
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const SpotTile = ({ spotId }) => {
         <SpotRating rating={spot.avgRating} />
       </div>
       <SpotPrice price={spot.price} />
+      {children}
     </div>
   );
 };
