@@ -86,6 +86,7 @@ export const addImageToSpotThunk = (spotId, imageData) => async (dispatch) => {
     });
     const newImage = await response.json();
     dispatch(addSpotImage(spotId, newImage));
+    return newImage;
   } catch (response) {
     const errorResponse = await response.json();
     console.log("error response from addImageSpotThunk: ", errorResponse);

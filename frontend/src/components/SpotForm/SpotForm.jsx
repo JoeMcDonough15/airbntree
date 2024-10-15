@@ -132,20 +132,20 @@ const SpotForm = () => {
       spotImageFiveUrl,
     ];
 
-    // const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
-    // spotImages.forEach((spotImage, index) => {
-    //   if (
-    //     !spotImage.endsWith(".png") &&
-    //     !spotImage.endsWith(".jpg") &&
-    //     !spotImage.endsWith(".jpeg")
-    //   ) {
-    //     if (index === 0 && spotImage.length > 0) {
-    //       errors["previewImageUrl"] = incorrectFileExtension;
-    //     } else if (spotImage.length > 0) {
-    //       errors[`spotImage${index + 1}Url`] = incorrectFileExtension;
-    //     }
-    //   }
-    // });
+    const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
+    spotImages.forEach((spotImage, index) => {
+      if (
+        !spotImage.endsWith(".png") &&
+        !spotImage.endsWith(".jpg") &&
+        !spotImage.endsWith(".jpeg")
+      ) {
+        if (index === 0 && spotImage.length > 0) {
+          errors["previewImageUrl"] = incorrectFileExtension;
+        } else if (spotImage.length > 0) {
+          errors[`spotImage${index + 1}Url`] = incorrectFileExtension;
+        }
+      }
+    });
 
     return errors;
   };
@@ -209,30 +209,27 @@ const SpotForm = () => {
       // 5) once finished deleting all of them, we should be able to:
 
       for (let spotImage of newOrEditedSpot.SpotImages) {
-        dispatch(deleteSpotImageThunk(newOrEditedSpot.id, spotImage));
+        await dispatch(deleteSpotImageThunk(newOrEditedSpot.id, spotImage));
       }
     }
-    // ! Then, whether we are editing or creating, we must:
 
-    // * 1) loop over all the images that we have in spotImageData - the ones we want to add
-    // ! Avoiding forEach as it doesn't support async, using map so I can keep track of the index as well
-    // * 2) dispatch a thunk action to add an image to a spot, using the spot's id from currentSpotDetails.id -- this should be either the newly created spot, or the newly edited spot.
-    // * 3) only dispatch the action if the url's are not empty strings.
+    const imagesToAddToSpot = spotImageData.filter(
+      (spotImageUrl) => spotImageUrl.length > 0
+    );
 
-    spotImageData.map((spotImageUrl, index) => {
+    const imagePromises = imagesToAddToSpot.map((spotImageUrl, index) => {
       const spotImageObj = { url: spotImageUrl };
       if (index === 0) {
         spotImageObj.preview = true; // only the first image should have preview: true
       }
 
-      if (spotImageObj.url.length > 0) {
-        // don't add any images that have empty strings for urls.  Remember, only the previewImageUrl is required; the others are optional!  The database will be mad if we send over nullish values for urls
-        dispatch(addImageToSpotThunk(newOrEditedSpot.id, spotImageObj)); // ? This is making it to the DB!
-      }
+      return dispatch(addImageToSpotThunk(newOrEditedSpot.id, spotImageObj));
     });
 
-    // * After adding the images (and deleting any that existed before if editing) we can finish creating/updating the spot by redirecting the user to the new spot's detail page
-    navigate(`/spots/${newOrEditedSpot.id}`);
+    // don't navigate until all images are added because thunks can run out of order and if we navigate to the SpotDetails page, our getSpotDetails thunk might run before the images are added to the new or edited spot.
+    Promise.all(imagePromises).then(() => {
+      navigate(`/spots/${newOrEditedSpot.id}`);
+    });
   };
 
   return (

@@ -24,7 +24,7 @@ const SpotDetailsPage = () => {
     state,
     country,
     Owner: { firstName, lastName },
-    // SpotImages,
+    SpotImages,
     price,
     avgStarRating,
     description,
@@ -36,6 +36,9 @@ const SpotDetailsPage = () => {
       <h1>{name}</h1>
       <SpotLocation city={city} state={state} country={country} stateFullName />
       {/* <Gallery /> */}
+      {SpotImages.map((image) => (
+        <img key={image.id} src={image.url}></img>
+      ))}
       <div className="details-and-reserve flex-container">
         <div className="host-and-description">
           <p>
