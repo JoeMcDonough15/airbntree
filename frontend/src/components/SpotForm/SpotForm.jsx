@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getSpotDetailsThunk, createNewSpotThunk } from "../../store/spots";
+import {
+  getSpotDetailsThunk,
+  createNewSpotThunk,
+  deleteSpotImageThunk,
+  addImageToSpotThunk,
+} from "../../store/spots";
 import FormSection from "./FormSection";
 import FormField from "./FormField";
 import "./SpotForm.css";
 
 const SpotForm = () => {
-  const { spotId } = useParams(); // will be undefined if creating a new spot
+  const { spotId } = useParams(); // will either be undefined if creating a new spot or will be the spotId of the spot to edit if editing a spot
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -15,13 +20,15 @@ const SpotForm = () => {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
-  const [spotImageTwo, setSpotImageTwo] = useState("");
-  const [spotImageThree, setSpotImageThree] = useState("");
-  const [spotImageFour, setSpotImageFour] = useState("");
-  const [spotImageFive, setSpotImageFive] = useState("");
+  const [previewImageUrl, setPreviewImageUrl] = useState("");
+  const [spotImageTwoUrl, setSpotImageTwoUrl] = useState("");
+  const [spotImageThreeUrl, setSpotImageThreeUrl] = useState("");
+  const [spotImageFourUrl, setSpotImageFourUrl] = useState("");
+  const [spotImageFiveUrl, setSpotImageFiveUrl] = useState("");
   const [userErrors, setUserErrors] = useState({});
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // ? Use effect hook to populate fields with data from a spot if we are updating one
   useEffect(() => {
@@ -31,6 +38,7 @@ const SpotForm = () => {
     // if editing a spot that exists, we want to set that spot from the url to be the currentSpot
     // by dispatching a thunk action, and then use
     // the thunk's return value as the currentSpot to populate all of the stateful input fields
+    // ! This will trigger a rerender becuase spotToEdit will update.  But it should not make the useEffect run again because nothing in this hook's dependency array should change on that rerender.
     dispatch(getSpotDetailsThunk(spotId)).then((currentSpot) => {
       // now call all of the state setting functions with the currentSpot's data
       const {
@@ -50,20 +58,20 @@ const SpotForm = () => {
       setDescription(description);
       setName(name);
       setPrice(price);
-      setPreviewImage(SpotImages.find((image) => image.preview).url);
+      setPreviewImageUrl(SpotImages.find((image) => image.preview).url);
 
       const otherImages = SpotImages.filter((image) => !image.preview);
       if (otherImages.length > 0) {
-        setSpotImageTwo(otherImages[0].url);
+        setSpotImageTwoUrl(otherImages[0].url);
       }
       if (otherImages.length > 1) {
-        setSpotImageThree(otherImages[1].url);
+        setSpotImageThreeUrl(otherImages[1].url);
       }
       if (otherImages.length > 2) {
-        setSpotImageFour(otherImages[2].url);
+        setSpotImageFourUrl(otherImages[2].url);
       }
       if (otherImages.length > 3) {
-        setSpotImageFive(otherImages[3].url);
+        setSpotImageFiveUrl(otherImages[3].url);
       }
     });
   }, [
@@ -76,11 +84,11 @@ const SpotForm = () => {
     setDescription,
     setName,
     setPrice,
-    setPreviewImage,
-    setSpotImageTwo,
-    setSpotImageThree,
-    setSpotImageFour,
-    setSpotImageFive,
+    setPreviewImageUrl,
+    setSpotImageTwoUrl,
+    setSpotImageThreeUrl,
+    setSpotImageFourUrl,
+    setSpotImageFiveUrl,
   ]); // none of this data should change throughout the lifecycle of this SpotForm component
 
   // ? Handle any errors before submitting
@@ -95,7 +103,7 @@ const SpotForm = () => {
       state: state,
       name: name,
       price: price,
-      previewImage: previewImage,
+      previewImageUrl: previewImageUrl,
     };
 
     Object.keys(requiredFields).forEach((requiredField) => {
@@ -110,18 +118,18 @@ const SpotForm = () => {
     }
 
     // price must be non negative number error
-    let priceAsNum = Number(Number(price).toFixed(2));
+    let priceAsNum = Number(price);
     if (isNaN(priceAsNum) || priceAsNum < 0) {
       errors["price"] = "Price must be a positive number";
     }
 
     // any image file extension error
     const spotImages = [
-      previewImage,
-      spotImageTwo,
-      spotImageThree,
-      spotImageFour,
-      spotImageFive,
+      previewImageUrl,
+      spotImageTwoUrl,
+      spotImageThreeUrl,
+      spotImageFourUrl,
+      spotImageFiveUrl,
     ];
 
     const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
@@ -132,9 +140,9 @@ const SpotForm = () => {
         !spotImage.endsWith(".jpeg")
       ) {
         if (index === 0 && spotImage.length > 0) {
-          errors["previewImage"] = incorrectFileExtension;
+          errors["previewImageUrl"] = incorrectFileExtension;
         } else if (spotImage.length > 0) {
-          errors[`spotImage${index + 1}`] = incorrectFileExtension;
+          errors[`spotImage${index + 1}Url`] = incorrectFileExtension;
         }
       }
     });
@@ -165,28 +173,65 @@ const SpotForm = () => {
       lng: 73.3834583, // hard coded for now, optional inputs for MVP
     };
 
-    let response;
+    let newOrEditedSpot;
     // submit the form to the backend, call a thunk action to update the DB and redux store
     if (!spotId) {
-      response = await dispatch(createNewSpotThunk(spotDetails));
+      newOrEditedSpot = await dispatch(createNewSpotThunk(spotDetails));
     } else {
-      //   response = await dispatch(editASpotThunk(spotDetails)); // ! to be built
+      //   newOrEditedSpot = await dispatch(editASpotThunk(spotDetails));
     }
 
-    console.log("response inside SpotForm: ", response);
-    if (response.errors) {
-      setUserErrors(response.errors);
+    console.log("response inside SpotForm: ", newOrEditedSpot);
+    if (newOrEditedSpot.errors) {
+      setUserErrors(newOrEditedSpot.errors);
       return;
     }
 
     // ? Deal with images after spot is created/updated
-    // const spotImageData = {
-    //   previewImage,
-    //   spotImageTwo,
-    //   spotImageThree,
-    //   spotImageFour,
-    //   spotImageFive,
-    // };
+    const spotImageData = [
+      previewImageUrl,
+      spotImageTwoUrl,
+      spotImageThreeUrl,
+      spotImageFourUrl,
+      spotImageFiveUrl,
+    ];
+
+    if (spotId) {
+      // if there's a spot id (if editing a spot), we need to delete the images that belong to currentSpot before we can upload these images to the db
+      // we have to know that only one image can have preview: true.  We also don't want duplicate images.  There should also only ever be 5 images at most per spot.
+      // For these reasons, it seems smart to delete all the images that are there, and then individually set each one from this form as the spot's images.  That way we'd guarantee
+      // that only one (the one in the first input field for images) could be the previewImage.  And, there'd be no duplicates, and we'd never have more than 5 at a time.  This means:
+      // 1) get all of the images that belong to currentSpot
+      // 2) loop over them - //! Avoiding forEach as it doesn't support async
+      // 3) dispatch a thunk action to go and delete those images from the DB
+      // 4) we shouldn't need to worry about errors re: not finding the images because nothing has updated the currentSpotDetails to remove that spot or any of its images yet.
+      // 5) once finished deleting all of them, we should be able to:
+
+      for (let spotImage of newOrEditedSpot.SpotImages) {
+        dispatch(deleteSpotImageThunk(newOrEditedSpot.id, spotImage));
+      }
+    }
+    // ! Then, whether we are editing or creating, we must:
+
+    // * 1) loop over all the images that we have in spotImageData - the ones we want to add
+    // ! Avoiding forEach as it doesn't support async, using map so I can keep track of the index as well
+    // * 2) dispatch a thunk action to add an image to a spot, using the spot's id from currentSpotDetails.id -- this should be either the newly created spot, or the newly edited spot.
+    // * 3) only dispatch the action if the url's are not empty strings.
+
+    spotImageData.map((spotImageUrl, index) => {
+      const spotImageObj = { url: spotImageUrl };
+      if (index === 0) {
+        spotImageObj.preview = true; // only the first image should have preview: true
+      }
+
+      if (spotImageObj.url.length > 0) {
+        // don't add any images that have empty strings for urls.  Remember, only the previewImageUrl is required; the others are optional!  The database will be mad if we send over nullish values for urls
+        dispatch(addImageToSpotThunk(newOrEditedSpot.id, spotImageObj));
+      }
+    });
+
+    // * After adding the images (and deleting any that existed before if editing) we can finish creating/updating the spot by redirecting the user to the new spot's detail page
+    navigate(`/spots/${newOrEditedSpot.id}`);
   };
 
   return (
@@ -281,42 +326,42 @@ const SpotForm = () => {
         <FormField
           labelText="Preview Image URL"
           inputType="text"
-          inputVal={previewImage}
-          setInputVal={setPreviewImage}
+          inputVal={previewImageUrl}
+          setInputVal={setPreviewImageUrl}
           inputId="preview-img-input"
-          errorText={userErrors.previewImage}
+          errorText={userErrors.previewImageUrl}
         />
         <FormField
           labelText="Image URL"
           inputType="text"
-          inputVal={spotImageTwo}
-          setInputVal={setSpotImageTwo}
+          inputVal={spotImageTwoUrl}
+          setInputVal={setSpotImageTwoUrl}
           inputId="spot-image-two-input"
-          errorText={userErrors.spotImage2}
+          errorText={userErrors.spotImage2Url}
         />
         <FormField
           labelText="Image URL"
           inputType="text"
-          inputVal={spotImageThree}
-          setInputVal={setSpotImageThree}
+          inputVal={spotImageThreeUrl}
+          setInputVal={setSpotImageThreeUrl}
           inputId="spot-image-three-input"
-          errorText={userErrors.spotImage3}
+          errorText={userErrors.spotImage3Url}
         />
         <FormField
           labelText="Image URL"
           inputType="text"
-          inputVal={spotImageFour}
-          setInputVal={setSpotImageFour}
+          inputVal={spotImageFourUrl}
+          setInputVal={setSpotImageFourUrl}
           inputId="spot-image-four-input"
-          errorText={userErrors.spotImage4}
+          errorText={userErrors.spotImage4Url}
         />
         <FormField
           labelText="Image URL"
           inputType="text"
-          inputVal={spotImageFive}
-          setInputVal={setSpotImageFive}
+          inputVal={spotImageFiveUrl}
+          setInputVal={setSpotImageFiveUrl}
           inputId="spot-image-five-input"
-          errorText={userErrors.spotImage5}
+          errorText={userErrors.spotImage5Url}
         />
       </FormSection>
       <button className="active-button">Create Spot</button>

@@ -3,6 +3,8 @@ import { csrfFetch } from "./csrf";
 const GET_ALL_SPOTS = "spots/getAllSpots";
 const GET_SPOT_DETAILS = "spots/getSpotDetails";
 const ADD_NEW_SPOT = "spots/addNewSpot";
+const DELETE_SPOT_IMAGE = "spots/deleteSpotImage";
+const ADD_SPOT_IMAGE = "spots/addSpotImage";
 
 export const getAllSpots = (spotsArr) => {
   return {
@@ -22,6 +24,20 @@ export const addNewSpot = (newSpot) => {
   return {
     type: ADD_NEW_SPOT,
     newSpot,
+  };
+};
+
+export const deleteSpotImage = (spotId, deletedImage) => {
+  return {
+    type: DELETE_SPOT_IMAGE,
+    imageData: { spotId, deletedImage },
+  };
+};
+
+export const addSpotImage = (spotId, newImage) => {
+  return {
+    type: ADD_SPOT_IMAGE,
+    imageData: { spotId, newImage },
   };
 };
 
@@ -63,6 +79,27 @@ export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
   }
 };
 
+export const deleteSpotImageThunk = (spotId, imageData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spot-images/${imageData.id}`, {
+    method: "DELETE",
+  });
+  const parsedResponse = await response.json();
+  console.log(
+    "parsedResponse when deleting an image from a spot: ",
+    parsedResponse
+  );
+  dispatch(deleteSpotImage(spotId, imageData));
+};
+
+export const addImageToSpotThunk = (spotId, imageData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: "POST",
+    body: JSON.stringify(imageData),
+  });
+  const newImage = await response.json();
+  dispatch(addSpotImage(spotId, newImage));
+};
+
 const initialState = {
   spotsArray: [],
   spotsFlattened: {},
@@ -94,15 +131,71 @@ const spotsReducer = (state = initialState, action) => {
     }
 
     case ADD_NEW_SPOT: {
-      const newState = {
-        ...state,
-        spotsArray: [...state.spotsArray, action.newSpot],
-        spotsFlattened: {
-          ...state.spotsFlattened,
-          [action.newSpot.id]: action.newSpot,
-        },
-        currentSpotDetails: action.newSpot,
+      const newState = { ...state };
+      newState.spotsArray = [...newState.spotsArray, action.newSpot];
+      newState.spotsFlattened = {
+        ...newState.spotsFlattened,
+        [action.newSpot.id]: action.newSpot,
       };
+
+      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.
+
+      return newState;
+    }
+
+    case DELETE_SPOT_IMAGE: {
+      // shallow copy the state object
+      const newState = { ...state };
+      const { spotId, deletedImage } = action.imageData;
+      // if the image we're deleting is the preview image for any one of the
+      if (deletedImage.preview) {
+        // then also remove it from spotsArray
+        newState.spotsArray.forEach((spotObj) => {
+          if (spotObj.previewImage === deletedImage.url) {
+            delete spotObj.previewImage;
+          }
+        });
+        // and remove it from the flattened spots object // ? Do I have to do this since the spotsArray points to the same objects that are in spotsFlattened?
+        delete newState.spotsFlattened[spotId].previewImage;
+      }
+
+      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.  Creating or editing a spot and deleting images does not give us all the details we'd need for the currentSpotDetails object.
+      // whether it's the previewImage or not, we have to remove the image from currentSpotDetails because that property of newState contains every image that belongs to the spot, including the one we're deleting!
+      // const spotImages = newState.currentSpotDetails.SpotImages;
+      // newState.currentSpotDetails.SpotImages = [
+      //   ...spotImages.filter((image) => image.id !== deletedImage.id),
+      // ];
+
+      return newState;
+    }
+
+    case ADD_SPOT_IMAGE: {
+      const newState = { ...state };
+      const { spotId, newImage } = action.imageData;
+      if (newImage.preview) {
+        // then also add this image's url to the correct spot in spotsArray as previewImage
+        newState.spotsArray = newState.spotsArray.map((spotObj) => {
+          if (spotObj.id === spotId) {
+            spotObj.previewImage = newImage.url;
+          }
+          return spotObj;
+        });
+        // and add it to the flattened spots object // ? Do I have to do this since the spotsArray points to the same objects that are in spotsFlattened?
+        newState.spotsFlattened = {
+          ...newState.spotsFlattened,
+          [newState.spotsFlattened[spotId].previewImage]: newImage.url,
+        };
+      }
+
+      console.log("new state inside ADD SPOT IMAGE action: ", newState);
+      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.  Creating or editing a spot and adding new images does not give us all the details we'd need for the currentSpotDetails object.
+      // finally, add the new image to currentSpotDetails before we update the state
+      // newState.currentSpotDetails.SpotImages = [
+      //   ...newState.currentSpotDetails.SpotImages,
+      //   newImage,
+      // ];
+
+      // update the state of spots
       return newState;
     }
 

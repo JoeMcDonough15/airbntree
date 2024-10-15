@@ -46,7 +46,10 @@ const FormField = ({
                 <input
                   value={inputVal}
                   onChange={(e) => {
-                    if (inputId === "price-input") {
+                    if (
+                      inputId === "price-input" &&
+                      e.target.value.includes(".")
+                    ) {
                       let priceAsNum = Number(
                         Number(e.target.value).toFixed(2)
                       );
