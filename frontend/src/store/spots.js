@@ -66,16 +66,29 @@ export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
       method: "POST",
       body: JSON.stringify(spotDetails),
     });
-    const newSpot = await response.json(); // ! Is the data we want nested inside the parsed response?
+    const newSpot = await response.json();
     // dispatch an action to update our redux store
     dispatch(addNewSpot(newSpot));
     // return the spot back to the SpotForm component from where we submitted this request
     return newSpot;
   } catch (response) {
     const errorResponse = response.json();
-    console.log("response inside catch blocK : ", errorResponse);
     // return the error response back to the SpotForm component from where we submitted this request
     return errorResponse;
+  }
+};
+
+export const addImageToSpotThunk = (spotId, imageData) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+      method: "POST",
+      body: JSON.stringify(imageData),
+    });
+    const newImage = await response.json();
+    dispatch(addSpotImage(spotId, newImage));
+  } catch (response) {
+    const errorResponse = await response.json();
+    console.log("error response from addImageSpotThunk: ", errorResponse);
   }
 };
 
@@ -89,15 +102,6 @@ export const deleteSpotImageThunk = (spotId, imageData) => async (dispatch) => {
     parsedResponse
   );
   dispatch(deleteSpotImage(spotId, imageData));
-};
-
-export const addImageToSpotThunk = (spotId, imageData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-    method: "POST",
-    body: JSON.stringify(imageData),
-  });
-  const newImage = await response.json();
-  dispatch(addSpotImage(spotId, newImage));
 };
 
 const initialState = {
@@ -131,15 +135,38 @@ const spotsReducer = (state = initialState, action) => {
     }
 
     case ADD_NEW_SPOT: {
-      const newState = { ...state };
+      const newState = { ...state }; // whatever the state is currently; this can be impacted by refreshing and by navigating to different pages that dispatch different thunks/actions on mount
+      // the new spot won't have all the same data that the others do.  The route GET api/spots returns previewImage and avgRating properties that the POST api/spots does not.
       newState.spotsArray = [...newState.spotsArray, action.newSpot];
       newState.spotsFlattened = {
         ...newState.spotsFlattened,
         [action.newSpot.id]: action.newSpot,
       };
 
-      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.
+      return newState;
+    }
 
+    case ADD_SPOT_IMAGE: {
+      const newState = { ...state };
+      const { spotId, newImage } = action.imageData;
+      if (newImage.preview) {
+        // then also add this image's url to the correct spot in spotsArray as previewImage
+        newState.spotsArray = newState.spotsArray.map((spotObj) => {
+          if (spotObj.id === spotId) {
+            spotObj.previewImage = newImage.url;
+          }
+          return spotObj;
+        });
+      }
+
+      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.  Creating or editing a spot and adding new images does not give us all the details we'd need for the currentSpotDetails object.
+      // finally, add the new image to currentSpotDetails before we update the state
+      // newState.currentSpotDetails.SpotImages = [
+      //   ...newState.currentSpotDetails.SpotImages,
+      //   newImage,
+      // ];
+
+      // update the state of spots
       return newState;
     }
 
@@ -166,36 +193,6 @@ const spotsReducer = (state = initialState, action) => {
       //   ...spotImages.filter((image) => image.id !== deletedImage.id),
       // ];
 
-      return newState;
-    }
-
-    case ADD_SPOT_IMAGE: {
-      const newState = { ...state };
-      const { spotId, newImage } = action.imageData;
-      if (newImage.preview) {
-        // then also add this image's url to the correct spot in spotsArray as previewImage
-        newState.spotsArray = newState.spotsArray.map((spotObj) => {
-          if (spotObj.id === spotId) {
-            spotObj.previewImage = newImage.url;
-          }
-          return spotObj;
-        });
-        // and add it to the flattened spots object // ? Do I have to do this since the spotsArray points to the same objects that are in spotsFlattened?
-        newState.spotsFlattened = {
-          ...newState.spotsFlattened,
-          [newState.spotsFlattened[spotId].previewImage]: newImage.url,
-        };
-      }
-
-      console.log("new state inside ADD SPOT IMAGE action: ", newState);
-      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.  Creating or editing a spot and adding new images does not give us all the details we'd need for the currentSpotDetails object.
-      // finally, add the new image to currentSpotDetails before we update the state
-      // newState.currentSpotDetails.SpotImages = [
-      //   ...newState.currentSpotDetails.SpotImages,
-      //   newImage,
-      // ];
-
-      // update the state of spots
       return newState;
     }
 

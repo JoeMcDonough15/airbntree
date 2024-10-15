@@ -38,7 +38,7 @@ const SpotForm = () => {
     // if editing a spot that exists, we want to set that spot from the url to be the currentSpot
     // by dispatching a thunk action, and then use
     // the thunk's return value as the currentSpot to populate all of the stateful input fields
-    // ! This will trigger a rerender becuase spotToEdit will update.  But it should not make the useEffect run again because nothing in this hook's dependency array should change on that rerender.
+
     dispatch(getSpotDetailsThunk(spotId)).then((currentSpot) => {
       // now call all of the state setting functions with the currentSpot's data
       const {
@@ -132,20 +132,20 @@ const SpotForm = () => {
       spotImageFiveUrl,
     ];
 
-    const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
-    spotImages.forEach((spotImage, index) => {
-      if (
-        !spotImage.endsWith(".png") &&
-        !spotImage.endsWith(".jpg") &&
-        !spotImage.endsWith(".jpeg")
-      ) {
-        if (index === 0 && spotImage.length > 0) {
-          errors["previewImageUrl"] = incorrectFileExtension;
-        } else if (spotImage.length > 0) {
-          errors[`spotImage${index + 1}Url`] = incorrectFileExtension;
-        }
-      }
-    });
+    // const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
+    // spotImages.forEach((spotImage, index) => {
+    //   if (
+    //     !spotImage.endsWith(".png") &&
+    //     !spotImage.endsWith(".jpg") &&
+    //     !spotImage.endsWith(".jpeg")
+    //   ) {
+    //     if (index === 0 && spotImage.length > 0) {
+    //       errors["previewImageUrl"] = incorrectFileExtension;
+    //     } else if (spotImage.length > 0) {
+    //       errors[`spotImage${index + 1}Url`] = incorrectFileExtension;
+    //     }
+    //   }
+    // });
 
     return errors;
   };
@@ -153,13 +153,11 @@ const SpotForm = () => {
   // ? Handle the submission of the form, whether creating or updating
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const errors = handleErrors();
+    const errors = handleErrors(); // this only checks for client side errors
+    setUserErrors(errors); // if client side errors were fixed, this'll be an empty object, and will replace what was there from either client or server (remember all server side errors are being placed into the same keys as client side errors)
     if (Object.keys(errors).length > 0) {
-      setUserErrors(errors);
       return;
     }
-
-    setUserErrors({});
 
     const spotDetails = {
       country,
@@ -181,8 +179,11 @@ const SpotForm = () => {
       //   newOrEditedSpot = await dispatch(editASpotThunk(spotDetails));
     }
 
-    console.log("response inside SpotForm: ", newOrEditedSpot);
     if (newOrEditedSpot.errors) {
+      console.log(
+        "error response inside SpotForm after trying to create spot: ",
+        newOrEditedSpot
+      );
       setUserErrors(newOrEditedSpot.errors);
       return;
     }
@@ -226,7 +227,7 @@ const SpotForm = () => {
 
       if (spotImageObj.url.length > 0) {
         // don't add any images that have empty strings for urls.  Remember, only the previewImageUrl is required; the others are optional!  The database will be mad if we send over nullish values for urls
-        dispatch(addImageToSpotThunk(newOrEditedSpot.id, spotImageObj));
+        dispatch(addImageToSpotThunk(newOrEditedSpot.id, spotImageObj)); // ? This is making it to the DB!
       }
     });
 
