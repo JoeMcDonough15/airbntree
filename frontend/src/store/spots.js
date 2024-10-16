@@ -58,12 +58,9 @@ export const addSpotImage = (spotId, newImage) => {
 };
 
 export const getAllSpotsThunk = () => async (dispatch) => {
-  // get all the spots from server/db
   const response = await csrfFetch("/api/spots");
   const parsedResponse = await response.json();
-  // extract the spots array from the parsedResponse
   const spots = parsedResponse.Spots;
-  // update the redux store by dispatching the getAllSpots action
   dispatch(getAllSpots(spots));
 };
 
@@ -112,11 +109,9 @@ export const editASpotThunk = (spotId, spotDetails) => async (dispatch) => {
     });
     const updatedSpot = await response.json();
     dispatch(editASpot(updatedSpot));
-    console.log("returning this out of editASpotThunk: ", updatedSpot);
     return updatedSpot;
   } catch (response) {
     const errorResponse = await response.json();
-    console.log("returning this out of editASpotThunk: ", errorResponse);
     return errorResponse;
   }
 };
@@ -132,7 +127,7 @@ export const addImageToSpotThunk = (spotId, imageData) => async (dispatch) => {
     return newImage;
   } catch (response) {
     const errorResponse = await response.json();
-    console.log("error response from addImageSpotThunk: ", errorResponse);
+    return errorResponse;
   }
 };
 
@@ -141,11 +136,8 @@ export const deleteSpotImageThunk = (spotId, imageData) => async (dispatch) => {
     method: "DELETE",
   });
   const parsedResponse = await response.json();
-  console.log(
-    "parsedResponse when deleting an image from a spot: ",
-    parsedResponse
-  );
   dispatch(deleteSpotImage(spotId, imageData));
+  return parsedResponse;
 };
 
 const initialState = {
@@ -156,14 +148,11 @@ const initialState = {
 const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_SPOTS: {
-      // normalize the array of spots to an object of objects for O(1) retrieval of a spot
       const spotsObj = {};
       action.spotsArr.forEach((spot) => {
         spotsObj[spot.id] = spot;
       });
-      // build an object that copies in state
-      // overwrite the spotsFlattened property on state with our new normalized object
-      // overwrite spotsArray with the action.spotsArray
+
       const newState = {
         ...state,
         spotsArray: action.spotsArr,
@@ -228,16 +217,14 @@ const spotsReducer = (state = initialState, action) => {
       const { spotId, newImage } = action.imageData;
       if (newImage.preview) {
         // then reassign newState.spotsArray to a new array where this image's url is at the correct spot as its previewImage
-        newState.spotsArray = newState.spotsArray.map(
-          (spotObj, index, array) => {
-            // replace the previewImage on the one whose id matches the action's id
-            if (spotObj.id === spotId) {
-              array[index] = { ...spotObj, previewImage: newImage.url };
-            }
-            // then return all of the spot objects, so we don't leave out any spots in the array we're assigning to newState.spotsArray
-            return spotObj;
+        newState.spotsArray = newState.spotsArray.map((spotObj) => {
+          // replace the previewImage on the one whose id matches the action's id
+          if (spotObj.id === spotId) {
+            spotObj = { ...spotObj, previewImage: newImage.url };
           }
-        );
+          // then return all of the spot objects, so we don't leave out any spots in the array we're assigning to newState.spotsArray
+          return spotObj;
+        });
 
         // update the spotsFlattened to reflect the correct previewImage since this newly added image is the preview
         newState.spotsFlattened = {
@@ -261,24 +248,14 @@ const spotsReducer = (state = initialState, action) => {
       // if the image we're deleting is the preview image for any one of the objects in newState.spotsArray
       if (deletedImage.preview) {
         // we know we need to reassign newState.spotsArray to a new array
-        const copyOfSpotsArray = newState.spotsArray.slice();
-        const newSpotsArray = copyOfSpotsArray.map((spotObj) => {
+        const newSpotsArray = newState.spotsArray.map((spotObj) => {
           if (spotObj.id === spotId) {
             spotObj = { ...spotObj, previewImage: null };
-            console.log(
-              "spot object after setting its preview image to null: ",
-              spotObj
-            );
           }
 
           return spotObj;
         });
 
-        console.log(
-          "/n/nthis is the new array we are replacing newState.spotsArray with: ",
-          newSpotsArray,
-          "/n/n"
-        );
         newState.spotsArray = newSpotsArray;
 
         // now reassign the spotsFlattened to a new object
