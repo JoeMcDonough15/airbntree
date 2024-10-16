@@ -137,6 +137,7 @@ export const deleteASpotThunk = (spotId) => async (dispatch) => {
     return confirmation;
   } catch (response) {
     const errorResponse = await response.json();
+    errorResponse.error = "We were unable to delete this spot";
     return errorResponse;
   }
 };
@@ -248,8 +249,6 @@ const spotsReducer = (state = initialState, action) => {
       const newSpotsFlattened = { ...newState.spotsFlattened };
       delete newSpotsFlattened[action.deletedSpotId];
       newState.spotsFlattened = newSpotsFlattened;
-
-      console.log("new state after deleting the spot: ", newState);
 
       return newState;
     }

@@ -52,7 +52,7 @@ const SignupFormModal = () => {
   };
 
   return (
-    <div className="signup-form-modal flex-container col">
+    <div className="modal-container">
       <h1>Sign Up</h1>
       {Object.values(userErrors).map((userError, index) => {
         return (

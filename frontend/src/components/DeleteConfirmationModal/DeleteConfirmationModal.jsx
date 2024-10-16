@@ -17,18 +17,17 @@ const DeleteConfirmationModal = ({
     //       : deleteAReviewThunk(subjectId)
     //   );
     // call thunk action to remove spot, using the subjectId as spotId
-    dispatch(deleteASpotThunk(subjectId))
-      .then(() => {
-        closeModal();
-      })
-      .catch((rejected) => {
-        console.log(rejected); // log any errors we get back if unsuccessful and do not close modal
-      });
+    dispatch(deleteASpotThunk(subjectId)).then((response) => {
+      if (response.error) {
+        window.alert(response.error);
+      }
+      closeModal();
+    });
   };
 
   return (
     <>
-      <div className="deleteConfirmationContainer">
+      <div className="deleteConfirmationContainer modal-container">
         <h2>Confirm Delete</h2>
         <p>{`${confirmationMessage}`}</p>
         <div className="flex-container">

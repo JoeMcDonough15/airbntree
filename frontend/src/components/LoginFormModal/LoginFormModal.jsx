@@ -36,7 +36,7 @@ const LoginFormModal = () => {
   };
 
   return (
-    <div className="login-modal flex-container col">
+    <div className="modal-container">
       <h1>Login</h1>
       {userErrors.message && (
         <span className="error-text">

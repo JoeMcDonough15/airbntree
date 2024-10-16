@@ -69,11 +69,13 @@ button:hover {
 .flex-container,
 .main-container,
 .col,
-.icon-container {
+.icon-container,
+.modal-container {
   display: flex;
 }
 
-.col {
+.col,
+.modal-container {
   flex-direction: column;
 }
 
@@ -97,6 +99,13 @@ button:hover {
 
 .create-edit-spot-page {
   padding: 0 25%;
+}
+
+.modal-container {
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px 20px;
+  width: 400px;
 }
 
 /* global text styles */
