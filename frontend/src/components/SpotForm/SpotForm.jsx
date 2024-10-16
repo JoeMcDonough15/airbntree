@@ -1,110 +1,73 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useSpotFormContext } from "../../context/SpotFormContext";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
-  getSpotDetailsThunk,
-  createNewSpotThunk,
-  deleteSpotImageThunk,
   addImageToSpotThunk,
+  // getSpotDetailsThunk,
+  // deleteSpotImageThunk,
+  createNewSpotThunk,
 } from "../../store/spots";
 import FormSection from "./FormSection";
 import FormField from "./FormField";
 import "./SpotForm.css";
 
-const SpotForm = ({ spotId }) => {
-  // const { spotId } = useParams(); // will either be undefined if creating a new spot or will be the spotId of the spot to edit if editing a spot
-  const [country, setCountry] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [previewImageUrl, setPreviewImageUrl] = useState("");
-  const [spotImageTwoUrl, setSpotImageTwoUrl] = useState("");
-  const [spotImageThreeUrl, setSpotImageThreeUrl] = useState("");
-  const [spotImageFourUrl, setSpotImageFourUrl] = useState("");
-  const [spotImageFiveUrl, setSpotImageFiveUrl] = useState("");
-  const [userErrors, setUserErrors] = useState({});
-
-  const dispatch = useDispatch();
+export const SpotForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // ? Use effect hook to populate fields with data from a spot if we are updating one
-  useEffect(() => {
-    // if creating a new spot, get out of here!  Keep the fields as empty strings in the stateful inputs.
-    if (!spotId) return;
-
-    // if editing a spot that exists, we want to set that spot from the url to be the currentSpot
-    // by dispatching a thunk action, and then use
-    // the thunk's return value as the currentSpot to populate all of the stateful input fields
-
-    dispatch(getSpotDetailsThunk(spotId)).then((currentSpot) => {
-      // now call all of the state setting functions with the currentSpot's data
-      const {
-        country,
-        address,
-        city,
-        state,
-        description,
-        name,
-        price,
-        SpotImages, // an array of objects where one is the preview
-      } = currentSpot;
-      setCountry(country);
-      setAddress(address);
-      setCity(city);
-      setState(state);
-      setDescription(description);
-      setName(name);
-      setPrice(price);
-      setPreviewImageUrl(SpotImages.find((image) => image.preview).url);
-
-      const otherImages = SpotImages.filter((image) => !image.preview);
-      if (otherImages.length > 0) {
-        setSpotImageTwoUrl(otherImages[0].url);
-      }
-      if (otherImages.length > 1) {
-        setSpotImageThreeUrl(otherImages[1].url);
-      }
-      if (otherImages.length > 2) {
-        setSpotImageFourUrl(otherImages[2].url);
-      }
-      if (otherImages.length > 3) {
-        setSpotImageFiveUrl(otherImages[3].url);
-      }
-    });
-  }, [
-    spotId,
-    dispatch,
+  const {
+    spotToEdit,
+    country,
     setCountry,
+    address,
     setAddress,
+    city,
     setCity,
+    state,
     setState,
+    description,
     setDescription,
+    name,
     setName,
+    price,
     setPrice,
+    previewImageUrl,
     setPreviewImageUrl,
+    spotImageTwoUrl,
     setSpotImageTwoUrl,
+    spotImageThreeUrl,
     setSpotImageThreeUrl,
+    spotImageFourUrl,
     setSpotImageFourUrl,
+    spotImageFiveUrl,
     setSpotImageFiveUrl,
-  ]); // none of this data should change throughout the lifecycle of this SpotForm component
+    userErrors,
+    setUserErrors,
+  } = useSpotFormContext();
 
-  // ? Handle any errors before submitting
+  // required fields errors
+  const requiredFields = {
+    country: country,
+    address: address,
+    city: city,
+    state: state,
+    name: name,
+    price: price,
+    previewImageUrl: previewImageUrl,
+  };
+
+  // any image state in one iterable
+  const spotImages = [
+    previewImageUrl,
+    spotImageTwoUrl,
+    spotImageThreeUrl,
+    spotImageFourUrl,
+    spotImageFiveUrl,
+  ];
+
+  // ! Handle any errors before submitting
   const handleErrors = () => {
     const errors = {};
-
-    // required fields errors
-    const requiredFields = {
-      country: country,
-      address: address,
-      city: city,
-      state: state,
-      name: name,
-      price: price,
-      previewImageUrl: previewImageUrl,
-    };
 
     Object.keys(requiredFields).forEach((requiredField) => {
       if (requiredFields[requiredField].length === 0) {
@@ -122,15 +85,6 @@ const SpotForm = ({ spotId }) => {
     if (isNaN(priceAsNum) || priceAsNum < 0) {
       errors["price"] = "Price must be a positive number";
     }
-
-    // any image file extension error
-    const spotImages = [
-      previewImageUrl,
-      spotImageTwoUrl,
-      spotImageThreeUrl,
-      spotImageFourUrl,
-      spotImageFiveUrl,
-    ];
 
     const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
     spotImages.forEach((spotImage, index) => {
@@ -150,7 +104,24 @@ const SpotForm = ({ spotId }) => {
     return errors;
   };
 
-  // ? Handle the submission of the form, whether creating or updating
+  // functions for creating and editing a spot
+  const createASpot = async (spotDetails) => {
+    const newSpot = await dispatch(createNewSpotThunk(spotDetails));
+    return newSpot;
+  };
+
+  // const editASpot = async (spotDetails) => {
+  //   const imagesToDelete = spotToEdit.SpotImages;
+  //   const imagePromises = imagesToDelete.map((spotImage) => {
+  //     return dispatch(deleteSpotImageThunk(spotToEdit.id, spotImage));
+  //   });
+
+  //   Promise.all(imagePromises).then(() => {
+  //     return dispatch(editASpotThunk(spotToEdit.id, spotDetails));
+  //   });
+  // };
+
+  // ! Submitting the Form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = handleErrors(); // this only checks for client side errors
@@ -164,56 +135,29 @@ const SpotForm = ({ spotId }) => {
       address,
       city,
       state,
+      lat: 27.234897234,
+      lng: -73.3834583,
       description,
       name,
       price: Number(price),
-      lat: 27.234897234, // hard coded for now, optional inputs for MVP
-      lng: 73.3834583, // hard coded for now, optional inputs for MVP
     };
 
-    let newOrEditedSpot;
-    // submit the form to the backend, call a thunk action to update the DB and redux store
-    if (!spotId) {
-      newOrEditedSpot = await dispatch(createNewSpotThunk(spotDetails));
+    let spot;
+
+    if (spotToEdit) {
+      // spot = await editASpot(spotDetails);
     } else {
-      //   newOrEditedSpot = await dispatch(editASpotThunk(spotDetails));
+      spot = await createASpot(spotDetails);
     }
 
-    if (newOrEditedSpot.errors) {
-      console.log(
-        "error response inside SpotForm after trying to create spot: ",
-        newOrEditedSpot
-      );
-      setUserErrors(newOrEditedSpot.errors);
+    if (spot.errors) {
+      console.log("error response from server: ", spot.errors);
+      setUserErrors(spot.errors);
       return;
     }
 
-    // ? Deal with images after spot is created/updated
-    const spotImageData = [
-      previewImageUrl,
-      spotImageTwoUrl,
-      spotImageThreeUrl,
-      spotImageFourUrl,
-      spotImageFiveUrl,
-    ];
-
-    if (spotId) {
-      // if there's a spot id (if editing a spot), we need to delete the images that belong to currentSpot before we can upload these images to the db
-      // we have to know that only one image can have preview: true.  We also don't want duplicate images.  There should also only ever be 5 images at most per spot.
-      // For these reasons, it seems smart to delete all the images that are there, and then individually set each one from this form as the spot's images.  That way we'd guarantee
-      // that only one (the one in the first input field for images) could be the previewImage.  And, there'd be no duplicates, and we'd never have more than 5 at a time.  This means:
-      // 1) get all of the images that belong to currentSpot
-      // 2) loop over them - //! Avoiding forEach as it doesn't support async
-      // 3) dispatch a thunk action to go and delete those images from the DB
-      // 4) we shouldn't need to worry about errors re: not finding the images because nothing has updated the currentSpotDetails to remove that spot or any of its images yet.
-      // 5) once finished deleting all of them, we should be able to:
-
-      for (let spotImage of newOrEditedSpot.SpotImages) {
-        await dispatch(deleteSpotImageThunk(newOrEditedSpot.id, spotImage));
-      }
-    }
-
-    const imagesToAddToSpot = spotImageData.filter(
+    // ! Upload images to the spot
+    const imagesToAddToSpot = spotImages.filter(
       (spotImageUrl) => spotImageUrl.length > 0
     );
 
@@ -223,12 +167,12 @@ const SpotForm = ({ spotId }) => {
         spotImageObj.preview = true; // only the first image should have preview: true
       }
 
-      return dispatch(addImageToSpotThunk(newOrEditedSpot.id, spotImageObj));
+      return dispatch(addImageToSpotThunk(spot.id, spotImageObj));
     });
 
     // don't navigate until all images are added because thunks can run out of order and if we navigate to the SpotDetails page, our getSpotDetails thunk might run before the images are added to the new or edited spot.
     Promise.all(imagePromises).then(() => {
-      navigate(`/spots/${newOrEditedSpot.id}`);
+      navigate(`/spots/${spot.id}`);
     });
   };
 

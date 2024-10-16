@@ -10,6 +10,8 @@ const SpotTile = ({ spotId, children }) => {
   const spot = useSelector((state) => state.spots.spotsFlattened[spotId]);
   const navigate = useNavigate();
 
+  if (!spot) return;
+
   return (
     <div
       className="spot-tile flex-container col"

@@ -20,16 +20,8 @@ const ManageSpotsPage = () => {
         <button>Create a New Spot</button>
       </div>
 
-      <SpotOwnerOptions spotId={6} />
-      {console.log("outside map: ", 6, typeof 6)}
-
       <div className="grid-container spots-container">
         {allSpotsByUser.map((spot) => {
-          console.log(
-            spot.id,
-            " inside map over allSpotsByUser",
-            typeof spot.id
-          );
           return (
             <div key={spot.id}>
               <SpotTile spotId={spot.id}></SpotTile>

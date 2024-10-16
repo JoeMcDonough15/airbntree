@@ -7,6 +7,7 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import "./index.css";
 import * as sessionActions from "./store/session";
 import { ModalProvider, Modal } from "./context/Modal";
+import { SpotFormProvider } from "./context/SpotFormContext";
 
 const store = configureStore();
 
@@ -26,7 +27,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ModalProvider>
       <Provider store={store}>
-        <App />
+        <SpotFormProvider>
+          <App />
+        </SpotFormProvider>
         <Modal />
       </Provider>
     </ModalProvider>

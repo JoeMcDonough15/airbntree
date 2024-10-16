@@ -94,6 +94,10 @@ button:hover {
   justify-content: center;
 }
 
+.create-edit-spot-page {
+  padding: 0 25%;
+}
+
 /* global text styles */
 
 .error-text {
