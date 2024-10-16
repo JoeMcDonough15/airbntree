@@ -183,7 +183,7 @@ export const SpotForm = () => {
 
     // don't navigate until all images are added because thunks can run out of order and if we navigate to the SpotDetails page, our getSpotDetails thunk might run before the images are added to the new or edited spot.
     Promise.all(imagePromises).then(() => {
-      navigate(`/spots/${spot.id}`);
+      navigate(`/spots/${spot.id}`); // this navigate won't cause a refresh
     });
   };
 
@@ -318,7 +318,7 @@ export const SpotForm = () => {
         />
       </FormSection>
       <button className="active-button">
-        {`${spotToEdit ? "Update" : "Create"} Spot`}
+        {`${spotToEdit ? "Update your" : "Create"} Spot`}
       </button>
     </form>
   );

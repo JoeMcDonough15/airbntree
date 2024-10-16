@@ -37,7 +37,7 @@ const SpotDetailsPage = () => {
       <SpotLocation city={city} state={state} country={country} stateFullName />
       {/* <Gallery /> */}
       {SpotImages.map((image) => (
-        <img key={image.id} src={image.url}></img>
+        <img key={image.id} src={image.url} /> // ! these render in the order they are in in the array.  NOT preview first
       ))}
       <div className="details-and-reserve flex-container">
         <div className="host-and-description">

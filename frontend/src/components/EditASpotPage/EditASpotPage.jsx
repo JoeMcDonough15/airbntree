@@ -95,17 +95,6 @@ const EditASpotPage = () => {
     // if the user does not have authorization to edit this spot
     spotToEdit.ownerId !== user.id
   ) {
-    console.log("spotToEdit: ", spotToEdit);
-    console.log(
-      "number wrapped spot id with spotToEdit.id: ",
-      Number(spotId),
-      spotToEdit.id
-    );
-    console.log(
-      "spotToEdit.ownerId and user.id: ",
-      spotToEdit.ownerId,
-      user.id
-    );
     return <h1>Cannot edit this spot</h1>;
   }
 
