@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import SpotLocation from "../SpotLocation";
 import BookReservation from "../BookReservation";
 import Gallery from "../Gallery";
+import SpotReviewsSection from "../SpotReviewsSection";
 
 import "./SpotDetailsPage.css";
 
@@ -18,7 +19,6 @@ const SpotDetailsPage = () => {
   }, [dispatch, spotId]);
 
   if (Object.values(spot).length === 0) {
-    console.log("currentSpotDetails is an empty object");
     return;
   }
 
@@ -27,14 +27,17 @@ const SpotDetailsPage = () => {
     city,
     state,
     country,
+    // ! on this component's first render, Owner, like every other property inside this object destructuring, is possibly undefined and we can't pull out values from it.  Hence line 21
     Owner: { firstName, lastName },
     SpotImages,
+    Reviews,
     price,
     avgStarRating,
     description,
     numReviews,
   } = spot;
-  // ! every value we pull out of spot will possibly be undefined on the first render of this component
+
+  // ! every property we pull out of spot will possibly be undefined on the first render of this component, which is why there are checks before rendering child components that are going to try to dot into values we pulled out of spot
 
   return (
     <section className="flex-container main-container spot-details-container col">
@@ -54,6 +57,13 @@ const SpotDetailsPage = () => {
           numReviews={numReviews}
         />
       </div>
+      {Reviews && (
+        <SpotReviewsSection
+          reviewsArray={Reviews}
+          rating={avgStarRating}
+          numReviews={numReviews}
+        />
+      )}
     </section>
   );
 };

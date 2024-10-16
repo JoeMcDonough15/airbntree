@@ -73,10 +73,23 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 };
 
 export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}`);
-  const spotDetails = await response.json();
-  dispatch(getSpotDetails(spotDetails));
-  return spotDetails;
+  try {
+    const spotDetails = await csrfFetch(`/api/spots/${spotId}`).then(
+      async (response) => {
+        const spotDetails = await response.json();
+        const nextResponse = await csrfFetch(`/api/spots/${spotId}/reviews`);
+        const reviews = await nextResponse.json();
+        spotDetails.Reviews = reviews.Reviews;
+        return spotDetails;
+      }
+    );
+
+    dispatch(getSpotDetails(spotDetails));
+    return spotDetails;
+  } catch (response) {
+    const parsedError = await response.json();
+    return parsedError;
+  }
 };
 
 export const getAllSpotsByUserThunk = () => async (dispatch) => {

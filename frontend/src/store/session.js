@@ -76,7 +76,8 @@ export const signupUserThunk = (userDetails) => async (dispatch) => {
 };
 
 // default session state - no one logged in
-const sessionReducer = (state = {}, action) => {
+const initialState = { user: null };
+const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
       // this is what state.user should look like if someone is logged in: { id, email, username, firstName, lastName }

@@ -1,3 +1,5 @@
+import "./NumReviews.css";
+
 const NumReviews = ({ numReviews }) => {
   let text;
 
@@ -8,8 +10,9 @@ const NumReviews = ({ numReviews }) => {
   }
 
   return (
-    <p>
-      {numReviews} {text}
+    <p className="flex-container num-reviews-texxt">
+      <span>{numReviews}</span>
+      <span>{text}</span>
     </p>
   );
 };
