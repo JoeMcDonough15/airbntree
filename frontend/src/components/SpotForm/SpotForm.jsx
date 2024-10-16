@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   addImageToSpotThunk,
-  // getSpotDetailsThunk,
-  // deleteSpotImageThunk,
+  deleteSpotImageThunk,
   createNewSpotThunk,
+  editASpotThunk,
 } from "../../store/spots";
 import FormSection from "./FormSection";
 import FormField from "./FormField";
@@ -80,6 +80,11 @@ export const SpotForm = () => {
       errors["description"] = "Description needs a minimum of 30 characters";
     }
 
+    // name length maximum error
+    if (name.length >= 50) {
+      errors["name"] = "Name must be less than 50 characters";
+    }
+
     // price must be non negative number error
     let priceAsNum = Number(price);
     if (isNaN(priceAsNum) || priceAsNum < 0) {
@@ -110,16 +115,23 @@ export const SpotForm = () => {
     return newSpot;
   };
 
-  // const editASpot = async (spotDetails) => {
-  //   const imagesToDelete = spotToEdit.SpotImages;
-  //   const imagePromises = imagesToDelete.map((spotImage) => {
-  //     return dispatch(deleteSpotImageThunk(spotToEdit.id, spotImage));
-  //   });
+  const deleteImagesAndEditSpot = async (spot, newSpotDetails) => {
+    const imagesToDelete = spot.SpotImages;
+    const imagePromises = imagesToDelete.map((spotImage) => {
+      return dispatch(deleteSpotImageThunk(spotToEdit.id, spotImage));
+    });
+    const editedSpot = Promise.all(imagePromises).then(() => {
+      return editASpot(spot, newSpotDetails);
+    });
 
-  //   Promise.all(imagePromises).then(() => {
-  //     return dispatch(editASpotThunk(spotToEdit.id, spotDetails));
-  //   });
-  // };
+    return editedSpot;
+  };
+
+  const editASpot = async (spot, newSpotDetails) => {
+    const editedSpot = await dispatch(editASpotThunk(spot.id, newSpotDetails));
+
+    return editedSpot;
+  };
 
   // ! Submitting the Form
   const handleSubmit = async (e) => {
@@ -145,13 +157,12 @@ export const SpotForm = () => {
     let spot;
 
     if (spotToEdit) {
-      // spot = await editASpot(spotDetails);
+      spot = await deleteImagesAndEditSpot(spotToEdit, spotDetails);
     } else {
       spot = await createASpot(spotDetails);
     }
 
     if (spot.errors) {
-      console.log("error response from server: ", spot.errors);
       setUserErrors(spot.errors);
       return;
     }
@@ -306,7 +317,9 @@ export const SpotForm = () => {
           errorText={userErrors.spotImage5Url}
         />
       </FormSection>
-      <button className="active-button">Create Spot</button>
+      <button className="active-button">
+        {`${spotToEdit ? "Update" : "Create"} Spot`}
+      </button>
     </form>
   );
 };
