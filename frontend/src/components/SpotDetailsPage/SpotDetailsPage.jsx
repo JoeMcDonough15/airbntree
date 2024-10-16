@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import SpotLocation from "../SpotLocation";
 import BookReservation from "../BookReservation";
 import Gallery from "../Gallery";
-import SpotReviews from "../SpotReviews";
+import SpotReviewsSection from "../SpotReviewsSection";
 
 import "./SpotDetailsPage.css";
 
@@ -27,6 +27,7 @@ const SpotDetailsPage = () => {
     city,
     state,
     country,
+    // ! on this component's first render, Owner, like every other property inside this object destructuring, is possibly undefined and we can't pull out values from it.  Hence line 21
     Owner: { firstName, lastName },
     SpotImages,
     Reviews,
@@ -35,9 +36,8 @@ const SpotDetailsPage = () => {
     description,
     numReviews,
   } = spot;
-  // ! every property we pull out of spot will possibly be undefined on the first render of this component
 
-  console.log("reviews: ", Reviews);
+  // ! every property we pull out of spot will possibly be undefined on the first render of this component, which is why there are checks before rendering child components that are going to try to dot into values we pulled out of spot
 
   return (
     <section className="flex-container main-container spot-details-container col">
@@ -58,7 +58,7 @@ const SpotDetailsPage = () => {
         />
       </div>
       {Reviews && (
-        <SpotReviews
+        <SpotReviewsSection
           reviewsArray={Reviews}
           rating={avgStarRating}
           numReviews={numReviews}
