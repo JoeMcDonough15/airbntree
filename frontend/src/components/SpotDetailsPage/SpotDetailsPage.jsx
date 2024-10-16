@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import SpotLocation from "../SpotLocation";
 import BookReservation from "../BookReservation";
 import Gallery from "../Gallery";
+import SpotReviews from "../SpotReviews";
 
 import "./SpotDetailsPage.css";
 
@@ -18,7 +19,6 @@ const SpotDetailsPage = () => {
   }, [dispatch, spotId]);
 
   if (Object.values(spot).length === 0) {
-    console.log("currentSpotDetails is an empty object");
     return;
   }
 
@@ -29,12 +29,15 @@ const SpotDetailsPage = () => {
     country,
     Owner: { firstName, lastName },
     SpotImages,
+    Reviews,
     price,
     avgStarRating,
     description,
     numReviews,
   } = spot;
-  // ! every value we pull out of spot will possibly be undefined on the first render of this component
+  // ! every property we pull out of spot will possibly be undefined on the first render of this component
+
+  console.log("reviews: ", Reviews);
 
   return (
     <section className="flex-container main-container spot-details-container col">
@@ -54,6 +57,13 @@ const SpotDetailsPage = () => {
           numReviews={numReviews}
         />
       </div>
+      {Reviews && (
+        <SpotReviews
+          reviewsArray={Reviews}
+          rating={avgStarRating}
+          numReviews={numReviews}
+        />
+      )}
     </section>
   );
 };

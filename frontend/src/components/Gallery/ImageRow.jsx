@@ -1,8 +1,6 @@
 import TileImage from "../TileImage";
 
 const ImageRow = ({ imageArr }) => {
-  console.log("image array inside ImageRow: ", imageArr);
-  if (imageArr.length < 2) return;
   return (
     <div className="flex-container image-row">
       {imageArr.map((image, index) => {

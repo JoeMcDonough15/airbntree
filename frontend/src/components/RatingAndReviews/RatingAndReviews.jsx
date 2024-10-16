@@ -2,12 +2,16 @@ import SpotRating from "../SpotRating";
 import NumReviews from "../NumReviews";
 import "./RatingAndReviews.css";
 
-const RatingAndReviews = ({ rating, numReviews, classes }) => {
+const RatingAndReviews = ({ rating, numReviews }) => {
   return (
-    <div className={`rating-and-review flex-container ${classes ?? ""}`}>
+    <div className={"rating-and-review flex-container"}>
       <SpotRating rating={rating} />
-      <div className="circle-dot flex-container">•</div>
-      <NumReviews numReviews={numReviews} />
+      {numReviews > 0 && (
+        <>
+          <div className="circle-dot flex-container">•</div>
+          <NumReviews numReviews={numReviews} />
+        </>
+      )}
     </div>
   );
 };

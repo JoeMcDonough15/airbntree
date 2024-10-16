@@ -8,11 +8,7 @@ const BookReservation = ({ price, rating, numReviews }) => {
       <div className="flex-container reservation-spot-details">
         <SpotPrice price={price} />
 
-        <RatingAndReviews
-          classes="right-side"
-          rating={rating}
-          numReviews={numReviews}
-        />
+        <RatingAndReviews rating={rating} numReviews={numReviews} />
       </div>
       <button
         onClick={() => {
