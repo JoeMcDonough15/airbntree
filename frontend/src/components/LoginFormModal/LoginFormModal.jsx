@@ -72,7 +72,7 @@ const LoginFormModal = () => {
         </label>
 
         <button
-          className={`form-submit-button ${
+          className={`full-width-button ${
             !submitDisabled ? " active-button" : ""
           }`}
           disabled={submitDisabled}

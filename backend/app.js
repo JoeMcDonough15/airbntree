@@ -71,7 +71,16 @@ app.use((err, _req, _res, next) => {
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
-      errors[error.path] = error.message;
+      if (
+        error.path === "address" ||
+        error.path === "city" ||
+        error.path === "state" ||
+        error.path === "country"
+      ) {
+        errors[error.path] = "Address already exists.";
+      } else {
+        errors[error.path] = error.message;
+      }
     }
     err.title = "Validation error";
     err.message = "Validation error";

@@ -1,8 +1,8 @@
 import { getAllSpotsThunk } from "../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import SpotTile from "./SpotTile";
-import "./HomePage.css";
+import SpotTile from "../SpotTile";
+// import "./HomePage.css";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -14,11 +14,11 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="grid-container spots-container">
+      <section className="grid-container main-container spots-container">
         {allSpots.map((spot) => {
           return <SpotTile key={spot.id} spotId={spot.id} />;
         })}
-      </div>
+      </section>
     </>
   );
 };

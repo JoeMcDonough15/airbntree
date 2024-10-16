@@ -19,7 +19,6 @@ module.exports = {
         url: {
           type: Sequelize.STRING(550),
           allowNull: false,
-          unique: true,
         },
         preview: {
           type: Sequelize.BOOLEAN,
