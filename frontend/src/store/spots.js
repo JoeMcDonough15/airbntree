@@ -5,6 +5,7 @@ const GET_SPOT_DETAILS = "spots/getSpotDetails";
 const GET_ALL_SPOTS_BY_USER = "spots/getAllSpotsByUser";
 const ADD_NEW_SPOT = "spots/addNewSpot";
 const EDIT_A_SPOT = "spots/editASpot";
+const DELETE_A_SPOT = "spots/deleteASpot";
 const DELETE_SPOT_IMAGE = "spots/deleteSpotImage";
 const ADD_SPOT_IMAGE = "spots/addSpotImage";
 
@@ -40,6 +41,13 @@ export const editASpot = (updatedSpot) => {
   return {
     type: EDIT_A_SPOT,
     updatedSpot,
+  };
+};
+
+export const deleteASpot = (deletedSpotId) => {
+  return {
+    type: DELETE_A_SPOT,
+    deletedSpotId,
   };
 };
 
@@ -110,6 +118,23 @@ export const editASpotThunk = (spotId, spotDetails) => async (dispatch) => {
     const updatedSpot = await response.json();
     dispatch(editASpot(updatedSpot));
     return updatedSpot;
+  } catch (response) {
+    const errorResponse = await response.json();
+    return errorResponse;
+  }
+};
+
+export const deleteASpotThunk = (spotId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+    });
+
+    const confirmation = await response.json();
+
+    dispatch(deleteASpot(spotId));
+
+    return confirmation;
   } catch (response) {
     const errorResponse = await response.json();
     return errorResponse;
@@ -208,6 +233,23 @@ const spotsReducer = (state = initialState, action) => {
         ...newState.spotsFlattened,
         [action.updatedSpot.id]: action.updatedSpot,
       };
+
+      return newState;
+    }
+
+    case DELETE_A_SPOT: {
+      const newState = { ...state };
+      // reassign newState.spotsArray
+      const newSpotsArray = newState.spotsArray.filter(
+        (spot) => spot.id !== action.deletedSpotId
+      );
+      newState.spotsArray = newSpotsArray;
+      // now reassign newState.spotsFlattened
+      const newSpotsFlattened = { ...newState.spotsFlattened };
+      delete newSpotsFlattened[action.deletedSpotId];
+      newState.spotsFlattened = newSpotsFlattened;
+
+      console.log("new state after deleting the spot: ", newState);
 
       return newState;
     }
