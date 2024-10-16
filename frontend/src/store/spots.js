@@ -189,7 +189,9 @@ const spotsReducer = (state = initialState, action) => {
     }
 
     case GET_SPOT_DETAILS: {
-      const newState = { ...state, currentSpotDetails: action.spotDetails };
+      const newState = { ...state };
+      const newCurrentSpotDetails = action.spotDetails;
+      newState.currentSpotDetails = newCurrentSpotDetails;
       return newState;
     }
 

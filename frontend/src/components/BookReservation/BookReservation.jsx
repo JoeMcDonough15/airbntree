@@ -1,6 +1,5 @@
 import SpotPrice from "../SpotPrice";
-import SpotRating from "../SpotRating";
-import NumReviews from "../NumReviews";
+import RatingAndReviews from "../RatingAndReviews";
 import "./BookReservation.css";
 
 const BookReservation = ({ price, rating, numReviews }) => {
@@ -8,10 +7,12 @@ const BookReservation = ({ price, rating, numReviews }) => {
     <div className="reservations-container">
       <div className="flex-container reservation-spot-details">
         <SpotPrice price={price} />
-        <div className="right-side flex-container">
-          <SpotRating rating={rating} />
-          <NumReviews numReviews={numReviews} />
-        </div>
+
+        <RatingAndReviews
+          classes="right-side"
+          rating={rating}
+          numReviews={numReviews}
+        />
       </div>
       <button
         onClick={() => {
