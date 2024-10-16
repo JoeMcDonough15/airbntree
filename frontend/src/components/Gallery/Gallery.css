@@ -1,0 +1,15 @@
+.gallery {
+  height: 44vw; /* since the width will be 88% of the vw and we want a rectangle */
+  max-height: 500px;
+  width: 100%; /* this will be 88% of the viewport */
+}
+
+.gallery-featured,
+.gallery-unfeatured {
+  width: 50%;
+}
+
+.gallery-unfeatured > .image-row {
+  height: 50%;
+  width: 100%;
+}

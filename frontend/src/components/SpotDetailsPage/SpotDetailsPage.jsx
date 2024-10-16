@@ -4,6 +4,7 @@ import { getSpotDetailsThunk } from "../../store/spots";
 import { useEffect } from "react";
 import SpotLocation from "../SpotLocation";
 import BookReservation from "../BookReservation";
+import Gallery from "../Gallery";
 
 import "./SpotDetailsPage.css";
 
@@ -16,7 +17,10 @@ const SpotDetailsPage = () => {
     dispatch(getSpotDetailsThunk(spotId));
   }, [dispatch, spotId]);
 
-  if (Object.values(spot).length === 0) return;
+  if (Object.values(spot).length === 0) {
+    console.log("currentSpotDetails is an empty object");
+    return;
+  }
 
   const {
     name,
@@ -30,15 +34,13 @@ const SpotDetailsPage = () => {
     description,
     numReviews,
   } = spot;
+  // ! every value we pull out of spot will possibly be undefined on the first render of this component
 
   return (
     <section className="flex-container main-container spot-details-container col">
       <h1>{name}</h1>
       <SpotLocation city={city} state={state} country={country} stateFullName />
-      {/* <Gallery /> */}
-      {SpotImages.map((image) => (
-        <img key={image.id} src={image.url} /> // ! these render in the order they are in in the array.  NOT preview first
-      ))}
+      {SpotImages && <Gallery imagesArr={SpotImages} />}
       <div className="details-and-reserve flex-container">
         <div className="host-and-description">
           <p>
