@@ -25,10 +25,12 @@ const EditASpotPage = () => {
     setSpotImageFourUrl,
     setSpotImageFiveUrl,
     setSpotToEdit,
+    setUserErrors,
   } = useSpotFormContext();
 
   // ! Populate Form Fields
   useEffect(() => {
+    setUserErrors({});
     dispatch(getSpotDetailsThunk(spotId)).then((currentSpot) => {
       const {
         country,
@@ -49,7 +51,8 @@ const EditASpotPage = () => {
       setDescription(description);
       setName(name);
       setPrice(price);
-      setPreviewImageUrl(SpotImages.find((image) => image.preview).url);
+      const previewImg = SpotImages.find((image) => image.preview);
+      previewImg && setPreviewImageUrl(previewImg.url);
 
       const otherImages = SpotImages.filter((image) => !image.preview);
       if (otherImages.length > 0) {
@@ -81,31 +84,30 @@ const EditASpotPage = () => {
     setSpotImageThreeUrl,
     setSpotImageFourUrl,
     setSpotImageFiveUrl,
+    setUserErrors,
   ]); // none of this data should change throughout the lifecycle of this SpotForm component
 
   if (
-    // if there's not currently a currentSpotDetails in state
-    !spotToEdit ||
+    // if currentSpotDetails is an empty object in state.spots
+    Object.keys(spotToEdit).length === 0 ||
     // if the id of the currentSpotDetails spot is different than the one we're accessing
     spotToEdit.id !== Number(spotId) ||
     // if the user does not have authorization to edit this spot
     spotToEdit.ownerId !== user.id
   ) {
+    console.log("spotToEdit: ", spotToEdit);
+    console.log(
+      "number wrapped spot id with spotToEdit.id: ",
+      Number(spotId),
+      spotToEdit.id
+    );
+    console.log(
+      "spotToEdit.ownerId and user.id: ",
+      spotToEdit.ownerId,
+      user.id
+    );
     return <h1>Cannot edit this spot</h1>;
   }
-
-  // ! Function to run when submitting the Form
-
-  //   const editASpot = async (spotDetails) => {
-  //     const imagesToDelete = spotToEdit.SpotImages;
-  //     const imagePromises = imagesToDelete.map((spotImage) => {
-  //       return dispatch(deleteSpotImageThunk(spotToEdit.id, spotImage));
-  //     });
-
-  //     Promise.all(imagePromises).then(() => {
-  //       return dispatch(editASpotThunk(spotToEdit.id, spotDetails));
-  //     });
-  //   };
 
   return (
     <section className="create-edit-spot-page">

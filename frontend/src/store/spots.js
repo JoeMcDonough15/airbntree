@@ -4,6 +4,7 @@ const GET_ALL_SPOTS = "spots/getAllSpots";
 const GET_SPOT_DETAILS = "spots/getSpotDetails";
 const GET_ALL_SPOTS_BY_USER = "spots/getAllSpotsByUser";
 const ADD_NEW_SPOT = "spots/addNewSpot";
+const EDIT_A_SPOT = "spots/editASpot";
 const DELETE_SPOT_IMAGE = "spots/deleteSpotImage";
 const ADD_SPOT_IMAGE = "spots/addSpotImage";
 
@@ -32,6 +33,13 @@ export const addNewSpot = (newSpot) => {
   return {
     type: ADD_NEW_SPOT,
     newSpot,
+  };
+};
+
+export const editASpot = (updatedSpot) => {
+  return {
+    type: EDIT_A_SPOT,
+    updatedSpot,
   };
 };
 
@@ -96,6 +104,23 @@ export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
   }
 };
 
+export const editASpotThunk = (spotId, spotDetails) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+      method: "PUT",
+      body: JSON.stringify(spotDetails),
+    });
+    const updatedSpot = await response.json();
+    dispatch(editASpot(updatedSpot));
+    console.log("returning this out of editASpotThunk: ", updatedSpot);
+    return updatedSpot;
+  } catch (response) {
+    const errorResponse = await response.json();
+    console.log("returning this out of editASpotThunk: ", errorResponse);
+    return errorResponse;
+  }
+};
+
 export const addImageToSpotThunk = (spotId, imageData) => async (dispatch) => {
   try {
     const response = await csrfFetch(`/api/spots/${spotId}/images`, {
@@ -126,7 +151,6 @@ export const deleteSpotImageThunk = (spotId, imageData) => async (dispatch) => {
 const initialState = {
   spotsArray: [],
   spotsFlattened: {},
-  spotsByCurrentUser: [],
   currentSpotDetails: {},
 };
 const spotsReducer = (state = initialState, action) => {
@@ -161,7 +185,7 @@ const spotsReducer = (state = initialState, action) => {
       });
       const newState = {
         ...state,
-        spotsByCurrentUser: action.spotsArr,
+        spotsArray: action.spotsArr,
         spotsFlattened: spotsObj,
       };
       return newState;
@@ -170,10 +194,30 @@ const spotsReducer = (state = initialState, action) => {
     case ADD_NEW_SPOT: {
       const newState = { ...state }; // whatever the state is currently; this can be impacted by refreshing and by navigating to different pages that dispatch different thunks/actions on mount
       // the new spot won't have all the same data that the others do.  The route GET api/spots returns previewImage and avgRating properties that the POST api/spots does not.
-      newState.spotsArray = [...newState.spotsArray, action.newSpot];
+      newState.spotsArray = [action.newSpot, ...newState.spotsArray];
       newState.spotsFlattened = {
         ...newState.spotsFlattened,
         [action.newSpot.id]: action.newSpot,
+      };
+
+      return newState;
+    }
+
+    case EDIT_A_SPOT: {
+      const newState = { ...state };
+      // copy the array of spots that we just copied into newState
+      const updatedSpots = newState.spotsArray.slice();
+      // perform mutations on the copy only
+      const indexOfUpdatedSpot = updatedSpots.findIndex(
+        (spot) => spot.id === action.updatedSpot.id
+      );
+      updatedSpots.splice(indexOfUpdatedSpot, 1); // we could insert the newly updated spot here as third argument
+      // reassign the newState's spotsArray to be the copied array after splicing out the one we're updating
+      newState.spotsArray = [action.updatedSpot, ...updatedSpots]; // but this way, we put the newly updated one at the front for when we visit the homepage
+      // reassign the spotsFlattened to a copy of itself but with the newly updated spot replacing the one that was there
+      newState.spotsFlattened = {
+        ...newState.spotsFlattened,
+        [action.updatedSpot.id]: action.updatedSpot,
       };
 
       return newState;
@@ -183,21 +227,27 @@ const spotsReducer = (state = initialState, action) => {
       const newState = { ...state };
       const { spotId, newImage } = action.imageData;
       if (newImage.preview) {
-        // then also add this image's url to the correct spot in spotsArray as previewImage
-        newState.spotsArray = newState.spotsArray.map((spotObj) => {
-          if (spotObj.id === spotId) {
-            spotObj.previewImage = newImage.url;
+        // then reassign newState.spotsArray to a new array where this image's url is at the correct spot as its previewImage
+        newState.spotsArray = newState.spotsArray.map(
+          (spotObj, index, array) => {
+            // replace the previewImage on the one whose id matches the action's id
+            if (spotObj.id === spotId) {
+              array[index] = { ...spotObj, previewImage: newImage.url };
+            }
+            // then return all of the spot objects, so we don't leave out any spots in the array we're assigning to newState.spotsArray
+            return spotObj;
           }
-          return spotObj;
-        });
-      }
+        );
 
-      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.  Creating or editing a spot and adding new images does not give us all the details we'd need for the currentSpotDetails object.
-      // finally, add the new image to currentSpotDetails before we update the state
-      // newState.currentSpotDetails.SpotImages = [
-      //   ...newState.currentSpotDetails.SpotImages,
-      //   newImage,
-      // ];
+        // update the spotsFlattened to reflect the correct previewImage since this newly added image is the preview
+        newState.spotsFlattened = {
+          ...newState.spotsFlattened,
+          [spotId]: {
+            ...newState.spotsFlattened[spotId],
+            previewImage: newImage.url,
+          },
+        };
+      }
 
       // update the state of spots
       return newState;
@@ -206,25 +256,40 @@ const spotsReducer = (state = initialState, action) => {
     case DELETE_SPOT_IMAGE: {
       // shallow copy the state object
       const newState = { ...state };
+      // pull out the values from the action object
       const { spotId, deletedImage } = action.imageData;
-      // if the image we're deleting is the preview image for any one of the
+      // if the image we're deleting is the preview image for any one of the objects in newState.spotsArray
       if (deletedImage.preview) {
-        // then also remove it from spotsArray
-        newState.spotsArray.forEach((spotObj) => {
-          if (spotObj.previewImage === deletedImage.url) {
-            delete spotObj.previewImage;
+        // we know we need to reassign newState.spotsArray to a new array
+        const copyOfSpotsArray = newState.spotsArray.slice();
+        const newSpotsArray = copyOfSpotsArray.map((spotObj) => {
+          if (spotObj.id === spotId) {
+            spotObj = { ...spotObj, previewImage: null };
+            console.log(
+              "spot object after setting its preview image to null: ",
+              spotObj
+            );
           }
-        });
-        // and remove it from the flattened spots object // ? Do I have to do this since the spotsArray points to the same objects that are in spotsFlattened?
-        delete newState.spotsFlattened[spotId].previewImage;
-      }
 
-      // ! do not set newState.currentSpotDetails here because we don't have all the details.  We'd need to dispatch the action GET_SPOT_DETAILS to have what we need for that object.  Creating or editing a spot and deleting images does not give us all the details we'd need for the currentSpotDetails object.
-      // whether it's the previewImage or not, we have to remove the image from currentSpotDetails because that property of newState contains every image that belongs to the spot, including the one we're deleting!
-      // const spotImages = newState.currentSpotDetails.SpotImages;
-      // newState.currentSpotDetails.SpotImages = [
-      //   ...spotImages.filter((image) => image.id !== deletedImage.id),
-      // ];
+          return spotObj;
+        });
+
+        console.log(
+          "/n/nthis is the new array we are replacing newState.spotsArray with: ",
+          newSpotsArray,
+          "/n/n"
+        );
+        newState.spotsArray = newSpotsArray;
+
+        // now reassign the spotsFlattened to a new object
+        newState.spotsFlattened = {
+          ...newState.spotsFlattened,
+          [spotId]: {
+            ...newState.spotsFlattened[spotId],
+            previewImage: null,
+          },
+        };
+      }
 
       return newState;
     }

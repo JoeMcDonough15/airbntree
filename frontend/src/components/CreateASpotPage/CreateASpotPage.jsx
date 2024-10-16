@@ -19,6 +19,7 @@ const CreateASpotPage = () => {
     setSpotImageThreeUrl,
     setSpotImageFourUrl,
     setSpotImageFiveUrl,
+    setUserErrors,
   } = useSpotFormContext();
 
   // ! Reset Form Fields in case we're coming from EditASpotPage
@@ -36,6 +37,7 @@ const CreateASpotPage = () => {
     setSpotImageThreeUrl("");
     setSpotImageFourUrl("");
     setSpotImageFiveUrl("");
+    setUserErrors({});
   }, [
     dispatch,
     setSpotToEdit,
@@ -51,6 +53,7 @@ const CreateASpotPage = () => {
     setSpotImageThreeUrl,
     setSpotImageFourUrl,
     setSpotImageFiveUrl,
+    setUserErrors,
   ]);
 
   return (

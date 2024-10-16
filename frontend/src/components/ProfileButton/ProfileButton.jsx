@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
@@ -58,8 +58,13 @@ function ProfileButton({ user }) {
             <div>
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
-              <li>
-                <NavLink to="/spots/current">Manage Spots</NavLink>
+              <li
+                onClick={(e) => {
+                  toggleMenu(e);
+                  navigate("/spots/current");
+                }}
+              >
+                Manage Spots
               </li>
             </div>
             <li>
