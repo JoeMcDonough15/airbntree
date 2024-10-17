@@ -7,8 +7,10 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import "./index.css";
 import * as sessionActions from "./store/session";
 import * as reviewActions from "./store/reviews";
+// context providers
 import { ModalProvider, Modal } from "./context/Modal";
 import { SpotFormProvider } from "./context/SpotFormContext";
+import { ReviewFormProvider } from "./context/ReviewFormContext";
 
 const store = configureStore();
 
@@ -29,7 +31,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <ModalProvider>
       <Provider store={store}>
         <SpotFormProvider>
-          <App />
+          <ReviewFormProvider>
+            <App />
+          </ReviewFormProvider>
         </SpotFormProvider>
         <Modal />
       </Provider>
