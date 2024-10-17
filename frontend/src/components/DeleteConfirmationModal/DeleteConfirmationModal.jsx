@@ -1,5 +1,6 @@
 import { useModal } from "../../context/Modal";
 import { deleteASpotThunk } from "../../store/spots";
+import { deleteAReviewThunk } from "../../store/reviews";
 import { useDispatch } from "react-redux";
 
 const DeleteConfirmationModal = ({
@@ -11,13 +12,11 @@ const DeleteConfirmationModal = ({
   const { closeModal } = useModal();
   const handleDelete = () => {
     // depending on the subject passed in, call one of two thunks
-    //   dispatch(
-    //     subjectType === spot
-    //       ? deleteASpotThunk(subjectId)
-    //       : deleteAReviewThunk(subjectId)
-    //   );
-    // call thunk action to remove spot, using the subjectId as spotId
-    dispatch(deleteASpotThunk(subjectId)).then((response) => {
+    dispatch(
+      subjectType === "spot"
+        ? deleteASpotThunk(subjectId)
+        : deleteAReviewThunk(subjectId)
+    ).then((response) => {
       if (response.error) {
         window.alert(response.error);
       }

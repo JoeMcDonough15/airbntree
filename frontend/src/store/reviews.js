@@ -36,10 +36,10 @@ export const editAReview = (editedReview) => {
   };
 };
 
-export const deleteAReview = (deletedReview) => {
+export const deleteAReview = (deletedReviewId) => {
   return {
     type: DELETE_A_REVIEW,
-    deletedReview,
+    deletedReviewId,
   };
 };
 
@@ -114,7 +114,7 @@ export const deleteAReviewThunk = (reviewId) => async (dispatch) => {
       method: "DELETE",
     });
     const review = await response.json();
-    dispatch(deleteAReview(review));
+    dispatch(deleteAReview(reviewId));
     return review;
   } catch (response) {
     const parsedError = response.json();
@@ -191,10 +191,10 @@ const reviewsReducer = (state = initialState, action) => {
 
     case DELETE_A_REVIEW: {
       const newReviewsArray = state.allReviews.filter(
-        (review) => review.id !== action.deletedReview.id
+        (review) => review.id !== action.deletedReviewId
       );
       const newFlattened = { ...state.flattenedReviews };
-      delete newFlattened[action.deletedReview.id];
+      delete newFlattened[action.deletedReviewId];
 
       const newState = {
         allReviews: newReviewsArray,
