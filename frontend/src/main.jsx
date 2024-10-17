@@ -31,11 +31,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <ModalProvider>
       <Provider store={store}>
         <SpotFormProvider>
-          <ReviewFormProvider>
-            <App />
-          </ReviewFormProvider>
+          <App />
         </SpotFormProvider>
-        <Modal />
+        <ReviewFormProvider>
+          <Modal />
+        </ReviewFormProvider>
       </Provider>
     </ModalProvider>
   </React.StrictMode>

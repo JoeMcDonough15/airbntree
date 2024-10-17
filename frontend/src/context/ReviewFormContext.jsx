@@ -6,7 +6,10 @@ export const useReviewFormContext = () => useContext(ReviewFormContext); // cust
 
 export const ReviewFormProvider = ({ children }) => {
   const [reviewText, setReviewText] = useState("");
-  const [starRating, setStarRating] = useState(1);
+  const [starRating, setStarRating] = useState(0);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [buttonText, setButtonText] = useState("Submit");
+  const [userErrors, setUserErrors] = useState({});
   //   const [reviewImageOneUrl, setReviewImageOneUrl] = useState("");
   //   const [reviewImageTwoUrl, setReviewImageTwoUrl] = useState("");
   //   const [reviewImageThreeUrl, setReviewImageThreeUrl] = useState("");
@@ -18,7 +21,19 @@ export const ReviewFormProvider = ({ children }) => {
   //   const [reviewImageNineUrl, setReviewImageNineUrl] = useState("");
   //   const [reviewImageTenUrl, setReviewImageTenUrl] = useState("");
 
-  const ContextValue = { reviewText, setReviewText, starRating, setStarRating };
+  const ContextValue = {
+    reviewText,
+    setReviewText,
+    starRating,
+    setStarRating,
+    buttonDisabled,
+    setButtonDisabled,
+    buttonText,
+    setButtonText,
+    userErrors,
+    setUserErrors,
+  };
+
   return (
     <ReviewFormContext.Provider value={ContextValue}>
       {children}

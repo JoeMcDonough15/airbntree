@@ -79,26 +79,31 @@ export const createAReviewForASpotThunk =
         method: "POST",
         body: JSON.stringify(reviewObj),
       });
+      console.log("successful response: ", response);
       const review = await response.json();
       dispatch(createAReview(review));
       return review;
     } catch (response) {
-      const parsedError = response.json();
+      console.log("error response: ", response);
+      const parsedError = await response.json();
       return parsedError;
     }
   };
 
-export const editAReviewThunk = (reviewId, reviewObj) => async (dispatch) => {
+export const editAReviewThunk = (reviewObj) => async (dispatch) => {
   try {
-    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    const response = await csrfFetch(`/api/reviews/${reviewObj.id}`, {
       method: "PUT",
       body: JSON.stringify(reviewObj),
     });
+    // console.log("successful response: ", response);
     const review = await response.json();
     dispatch(editAReview(review));
     return review;
   } catch (response) {
-    const parsedError = response.json();
+    console.log("error response: ", response);
+    const parsedError = await response.json();
+    console.log("parsed error: ", parsedError);
     return parsedError;
   }
 };

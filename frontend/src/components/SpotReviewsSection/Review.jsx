@@ -1,12 +1,17 @@
+import { useSelector } from "react-redux";
+import OpenModalController from "../OpenModalController";
+import ReviewFormModal from "../ReviewFormModal";
+
 // ! be sure that review is truthy before returning any jsx
 
-const Review = ({ reviewObj }) => {
-  if (Object.values(reviewObj) === 0) return;
+const Review = ({ spotName, reviewObj }) => {
+  const currentUserId = useSelector((state) => state.session.user.id);
 
   const {
     User: { firstName },
     createdAt,
     review,
+    id: reviewId,
   } = reviewObj;
 
   const monthAndYear = createdAt.split(" ")[0].split("-");
@@ -34,6 +39,18 @@ const Review = ({ reviewObj }) => {
       <h2>{firstName}</h2>
       <p>{`${month} ${year}`}</p>
       <p>{review}</p>
+      {currentUserId === reviewId && (
+        <OpenModalController
+          controllerText="Update Your Review"
+          elementName="button"
+          modalComponent={
+            <ReviewFormModal
+              headerText={`How was your stay at ${spotName}?`}
+              reviewObj={reviewObj}
+            />
+          }
+        />
+      )}
     </div>
   );
 };

@@ -1,28 +1,39 @@
 import RatingAndReviews from "../RatingAndReviews";
 import Review from "./Review";
 import { useSelector } from "react-redux";
-import LeaveAReviewButton from "./LeaveAReviewButton";
+import OpenModalController from "../OpenModalController";
+import ReviewFormModal from "../ReviewFormModal";
 
 const SpotReviewsSection = ({ reviewsArray, rating, numReviews }) => {
   const userId = useSelector((state) => state.session.user?.id);
-  const spotOwnerId = useSelector(
-    (state) => state.spots.currentSpotDetails?.ownerId
-  );
+  const currentSpot = useSelector((state) => state.spots.currentSpotDetails);
 
   return (
     <section>
       <RatingAndReviews rating={rating} numReviews={numReviews} />
-      {userId && userId !== spotOwnerId && <LeaveAReviewButton />}
+      {userId && currentSpot.id && userId !== currentSpot.ownerId && (
+        <OpenModalController
+          controllerText="Post Your Review"
+          elementName="button"
+          modalComponent={<ReviewFormModal />}
+        />
+      )}
       <>
         {reviewsArray.length > 0 ? (
           <>
             {reviewsArray.map((reviewObj, index) => {
-              return <Review key={index} reviewObj={reviewObj} />;
+              return (
+                <Review
+                  key={index}
+                  spotName={currentSpot.name}
+                  reviewObj={reviewObj}
+                />
+              );
             })}
           </>
         ) : (
           <>
-            {userId && userId !== spotOwnerId && (
+            {userId && currentSpot.id && userId !== currentSpot.id && (
               <p>Be the first to post a review!</p>
             )}
           </>
