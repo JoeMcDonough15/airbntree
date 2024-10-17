@@ -26,7 +26,7 @@ const SpotTile = ({ spotId, children }) => {
         imageAltText="A preview image of the spot"
       />
       <div className="location-and-rating flex-container">
-        <SpotLocation city={spot.city} state={spot.state} />
+        <SpotLocation city={spot.city} state={spot.state} abbreviateState />
         <SpotRating rating={spot.avgRating} />
       </div>
       <SpotPrice price={spot.price} />

@@ -22,7 +22,7 @@ const SpotDetailsPage = () => {
   return (
     <section className="flex-container main-container spot-details-container col">
       <h1>{spot?.name}</h1>
-      <SpotLocation city={spot?.city} state={spot?.state} showStateFullName />
+      <SpotLocation city={spot?.city} state={spot?.state} />
 
       <Gallery />
       <div className="details-and-reserve flex-container">

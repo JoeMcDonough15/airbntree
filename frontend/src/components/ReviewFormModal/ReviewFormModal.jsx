@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import ReviewForm from "../ReviewForm";
 
 const ReviewFormModal = ({ spotName, reviewObj }) => {
+  // ! commented out code was an unsuccessful attempt to initialize the state of the form based on whether or not we are updating an existing review
   //   const currentReview = useSelector((state) => state.reviews.currentReview);
   //   const dispatch = useDispatch();
   const {
@@ -56,8 +57,6 @@ const ReviewFormModal = ({ spotName, reviewObj }) => {
     setButtonText,
     setUserErrors,
   ]);
-
-  // initialize the state of the form based on whether or not we are updating an existing review
 
   return (
     <section className="modal-container">
