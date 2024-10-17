@@ -6,6 +6,8 @@ import SpotRating from "../SpotRating";
 import SpotPrice from "../SpotPrice";
 import "./SpotTile.css";
 
+// ! why does this component have { children }?
+
 const SpotTile = ({ spotId, children }) => {
   const spot = useSelector((state) => state.spots.spotsFlattened[spotId]);
   const navigate = useNavigate();

@@ -59,6 +59,7 @@ function ProfileButton({ user }) {
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
               <li
+                className="manage-spots-redirect"
                 onClick={(e) => {
                   toggleMenu(e);
                   navigate("/spots/current");

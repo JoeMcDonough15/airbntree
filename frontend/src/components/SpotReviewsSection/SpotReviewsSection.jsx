@@ -4,14 +4,17 @@ import { useSelector } from "react-redux";
 import OpenModalController from "../OpenModalController";
 import ReviewFormModal from "../ReviewFormModal";
 
-const SpotReviewsSection = ({ reviewsArray, rating, numReviews }) => {
+const SpotReviewsSection = () => {
   const userId = useSelector((state) => state.session.user?.id);
   const currentSpot = useSelector((state) => state.spots.currentSpotDetails);
+  const reviewsForCurrentSpot = useSelector(
+    (state) => state.reviews.allReviews
+  ); // [] when component first mounts
 
   return (
     <section>
-      <RatingAndReviews rating={rating} numReviews={numReviews} />
-      {userId && currentSpot.id && userId !== currentSpot.ownerId && (
+      <RatingAndReviews />
+      {userId && currentSpot?.id && userId !== currentSpot?.ownerId && (
         <OpenModalController
           controllerText="Post Your Review"
           elementName="button"
@@ -19,21 +22,15 @@ const SpotReviewsSection = ({ reviewsArray, rating, numReviews }) => {
         />
       )}
       <>
-        {reviewsArray.length > 0 ? (
+        {reviewsForCurrentSpot.length > 0 ? (
           <>
-            {reviewsArray.map((reviewObj, index) => {
-              return (
-                <Review
-                  key={index}
-                  spotName={currentSpot.name}
-                  reviewObj={reviewObj}
-                />
-              );
+            {reviewsForCurrentSpot.map((reviewObj, index) => {
+              return <Review key={index} reviewObj={reviewObj} />;
             })}
           </>
         ) : (
           <>
-            {userId && currentSpot.id && userId !== currentSpot.id && (
+            {userId && currentSpot?.id && userId !== currentSpot?.id && (
               <p>Be the first to post a review!</p>
             )}
           </>

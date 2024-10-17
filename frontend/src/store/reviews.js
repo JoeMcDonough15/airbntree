@@ -79,13 +79,13 @@ export const createAReviewForASpotThunk =
         method: "POST",
         body: JSON.stringify(reviewObj),
       });
-      console.log("successful response: ", response);
+
       const review = await response.json();
       dispatch(createAReview(review));
       return review;
     } catch (response) {
-      console.log("error response: ", response);
       const parsedError = await response.json();
+
       return parsedError;
     }
   };
@@ -96,14 +96,13 @@ export const editAReviewThunk = (reviewObj) => async (dispatch) => {
       method: "PUT",
       body: JSON.stringify(reviewObj),
     });
-    // console.log("successful response: ", response);
+
     const review = await response.json();
     dispatch(editAReview(review));
     return review;
   } catch (response) {
-    console.log("error response: ", response);
     const parsedError = await response.json();
-    console.log("parsed error: ", parsedError);
+
     return parsedError;
   }
 };

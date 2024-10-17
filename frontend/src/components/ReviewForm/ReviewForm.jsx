@@ -54,7 +54,6 @@ const ReviewForm = ({ reviewToEdit }) => {
     }
 
     if (newReview.errors) {
-      console.log(newReview);
       setUserErrors(newReview.errors);
     } else {
       dispatch(setCurrentReview({}));

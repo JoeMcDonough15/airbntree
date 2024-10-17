@@ -4,15 +4,11 @@ import ReviewFormModal from "../ReviewFormModal";
 
 // ! be sure that review is truthy before returning any jsx
 
-const Review = ({ spotName, reviewObj }) => {
-  const currentUserId = useSelector((state) => state.session.user.id);
+const Review = ({ reviewObj }) => {
+  const currentUser = useSelector((state) => state.session.user);
+  const currentSpot = useSelector((state) => state.spots.currentSpotDetails);
 
-  const {
-    User: { firstName },
-    createdAt,
-    review,
-    id: reviewId,
-  } = reviewObj;
+  const { createdAt, review, id: reviewId } = reviewObj;
 
   const monthAndYear = createdAt.split(" ")[0].split("-");
 
@@ -36,16 +32,16 @@ const Review = ({ spotName, reviewObj }) => {
 
   return (
     <div className="col">
-      <h2>{firstName}</h2>
+      <h2>{currentUser?.firstName}</h2>
       <p>{`${month} ${year}`}</p>
       <p>{review}</p>
-      {currentUserId === reviewId && (
+      {currentUser.id === reviewId && (
         <OpenModalController
           controllerText="Update Your Review"
           elementName="button"
           modalComponent={
             <ReviewFormModal
-              headerText={`How was your stay at ${spotName}?`}
+              headerText={`How was your stay at ${currentSpot?.name}?`}
               reviewObj={reviewObj}
             />
           }

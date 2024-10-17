@@ -1,13 +1,10 @@
 import stateMap from "./stateMap";
 
-const SpotLocation = ({ city, state, country, stateFullName }) => {
-  if (!stateFullName) {
-    state = stateMap[state];
-  }
+const SpotLocation = ({ city, state, country, showStateFullName }) => {
   return (
-    <span className="spot-location">{`${city}, ${state} ${
-      country ? `, ${country}` : ""
-    }`}</span>
+    <span className="spot-location">{`${city}, ${
+      !showStateFullName ? stateMap[state] : state
+    } ${country ? `, ${country}` : ""}`}</span>
   );
 };
 
