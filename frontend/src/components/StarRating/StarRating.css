@@ -1,0 +1,11 @@
+.star-icon {
+  color: var(--light-gray);
+}
+
+.star-icon:hover {
+  cursor: pointer;
+}
+
+.star-icon.selected {
+  color: var(--green);
+}

@@ -2,6 +2,7 @@ import { useReviewFormContext } from "../../context/ReviewFormContext";
 import { useEffect } from "react";
 import FormField from "../FormField";
 import ErrorText from "../ErrorText";
+import StarRating from "../StarRating";
 import {
   createAReviewForASpotThunk,
   editAReviewThunk,
@@ -76,6 +77,7 @@ const ReviewForm = ({ reviewToEdit }) => {
         setInputVal={setReviewText}
         labelText="Leave your review here..."
       />
+      <StarRating />
       <button
         disabled={buttonDisabled}
         type="submit"
