@@ -30,7 +30,7 @@ const ReviewFormModal = ({ spotName, reviewObj }) => {
 
     if (!reviewObj) {
       setReviewText("");
-      setStarRating(5); // ! set to 5 for testing
+      setStarRating(1); // ! set to 5 for testing
       setButtonDisabled(true);
       setButtonText("Submit");
       return;

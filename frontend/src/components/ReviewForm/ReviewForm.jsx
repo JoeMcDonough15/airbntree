@@ -6,6 +6,7 @@ import {
   createAReviewForASpotThunk,
   editAReviewThunk,
 } from "../../store/reviews";
+import { getSpotDetailsThunk } from "../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 
@@ -21,14 +22,14 @@ const ReviewForm = ({ reviewToEdit }) => {
     setUserErrors,
   } = useReviewFormContext();
 
-  const spotId = useSelector((state) => state.spots.currentSpotDetails?.id);
+  const spotId = useSelector((state) => state.spots.currentSpotDetails.id);
 
   const dispatch = useDispatch();
 
   const { closeModal } = useModal();
 
   useEffect(() => {
-    if (reviewText.length >= 10 && starRating > 1) {
+    if (reviewText.length >= 10 && starRating >= 1) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
@@ -52,6 +53,10 @@ const ReviewForm = ({ reviewToEdit }) => {
       newReview = await dispatch(
         createAReviewForASpotThunk(spotId, reviewDetails)
       );
+    }
+
+    if (newReview && spotId) {
+      dispatch(getSpotDetailsThunk(spotId));
     }
 
     if (newReview.message) {
