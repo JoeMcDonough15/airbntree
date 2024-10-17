@@ -4,7 +4,7 @@ import { useEffect } from "react";
 // import { setCurrentReview } from "../../store/reviews";
 import ReviewForm from "../ReviewForm";
 
-const ReviewFormModal = ({ headerText, reviewObj }) => {
+const ReviewFormModal = ({ spotName, reviewObj }) => {
   //   const currentReview = useSelector((state) => state.reviews.currentReview);
   //   const dispatch = useDispatch();
   const {
@@ -61,7 +61,7 @@ const ReviewFormModal = ({ headerText, reviewObj }) => {
 
   return (
     <section className="modal-container">
-      <h2>{headerText}</h2>
+      <h2>{`How was your stay${spotName ? ` at ${spotName}` : ""}?`}</h2>
       <ReviewForm reviewToEdit={reviewObj} />;
     </section>
   );

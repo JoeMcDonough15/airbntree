@@ -90,22 +90,23 @@ export const createAReviewForASpotThunk =
     }
   };
 
-export const editAReviewThunk = (reviewObj) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/reviews/${reviewObj.id}`, {
-      method: "PUT",
-      body: JSON.stringify(reviewObj),
-    });
+export const editAReviewThunk =
+  (reviewIdToEdit, reviewObj) => async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/reviews/${reviewIdToEdit}`, {
+        method: "PUT",
+        body: JSON.stringify(reviewObj),
+      });
 
-    const review = await response.json();
-    dispatch(editAReview(review));
-    return review;
-  } catch (response) {
-    const parsedError = await response.json();
+      const review = await response.json();
+      dispatch(editAReview(review));
+      return review;
+    } catch (response) {
+      const parsedError = await response.json();
 
-    return parsedError;
-  }
-};
+      return parsedError;
+    }
+  };
 
 export const deleteAReviewThunk = (reviewId) => async (dispatch) => {
   try {

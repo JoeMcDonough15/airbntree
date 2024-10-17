@@ -46,7 +46,9 @@ const ReviewForm = ({ reviewToEdit }) => {
 
     let newReview;
     if (reviewToEdit) {
-      newReview = await dispatch(editAReviewThunk(reviewToEdit, reviewDetails));
+      newReview = await dispatch(
+        editAReviewThunk(reviewToEdit.id, reviewDetails)
+      );
     } else {
       newReview = await dispatch(
         createAReviewForASpotThunk(spotId, reviewDetails)
