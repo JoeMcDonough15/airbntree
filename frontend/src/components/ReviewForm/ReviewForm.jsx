@@ -5,7 +5,6 @@ import ErrorText from "../ErrorText";
 import {
   createAReviewForASpotThunk,
   editAReviewThunk,
-  setCurrentReview,
 } from "../../store/reviews";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -55,10 +54,9 @@ const ReviewForm = ({ reviewToEdit }) => {
       );
     }
 
-    if (newReview.errors) {
-      setUserErrors(newReview.errors);
+    if (newReview.message) {
+      setUserErrors({ serverError: newReview.message });
     } else {
-      dispatch(setCurrentReview({}));
       closeModal();
     }
   };

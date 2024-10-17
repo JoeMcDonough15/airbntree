@@ -1,7 +1,6 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ALL_REVIEWS = "reviews/getAllReviews";
-const SET_CURRENT_REVIEW = "reviews/setCurrentReview";
 const CREATE_A_REVIEW = "reviews/createAReview";
 const EDIT_A_REVIEW = "reviews/editAReview";
 const DELETE_A_REVIEW = "reviews/deleteAReview";
@@ -12,13 +11,6 @@ export const getAllReviews = (reviewsArr) => {
   return {
     type: GET_ALL_REVIEWS,
     reviewsArr,
-  };
-};
-
-export const setCurrentReview = (review) => {
-  return {
-    type: SET_CURRENT_REVIEW,
-    review,
   };
 };
 
@@ -127,7 +119,6 @@ export const deleteAReviewThunk = (reviewId) => async (dispatch) => {
 const initialState = {
   allReviews: [],
   flattenedReviews: {},
-  currentReview: {},
 };
 
 const reviewsReducer = (state = initialState, action) => {
@@ -141,14 +132,8 @@ const reviewsReducer = (state = initialState, action) => {
         ...state,
         allReviews: action.reviewsArr,
         flattenedReviews: newFlattened,
-        currentReview: {},
       };
 
-      return newState;
-    }
-
-    case SET_CURRENT_REVIEW: {
-      const newState = { ...state, currentReview: action.review }; // this should only ever be used when we want to populate the fields of the review modal with the contents of a review that we are about to edit
       return newState;
     }
 
@@ -162,7 +147,6 @@ const reviewsReducer = (state = initialState, action) => {
       const newState = {
         allReviews: newReviewsArray,
         flattenedReviews: newFlattened,
-        currentReview: {}, // set currentReview to {} so that next time we go to post a review, the state of the ReviewContext is not set to the last review we submitted
       };
 
       return newState;
@@ -183,7 +167,6 @@ const reviewsReducer = (state = initialState, action) => {
       const newState = {
         allReviews: newReviewsArray,
         flattenedReviews: newFlattened,
-        currentReview: {}, // set currentReview to {} so that next time we go to post a review, the state of the ReviewContext is not set to the last review we submitted
       };
 
       return newState;
@@ -199,7 +182,6 @@ const reviewsReducer = (state = initialState, action) => {
       const newState = {
         allReviews: newReviewsArray,
         flattenedReviews: newFlattened,
-        currentReview: {},
       };
 
       return newState;

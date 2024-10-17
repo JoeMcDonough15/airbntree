@@ -43,6 +43,7 @@ const SpotReviewsSection = () => {
             modalComponent={<ReviewFormModal />}
           />
         )}
+
       <>
         {reviewsForCurrentSpot.length > 0 ? (
           <>
