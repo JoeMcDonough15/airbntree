@@ -66,7 +66,7 @@ const Review = ({ currentReview }) => {
             elementName="button"
             modalComponent={
               <DeleteConfirmationModal
-                confirmationMessage="custom message here"
+                confirmationMessage="Are you sure you want to delete this review?"
                 subjectType="review"
                 subjectId={currentReview?.id}
               />

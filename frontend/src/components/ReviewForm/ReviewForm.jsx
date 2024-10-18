@@ -10,6 +10,7 @@ import {
 import { getSpotDetailsThunk } from "../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
+import "./ReviewForm.css";
 
 const ReviewForm = ({ reviewToEdit }) => {
   const {
@@ -77,7 +78,11 @@ const ReviewForm = ({ reviewToEdit }) => {
         setInputVal={setReviewText}
         labelText="Leave your review here..."
       />
-      <StarRating />
+      <div className="flex-container star-row">
+        <StarRating />
+        <span>Stars</span>
+      </div>
+
       <button
         disabled={buttonDisabled}
         type="submit"

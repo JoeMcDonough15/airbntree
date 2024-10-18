@@ -12,7 +12,7 @@ const StarRating = () => {
     setActiveRating(starRating);
   }, [starRating, setActiveRating]);
 
-  const starClassName = "star-icon";
+  const starClassName = "flex-container star-icon";
 
   const getNumStars = (idString) => {
     const index = idString.indexOf("_");
@@ -22,7 +22,7 @@ const StarRating = () => {
   };
 
   return (
-    <div className="flex-container">
+    <div className="star-icons flex-container">
       {Array(MAX_STARS)
         .fill(null)
         .map((_, index) => {
