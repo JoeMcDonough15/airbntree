@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import sortByMostRecent from "./sortResources";
 
 const GET_ALL_REVIEWS = "reviews/getAllReviews";
 const CREATE_A_REVIEW = "reviews/createAReview";
@@ -130,7 +131,7 @@ const reviewsReducer = (state = initialState, action) => {
       });
       const newState = {
         ...state,
-        allReviews: action.reviewsArr,
+        allReviews: sortByMostRecent(action.reviewsArr),
         flattenedReviews: newFlattened,
       };
 
@@ -145,7 +146,7 @@ const reviewsReducer = (state = initialState, action) => {
       };
 
       const newState = {
-        allReviews: newReviewsArray,
+        allReviews: sortByMostRecent(newReviewsArray),
         flattenedReviews: newFlattened,
       };
 
@@ -165,7 +166,7 @@ const reviewsReducer = (state = initialState, action) => {
       newFlattened[action.editedReview.id] = action.editedReview; // places the edited one into the flattenedReviews object
 
       const newState = {
-        allReviews: newReviewsArray,
+        allReviews: sortByMostRecent(newReviewsArray),
         flattenedReviews: newFlattened,
       };
 
@@ -180,7 +181,7 @@ const reviewsReducer = (state = initialState, action) => {
       delete newFlattened[action.deletedReviewId];
 
       const newState = {
-        allReviews: newReviewsArray,
+        allReviews: sortByMostRecent(newReviewsArray),
         flattenedReviews: newFlattened,
       };
 
