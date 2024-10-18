@@ -4,10 +4,11 @@ import { useDispatch } from "react-redux";
 import { restoreUserThunk } from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
-import SpotDetails from "./components/SpotDetailsPage";
+import SpotDetailsPage from "./components/SpotDetailsPage";
 import CreateASpotPage from "./components/CreateASpotPage";
 import EditASpotPage from "./components/EditASpotPage";
 import ManageSpotsPage from "./components/ManageSpotsPage";
+import ManageReviewsPage from "./components/ManageReviewsPage";
 
 const Layout = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -39,11 +40,15 @@ const router = createBrowserRouter([
       {
         path: "/spots",
         children: [
-          { path: ":spotId", element: <SpotDetails /> },
+          { path: ":spotId", element: <SpotDetailsPage /> },
           { path: ":spotId/edit", element: <EditASpotPage /> },
           { path: "new", element: <CreateASpotPage /> },
           { path: "current", element: <ManageSpotsPage /> },
         ],
+      },
+      {
+        path: "/reviews/current",
+        element: <ManageReviewsPage />,
       },
       { path: "/*", element: <h1>Not Found</h1> },
     ],

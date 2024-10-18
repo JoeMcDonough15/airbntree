@@ -76,7 +76,8 @@ button:hover {
 }
 
 .col,
-.modal-container {
+.modal-container,
+.main-container {
   flex-direction: column;
 }
 

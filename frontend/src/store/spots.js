@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import sortByMostRecent from "./sortResources";
 
 const GET_ALL_SPOTS = "spots/getAllSpots";
 const GET_SPOT_DETAILS = "spots/getSpotDetails";
@@ -186,7 +187,7 @@ const spotsReducer = (state = initialState, action) => {
 
       const newState = {
         ...state,
-        spotsArray: action.spotsArr,
+        spotsArray: sortByMostRecent(action.spotsArr),
         spotsFlattened: spotsObj,
       };
 
@@ -207,7 +208,7 @@ const spotsReducer = (state = initialState, action) => {
       });
       const newState = {
         ...state,
-        spotsArray: action.spotsArr,
+        spotsArray: sortByMostRecent(action.spotsArr),
         spotsFlattened: spotsObj,
       };
       return newState;
@@ -216,7 +217,10 @@ const spotsReducer = (state = initialState, action) => {
     case ADD_NEW_SPOT: {
       const newState = { ...state }; // whatever the state is currently; this can be impacted by refreshing and by navigating to different pages that dispatch different thunks/actions on mount
       // the new spot won't have all the same data that the others do.  The route GET api/spots returns previewImage and avgRating properties that the POST api/spots does not.
-      newState.spotsArray = [action.newSpot, ...newState.spotsArray];
+      newState.spotsArray = sortByMostRecent([
+        action.newSpot,
+        ...newState.spotsArray,
+      ]);
       newState.spotsFlattened = {
         ...newState.spotsFlattened,
         [action.newSpot.id]: action.newSpot,
@@ -235,9 +239,12 @@ const spotsReducer = (state = initialState, action) => {
       const indexOfUpdatedSpot = updatedSpots.findIndex(
         (spot) => spot.id === action.updatedSpot.id
       );
-      updatedSpots.splice(indexOfUpdatedSpot, 1); // we could insert the newly updated spot here as third argument
+      updatedSpots.splice(indexOfUpdatedSpot, 1);
       // reassign the newState's spotsArray to be the copied array after splicing out the one we're updating
-      newState.spotsArray = [action.updatedSpot, ...updatedSpots]; // but this way, we put the newly updated one at the front for when we visit the homepage
+      newState.spotsArray = sortByMostRecent([
+        action.updatedSpot,
+        ...updatedSpots,
+      ]);
       // reassign the spotsFlattened to a copy of itself but with the newly updated spot replacing the one that was there
       newState.spotsFlattened = {
         ...newState.spotsFlattened,
@@ -253,7 +260,7 @@ const spotsReducer = (state = initialState, action) => {
       const newSpotsArray = newState.spotsArray.filter(
         (spot) => spot.id !== action.deletedSpotId
       );
-      newState.spotsArray = newSpotsArray;
+      newState.spotsArray = sortByMostRecent(newSpotsArray);
       // now reassign newState.spotsFlattened
       const newSpotsFlattened = { ...newState.spotsFlattened };
       delete newSpotsFlattened[action.deletedSpotId];
@@ -269,7 +276,7 @@ const spotsReducer = (state = initialState, action) => {
       const { spotId, newImage } = action.imageData;
       if (newImage.preview) {
         // then reassign newState.spotsArray to a new array where this image's url is at the correct spot as its previewImage
-        newState.spotsArray = newState.spotsArray.map((spotObj) => {
+        const newSpotsArray = newState.spotsArray.map((spotObj) => {
           // replace the previewImage on the one whose id matches the action's id
           if (spotObj.id === spotId) {
             spotObj = { ...spotObj, previewImage: newImage.url };
@@ -277,6 +284,8 @@ const spotsReducer = (state = initialState, action) => {
           // then return all of the spot objects, so we don't leave out any spots in the array we're assigning to newState.spotsArray
           return spotObj;
         });
+
+        newState.spotsArray = sortByMostRecent(newSpotsArray);
 
         // update the spotsFlattened to reflect the correct previewImage since this newly added image is the preview
         newState.spotsFlattened = {
@@ -308,7 +317,7 @@ const spotsReducer = (state = initialState, action) => {
           return spotObj;
         });
 
-        newState.spotsArray = newSpotsArray;
+        newState.spotsArray = sortByMostRecent(newSpotsArray);
 
         // now reassign the spotsFlattened to a new object
         newState.spotsFlattened = {
