@@ -117,6 +117,11 @@ export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
 
 export const editASpotThunk = (spotId, spotDetails) => async (dispatch) => {
   try {
+    console.log(
+      "\n\n\nspot id and new details inside edit thunk: ",
+      spotId,
+      spotDetails
+    );
     const response = await csrfFetch(`/api/spots/${spotId}`, {
       method: "PUT",
       body: JSON.stringify(spotDetails),
@@ -328,6 +333,21 @@ const spotsReducer = (state = initialState, action) => {
           },
         };
       }
+
+      // tell redux about the newly deleted image on the currentSpotDetails; for ALL deleted images, not just preview images
+
+      const newSpotImages = [...newState.currentSpotDetails.SpotImages]; // this is guaranteed to be here because the spots/spotId/edit page is the only path that could lead to this thunk being called.  That page sets the currentSpotDetails to the spot being edited.  guarnateed to have at least 1 image, as the preview image.
+      // find the index of the image that was deleted.
+      const indexOfDeletedImage = newSpotImages.findIndex(
+        (spotImage) => spotImage.id === deletedImage.id
+      );
+
+      // splice that index out of the newSpotImages array, understanding .splice() returns an array of the deleted item(s).
+      // splice will mutate newSpotImages.  So we don't need to capture the return value.
+      newSpotImages.splice(indexOfDeletedImage, 1);
+
+      // now, reassign the value of newState.currentSpotDetails.SpotImages to be the new reference we made (which doesn't include the deleted image object)
+      newState.currentSpotDetails.SpotImages = newSpotImages;
 
       return newState;
     }

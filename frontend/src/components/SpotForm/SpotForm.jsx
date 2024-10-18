@@ -120,9 +120,15 @@ export const SpotForm = () => {
     const imagePromises = imagesToDelete.map((spotImage) => {
       return dispatch(deleteSpotImageThunk(spotToEdit.id, spotImage));
     });
-    const editedSpot = Promise.all(imagePromises).then(() => {
-      return editASpot(spot, newSpotDetails);
-    });
+    const editedSpot = Promise.all(imagePromises)
+      .then((res) => {
+        console.log("\n\nresolved: ", res);
+        return editASpot(spot, newSpotDetails);
+      })
+      .catch((rej) => {
+        console.log("\n\nrejected: ", rej);
+        return editASpot(spot, newSpotDetails);
+      });
 
     return editedSpot;
   };
