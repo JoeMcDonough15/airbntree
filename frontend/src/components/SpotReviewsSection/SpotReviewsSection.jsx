@@ -53,9 +53,10 @@ const SpotReviewsSection = () => {
           </>
         ) : (
           <>
-            {userId && currentSpot?.id && userId !== currentSpot?.id && (
-              <p>Be the first to post a review!</p>
-            )}
+            {userId &&
+              !spotBelongsToCurrentUser(userId, currentSpot.ownerId) && (
+                <p>Be the first to post a review!</p>
+              )}
           </>
         )}
       </>

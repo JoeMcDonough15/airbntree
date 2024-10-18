@@ -6,7 +6,7 @@ import "./StarRating.css";
 const StarRating = () => {
   const { starRating, setStarRating } = useReviewFormContext();
   const [activeRating, setActiveRating] = useState(); // when setting the initial value to be based on another slice of state, wait until the component renders (so use a useEffect hook) to initialize the state
-  const MAX_STARS = 10; // this can now be changed in one place and star options will be reflected
+  const MAX_STARS = 5; // this can now be changed in one place and star options will be reflected
 
   useEffect(() => {
     setActiveRating(starRating);
