@@ -1,16 +1,14 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import OpenModalController from "../OpenModalController";
 import ReviewFormModal from "../ReviewFormModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
 
-const Review = ({ id }) => {
+const Review = ({ currentReview }) => {
+  const { spotId } = useParams(); // for use when rendering the h2 of the Review component
   const currentUser = useSelector((state) => state.session.user); // null if no user is logged in
-  const currentSpot = useSelector((state) => state.spots.currentSpotDetails); // {} on first render
-  const currentReview = useSelector(
-    (state) => state.reviews.flattenedReviews[id]
-  ); // undefined on first render, then an object
-
+  const flattenedSpots = useSelector((state) => state.spots.spotsFlattened); // possibly an empty {}
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
 
@@ -40,9 +38,15 @@ const Review = ({ id }) => {
     setYear(monthAndYear[0]);
   }, [setMonth, setYear, currentReview]);
 
+  /* even though currentReview is passed in as a prop, that prop depends on a useEffect so we still need conditional chaining */
   return (
     <div className="col">
-      <h2>{currentReview?.User?.firstName}</h2>
+      {/* useParams tells us the location where this component is rendering, so !spotId tells us we are on the ManageReviewsPage */}
+      <h2>
+        {!spotId
+          ? flattenedSpots[currentReview?.spotId]?.name
+          : currentReview?.User?.firstName}
+      </h2>
       <p>{`${month} ${year}`}</p>
       <p>{currentReview?.review}</p>
       {currentReview && currentUser?.id === currentReview?.userId && (
@@ -52,7 +56,7 @@ const Review = ({ id }) => {
             elementName="button"
             modalComponent={
               <ReviewFormModal
-                spotName={currentSpot.name}
+                spotName={flattenedSpots[currentReview?.spotId]?.name}
                 reviewObj={currentReview}
               />
             }

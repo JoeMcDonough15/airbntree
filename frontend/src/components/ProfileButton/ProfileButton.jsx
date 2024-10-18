@@ -59,13 +59,22 @@ function ProfileButton({ user }) {
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
               <li
-                className="manage-spots-redirect"
+                className="manage-options-redirect"
                 onClick={(e) => {
                   toggleMenu(e);
                   navigate("/spots/current");
                 }}
               >
                 Manage Spots
+              </li>
+              <li
+                className="manage-options-redirect"
+                onClick={(e) => {
+                  toggleMenu(e);
+                  navigate("/reviews/current");
+                }}
+              >
+                Manage Reviews
               </li>
             </div>
             <li>
