@@ -16,7 +16,7 @@ const SpotLocation = ({ city, state, country, abbreviateState }) => {
   }
 
   return (
-    <span className="spot-location">{`${city}, ${state} ${
+    <span className="spot-location">{`${city}, ${state}${
       country ? `, ${country}` : ""
     }`}</span>
   );
