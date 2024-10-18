@@ -38,7 +38,7 @@ const ReviewFormModal = ({ spotName, reviewObj }) => {
   return (
     <section className="modal-container">
       <h2>{`How was your stay${spotName ? ` at ${spotName}` : ""}?`}</h2>
-      <ReviewForm reviewToEdit={reviewObj} />;
+      <ReviewForm reviewToEdit={reviewObj} />
     </section>
   );
 };

@@ -26,7 +26,7 @@ const ManageSpotsPage = () => {
         {allSpotsByUser.map((spot) => {
           return (
             <div key={spot.id}>
-              <SpotTile spotId={spot.id}></SpotTile>
+              <SpotTile spotId={spot.id} />
               <SpotOwnerOptions spotId={spot.id} />
             </div>
           );

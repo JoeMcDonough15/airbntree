@@ -1,10 +1,37 @@
 .spot-tile {
+  border: 1px solid black;
   gap: 4px;
+  position: relative;
   width: 100%;
+}
+
+.spot-tooltip {
+  background: burlywood;
+  clip-path: polygon(
+    0% 25%,
+    45% 25%,
+    50% 15%,
+    55% 25%,
+    100% 25%,
+    100% 75%,
+    0% 75%
+  );
+  display: none;
+  font-size: 1rem;
+  left: 20%;
+  padding: 0.5em 0.2em;
+  position: absolute;
+  text-align: center;
+  top: 40%;
+  width: fit-content;
 }
 
 .spot-tile:hover {
   cursor: pointer;
+}
+
+.spot-tile:hover .spot-tooltip {
+  display: block;
 }
 
 .location-and-rating {
