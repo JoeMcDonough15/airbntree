@@ -55,28 +55,30 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <div>
-              <li>Hello, {user.firstName}</li>
-              <li>{user.email}</li>
-              <li
-                className="manage-options-redirect"
-                onClick={(e) => {
-                  toggleMenu(e);
-                  navigate("/spots/current");
-                }}
-              >
-                Manage Spots
-              </li>
-              <li
-                className="manage-options-redirect"
-                onClick={(e) => {
-                  toggleMenu(e);
-                  navigate("/reviews/current");
-                }}
-              >
-                Manage Reviews
-              </li>
-            </div>
+            <li>
+              <ul>
+                <li>Hello, {user.firstName}</li>
+                <li>{user.email}</li>
+                <li
+                  className="manage-options-redirect"
+                  onClick={(e) => {
+                    toggleMenu(e);
+                    navigate("/spots/current");
+                  }}
+                >
+                  Manage Spots
+                </li>
+                <li
+                  className="manage-options-redirect"
+                  onClick={(e) => {
+                    toggleMenu(e);
+                    navigate("/reviews/current");
+                  }}
+                >
+                  Manage Reviews
+                </li>
+              </ul>
+            </li>
             <li>
               <button className="oval-button logout-button" onClick={logout}>
                 Log Out
