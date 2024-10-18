@@ -1,30 +1,62 @@
 import RatingAndReviews from "../RatingAndReviews";
 import Review from "./Review";
-import { useSelector } from "react-redux";
-import LeaveAReviewButton from "./LeaveAReviewButton";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getAllReviewsOfASpotThunk } from "../../store/reviews";
+import OpenModalController from "../OpenModalController";
+import ReviewFormModal from "../ReviewFormModal";
 
-const SpotReviewsSection = ({ reviewsArray, rating, numReviews }) => {
-  const userId = useSelector((state) => state.session.user?.id);
-  const spotOwnerId = useSelector(
-    (state) => state.spots.currentSpotDetails?.ownerId
-  );
+const SpotReviewsSection = () => {
+  const userId = useSelector((state) => state.session.user?.id); // undefined when component first mounts
+  const currentSpot = useSelector((state) => state.spots.currentSpotDetails); // {} when component first mounts
+  const reviewsForCurrentSpot = useSelector(
+    (state) => state.reviews.allReviews
+  ); // [] when component first mounts
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!currentSpot.id) return;
+    dispatch(getAllReviewsOfASpotThunk(currentSpot.id));
+  }, [dispatch, currentSpot]);
+
+  // verification functions
+
+  const spotBelongsToCurrentUser = (userId, ownerId) => {
+    return userId === ownerId;
+  };
+
+  const userHasReviewedThisSpot = (userId) => {
+    return reviewsForCurrentSpot.some((spotReview) => {
+      return spotReview.userId === userId;
+    });
+  };
 
   return (
     <section>
-      <RatingAndReviews rating={rating} numReviews={numReviews} />
-      {userId && userId !== spotOwnerId && <LeaveAReviewButton />}
+      <RatingAndReviews />
+      {userId &&
+        !spotBelongsToCurrentUser(userId, currentSpot.ownerId) &&
+        !userHasReviewedThisSpot(userId) && (
+          <OpenModalController
+            controllerText="Post Your Review"
+            elementName="button"
+            modalComponent={<ReviewFormModal />}
+          />
+        )}
+
       <>
-        {reviewsArray.length > 0 ? (
+        {reviewsForCurrentSpot.length > 0 ? (
           <>
-            {reviewsArray.map((reviewObj, index) => {
-              return <Review key={index} reviewObj={reviewObj} />;
+            {reviewsForCurrentSpot.map((review) => {
+              return <Review key={review.id} id={review.id} />;
             })}
           </>
         ) : (
           <>
-            {userId && userId !== spotOwnerId && (
-              <p>Be the first to post a review!</p>
-            )}
+            {userId &&
+              !spotBelongsToCurrentUser(userId, currentSpot.ownerId) && (
+                <p>Be the first to post a review!</p>
+              )}
           </>
         )}
       </>

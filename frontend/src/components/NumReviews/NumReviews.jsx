@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
 import "./NumReviews.css";
 
-const NumReviews = ({ numReviews }) => {
+const NumReviews = () => {
+  const numReviews = useSelector(
+    (state) => state.spots.currentSpotDetails?.numReviews
+  );
   let text;
 
   if (numReviews === 1) {

@@ -7,8 +7,8 @@ import {
   createNewSpotThunk,
   editASpotThunk,
 } from "../../store/spots";
-import FormSection from "./FormSection";
-import FormField from "./FormField";
+import FormSection from "../FormSection";
+import FormField from "../FormField";
 import "./SpotForm.css";
 
 export const SpotForm = () => {

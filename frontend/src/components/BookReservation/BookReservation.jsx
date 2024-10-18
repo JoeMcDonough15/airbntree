@@ -2,13 +2,12 @@ import SpotPrice from "../SpotPrice";
 import RatingAndReviews from "../RatingAndReviews";
 import "./BookReservation.css";
 
-const BookReservation = ({ price, rating, numReviews }) => {
+const BookReservation = ({ price }) => {
   return (
     <div className="reservations-container">
       <div className="flex-container reservation-spot-details">
         <SpotPrice price={price} />
-
-        <RatingAndReviews rating={rating} numReviews={numReviews} />
+        <RatingAndReviews />
       </div>
       <button
         onClick={() => {

@@ -18,6 +18,7 @@ const concatenateNextGroup = (priceString, nextGroupNum) => {
 };
 
 const fixPrice = (priceToFix) => {
+  if (!priceToFix) return;
   let numCommas = Math.floor(Math.log10(priceToFix) / 3);
   if (numCommas === 0) {
     return `$${priceToFix.toFixed(2)}`;

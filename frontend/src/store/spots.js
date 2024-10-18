@@ -74,16 +74,8 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 
 export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   try {
-    const spotDetails = await csrfFetch(`/api/spots/${spotId}`).then(
-      async (response) => {
-        const spotDetails = await response.json();
-        const nextResponse = await csrfFetch(`/api/spots/${spotId}/reviews`);
-        const reviews = await nextResponse.json();
-        spotDetails.Reviews = reviews.Reviews;
-        return spotDetails;
-      }
-    );
-
+    const response = await csrfFetch(`/api/spots/${spotId}`);
+    const spotDetails = await response.json();
     dispatch(getSpotDetails(spotDetails));
     return spotDetails;
   } catch (response) {
@@ -230,6 +222,8 @@ const spotsReducer = (state = initialState, action) => {
         [action.newSpot.id]: action.newSpot,
       };
 
+      newState.currentSpotDetails = action.newSpot;
+
       return newState;
     }
 
@@ -264,6 +258,8 @@ const spotsReducer = (state = initialState, action) => {
       const newSpotsFlattened = { ...newState.spotsFlattened };
       delete newSpotsFlattened[action.deletedSpotId];
       newState.spotsFlattened = newSpotsFlattened;
+
+      newState.currentSpotDetails = {}; // for testing, so that I could see a page go blank if I deleted a spot by dispatch a delete action directly through the window.store.spotActions.deleteASpot(spotId)
 
       return newState;
     }

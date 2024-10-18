@@ -34,6 +34,7 @@ const FormField = ({
               <textarea
                 value={inputVal}
                 id={inputId}
+                placeholder={labelText}
                 onChange={(e) => {
                   setInputVal(e.target.value);
                 }}

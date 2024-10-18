@@ -2,11 +2,10 @@ import fixPrice from "./fixPrice";
 import "./SpotPrice.css";
 
 const SpotPrice = ({ price }) => {
-  price = fixPrice(price);
+  const fixedPrice = fixPrice(price);
   return (
     <p>
-      {" "}
-      <span className="price">{price}</span> night
+      <span className="price">{fixedPrice}</span> night
     </p>
   );
 };

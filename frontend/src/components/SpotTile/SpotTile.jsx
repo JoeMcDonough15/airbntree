@@ -6,6 +6,8 @@ import SpotRating from "../SpotRating";
 import SpotPrice from "../SpotPrice";
 import "./SpotTile.css";
 
+// ! why does this component have { children }?
+
 const SpotTile = ({ spotId, children }) => {
   const spot = useSelector((state) => state.spots.spotsFlattened[spotId]);
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const SpotTile = ({ spotId, children }) => {
         imageAltText="A preview image of the spot"
       />
       <div className="location-and-rating flex-container">
-        <SpotLocation city={spot.city} state={spot.state} />
+        <SpotLocation city={spot.city} state={spot.state} abbreviateState />
         <SpotRating rating={spot.avgRating} />
       </div>
       <SpotPrice price={spot.price} />
