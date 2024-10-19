@@ -1,6 +1,7 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { getAllSpotsThunk } from "../../store/spots";
 import OpenModalController from "../OpenModalController";
 import ReviewFormModal from "../ReviewFormModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
@@ -12,8 +13,11 @@ const Review = ({ currentReview }) => {
   const flattenedSpots = useSelector((state) => state.spots.spotsFlattened); // possibly an empty {}
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getAllSpotsThunk());
+
     const dateString = currentReview?.createdAt;
 
     if (!dateString) return;
@@ -37,7 +41,7 @@ const Review = ({ currentReview }) => {
 
     setMonth(monthMap[monthAndYear[1]]);
     setYear(monthAndYear[0]);
-  }, [setMonth, setYear, currentReview]);
+  }, [setMonth, setYear, currentReview, dispatch]);
 
   /* even though currentReview is passed in as a prop, that prop depends on a useEffect so we still need conditional chaining */
   return (
