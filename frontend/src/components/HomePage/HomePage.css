@@ -36,7 +36,7 @@
   }
 
   .home-page.spots-container.grid-container > .spot-tile {
-    max-width: 285px;
-    width: 88vw;
+    max-width: var(--mobile-modal-max-width);
+    width: var(--main-container-width);
   }
 }

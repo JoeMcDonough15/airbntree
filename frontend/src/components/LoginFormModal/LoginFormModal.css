@@ -1,7 +1,3 @@
-.login-modal {
-  width: 40vw;
-}
-
 .login-header {
   font-size: clamp(1.25rem, 3.125vw, 2rem);
 }

@@ -19,6 +19,9 @@ html {
   --light-gray: #ccc;
   --red: #ff5a5f;
   --white: #fff;
+  --main-container-width: 88vw;
+  --mobile-modal-max-width: 320px;
+  --spot-form-padding: 5% 18%;
 }
 
 body {
@@ -72,7 +75,7 @@ button:hover {
 .main-container {
   margin: auto;
   max-width: 1000px;
-  width: 88%;
+  width: var(--main-container-width);
 }
 
 .flex-container,
@@ -98,12 +101,14 @@ button:hover {
   justify-content: center;
 }
 
-.create-edit-spot-page {
-  padding: 0 25%;
+.login-modal,
+.signup-modal {
+  margin: auto;
+  width: 100%;
 }
 
 .create-edit-spot-page {
-  padding: 5% 25%;
+  padding: var(--spot-form-padding);
 }
 
 /* global text styles */
@@ -152,6 +157,14 @@ button:hover {
     max-width: none;
   }
 }
+
+/* @media screen and (max-width: 575px) {
+  .login-modal,
+  .signup-modal {
+    max-width: 285px;
+    width: 88vw;
+  }
+} */
 
 /* @media screen and (max-width: 840px) {
   .grid-container {

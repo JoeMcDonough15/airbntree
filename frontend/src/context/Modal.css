@@ -21,8 +21,11 @@
 #modal-content {
   background-color: white;
   border-radius: 0.5em;
-  padding: 10px 20px 20px;
+  max-width: 600px;
+  padding: 30px 20px;
   position: absolute;
+  top: 100px;
+  width: 49.56vw;
 }
 
 #modal-content .form-container,
@@ -35,6 +38,14 @@
   margin-top: 20px;
 }
 
-#modal-content .form-container {
-  gap: 10px;
+#modal-content input {
+  background: rgba(0, 128, 0, 0.1);
+}
+
+@media screen and (max-width: 575px) {
+  #modal-content {
+    margin: auto;
+    max-width: var(--mobile-modal-max-width);
+    width: var(--main-container-width);
+  }
 }

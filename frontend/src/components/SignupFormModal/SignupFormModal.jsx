@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
+import FormField from "../FormField";
 import ErrorText from "../ErrorText";
 import "./SignupFormModal.css";
 
@@ -79,7 +80,7 @@ const SignupFormModal = () => {
   };
 
   return (
-    <div className="modal-container">
+    <div className="modal-container signup-modal">
       <h1>Sign Up</h1>
       <div className="server-errors-container col">
         {userErrors.serverErrors &&
@@ -92,62 +93,50 @@ const SignupFormModal = () => {
         className="form-container flex-container col"
         onSubmit={handleSubmit}
       >
-        <label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Email"
-          />
-        </label>
-        {userErrors.email && <ErrorText text={userErrors.email} />}
-        <label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            placeholder="Username"
-          />
-        </label>
-        {userErrors.username && <ErrorText text={userErrors.username} />}
-        <label>
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-            placeholder="First Name"
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-            placeholder="Last Name"
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Password"
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            placeholder="Confirm Password"
-          />
-        </label>
+        <FormField
+          inputType="text"
+          inputVal={email}
+          setInputVal={setEmail}
+          labelText="Email"
+          errorText={userErrors.email}
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={username}
+          setInputVal={setUsername}
+          labelText="username"
+          errorText={userErrors.username}
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={firstName}
+          setInputVal={setFirstName}
+          labelText="First Name"
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={lastName}
+          setInputVal={setLastName}
+          labelText="Last Name"
+        />
+
+        <FormField
+          inputType="password"
+          inputVal={password}
+          setInputVal={setPassword}
+          labelText="Password"
+        />
+
+        <FormField
+          inputType="password"
+          inputVal={confirmPassword}
+          setInputVal={setConfirmPassword}
+          labelText="Confirm Password"
+        />
+
         <button
           className={`full-width-button ${
             !submitDisabled ? " active-button" : ""
