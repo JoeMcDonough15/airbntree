@@ -121,7 +121,7 @@ router.get("/", async (req, res, next) => {
   }
 
   if (!page) page = 1;
-  if (!size) size = 30;
+  if (!size) size = 100;
 
   queryObj.limit = size;
   queryObj.offset = size * (page - 1);

@@ -22,16 +22,16 @@ module.exports = (sequelize, DataTypes) => {
     {
       review: {
         type: DataTypes.STRING,
-        validate: {
-          len: [1, 500],
-        },
+        // validate: {
+        //   len: [1, 500],
+        // },
       },
       stars: {
         type: DataTypes.INTEGER,
-        validate: {
-          min: 0,
-          max: 5,
-        },
+        // validate: {
+        //   min: 0,
+        //   max: 5,
+        // },
       },
     },
     {
