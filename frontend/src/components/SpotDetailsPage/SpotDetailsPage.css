@@ -8,22 +8,29 @@
 }
 
 .details-and-reserve {
+  gap: 13.19vw;
   justify-content: space-between;
 }
 
 .host-and-description {
   gap: 10px;
-  padding-right: 15%;
   width: 60%;
 }
 
 .host-text {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
+}
+
+.spot-description-text {
+  padding-right: 15%;
 }
 
 .reservations-callout {
+  align-self: center;
   border: 2px solid var(--black);
   border-radius: 0.6em;
-  padding: 20px;
+  justify-content: center;
+  max-height: 160px;
+  padding: 40px 2.21%;
   width: 45%;
 }

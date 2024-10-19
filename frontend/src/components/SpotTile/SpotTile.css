@@ -1,7 +1,6 @@
 .spot-tile {
-  gap: 4px;
+  gap: 7px;
   position: relative;
-  /* width: 200px; */
 }
 
 .spot-tooltip {

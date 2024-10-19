@@ -1,3 +1,4 @@
 .reservation-spot-details {
-  gap: 50px;
+  gap: 4.88vw;
+  justify-content: space-between;
 }

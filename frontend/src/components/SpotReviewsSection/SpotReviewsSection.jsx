@@ -6,7 +6,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAllReviewsOfASpotThunk } from "../../store/reviews";
-import ReviewsSection from "../ReviewsSection";
+import ReviewsList from "../ReviewsList";
 import OpenModalController from "../OpenModalController";
 import ReviewFormModal from "../ReviewFormModal";
 
@@ -24,13 +24,13 @@ const SpotReviewsSection = () => {
   }, [dispatch, currentSpot]);
 
   return (
-    <section>
+    <section className="spot-reviews-section">
       <RatingAndReviews />
       {userId &&
         !spotBelongsToCurrentUser(userId, currentSpot.ownerId) &&
         !userHasReviewedThisSpot(reviewsForCurrentSpot, userId) && (
           <OpenModalController
-            dataTestProp="review-button"
+            customClasses="review-control-button post-review-button small-button"
             controllerText="Post Your Review"
             elementName="button"
             modalComponent={<ReviewFormModal />}
@@ -39,14 +39,14 @@ const SpotReviewsSection = () => {
 
       <>
         {reviewsForCurrentSpot.length > 0 ? (
-          <div>
-            <ReviewsSection reviewsArr={reviewsForCurrentSpot} />
-          </div>
+          <ReviewsList reviewsArr={reviewsForCurrentSpot} />
         ) : (
           <>
             {userId &&
               !spotBelongsToCurrentUser(userId, currentSpot.ownerId) && (
-                <p>Be the first to post a review!</p>
+                <div className="reviews-list">
+                  <p>Be the first to post a review!</p>
+                </div>
               )}
           </>
         )}

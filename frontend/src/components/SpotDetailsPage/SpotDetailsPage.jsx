@@ -6,7 +6,6 @@ import SpotLocation from "../SpotLocation";
 import BookReservation from "../BookReservation";
 import Gallery from "../Gallery";
 import SpotReviewsSection from "../SpotReviewsSection";
-
 import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
@@ -35,9 +34,9 @@ const SpotDetailsPage = () => {
           <p className="host-text">
             Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
           </p>
-          <p>{spot?.description}</p>
+          <p className="spot-description-text">{spot?.description}</p>
         </div>
-        <div className="reservations-callout">
+        <div className="reservations-callout col">
           <BookReservation price={spot?.price} />
         </div>
       </div>

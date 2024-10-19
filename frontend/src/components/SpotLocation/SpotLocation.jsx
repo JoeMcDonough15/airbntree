@@ -31,11 +31,17 @@ const SpotLocation = ({
         containerClasses ? containerClasses : ""
       }`}
     >
-      <span className="city prevent-text-overflow">{city}</span>
-      <span className="state prevent-text-overflow">, {state}</span>
-      {country && (
-        <span className="country prevent-text-overflow">, {country}</span>
-      )}
+      <span
+        className={`prevent-text-overflow ${
+          city?.length > 20 ? "fixed-city-width" : ""
+        }`}
+      >
+        {city}
+      </span>
+      <span className={`${!abbreviateState && "prevent-text-overflow"}`}>
+        , {state}
+      </span>
+      {country && <span className="prevent-text-overflow">, {country}</span>}
     </div>
   );
 };

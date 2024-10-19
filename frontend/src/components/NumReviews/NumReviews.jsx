@@ -14,7 +14,7 @@ const NumReviews = () => {
   }
 
   return (
-    <p className="flex-container num-reviews-texxt">
+    <p className="flex-container num-reviews-text">
       <span>{numReviews}</span>
       <span>{text}</span>
     </p>

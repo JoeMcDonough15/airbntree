@@ -1,2 +1,3 @@
-/* .spot-location {
-  width: 65%; /* on homepage, yes */
+.home-page.spots-container .fixed-city-width {
+  width: 75%;
+}
