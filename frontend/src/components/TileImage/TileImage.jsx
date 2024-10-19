@@ -1,7 +1,9 @@
-import "./TileImage.css";
-
-const TileImage = ({ imageSrc, imageAltText }) => {
-  return <img className="tile-image" src={imageSrc} alt={imageAltText} />;
+const TileImage = ({ containerClasses, imageSrc, imageAltText }) => {
+  return (
+    <div className={containerClasses}>
+      <img src={imageSrc} alt={imageAltText} />
+    </div>
+  );
 };
 
 export default TileImage;

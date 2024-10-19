@@ -14,7 +14,7 @@ const HomePage = () => {
 
   return (
     <>
-      <section className="grid-container main-container spots-container">
+      <section className="grid-container spots-container">
         {allSpots.map((spot) => {
           return <SpotTile key={spot.id} spotId={spot.id} />;
         })}

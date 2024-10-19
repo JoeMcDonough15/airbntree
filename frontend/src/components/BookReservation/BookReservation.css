@@ -1,9 +1,3 @@
-.reservations-container {
-  border: 2px solid var(--black);
-  border-radius: 0.6em;
-  padding: 20px;
-}
-
 .reservation-spot-details {
   gap: 50px;
 }

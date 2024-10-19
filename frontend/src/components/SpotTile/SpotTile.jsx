@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import TileImage from "../TileImage";
 import SpotLocation from "../SpotLocation";
 import SpotRating from "../SpotRating";
@@ -23,9 +23,11 @@ const SpotTile = ({ spotId }) => {
       }}
     >
       <TileImage
+        containerClasses="spot-preview-image"
         imageSrc={previewImage}
         imageAltText="A preview image of the spot"
       />
+
       <div className="location-and-rating flex-container">
         <SpotLocation city={city} state={state} abbreviateState />
         <SpotRating rating={avgRating} />

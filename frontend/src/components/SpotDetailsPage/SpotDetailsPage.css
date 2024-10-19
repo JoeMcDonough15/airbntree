@@ -1,3 +1,25 @@
 .spot-details-container {
-  margin: 20px auto;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.details-and-reserve {
+  justify-content: space-between;
+}
+
+.host-and-description {
+  gap: 10px;
+  padding-right: 15%;
+  width: 60%;
+}
+
+.host-text {
+  font-size: 1.4rem;
+}
+
+.reservations-callout {
+  border: 2px solid var(--black);
+  border-radius: 0.6em;
+  padding: 20px;
+  width: 45%;
 }

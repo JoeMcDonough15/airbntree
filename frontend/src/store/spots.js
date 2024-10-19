@@ -117,11 +117,6 @@ export const createNewSpotThunk = (spotDetails) => async (dispatch) => {
 
 export const editASpotThunk = (spotId, spotDetails) => async (dispatch) => {
   try {
-    console.log(
-      "\n\n\nspot id and new details inside edit thunk: ",
-      spotId,
-      spotDetails
-    );
     const response = await csrfFetch(`/api/spots/${spotId}`, {
       method: "PUT",
       body: JSON.stringify(spotDetails),

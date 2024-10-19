@@ -30,6 +30,7 @@ const SpotReviewsSection = () => {
         !spotBelongsToCurrentUser(userId, currentSpot.ownerId) &&
         !userHasReviewedThisSpot(reviewsForCurrentSpot, userId) && (
           <OpenModalController
+            dataTestProp="review-button"
             controllerText="Post Your Review"
             elementName="button"
             modalComponent={<ReviewFormModal />}
@@ -38,9 +39,9 @@ const SpotReviewsSection = () => {
 
       <>
         {reviewsForCurrentSpot.length > 0 ? (
-          <>
+          <div>
             <ReviewsSection reviewsArr={reviewsForCurrentSpot} />
-          </>
+          </div>
         ) : (
           <>
             {userId &&

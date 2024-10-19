@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
+import ErrorText from "../ErrorText";
 import "./SignupFormModal.css";
 
 const SignupFormModal = () => {
@@ -33,8 +34,34 @@ const SignupFormModal = () => {
     setSubmitDisabled(disabled);
   }, [email, username, firstName, lastName, password, confirmPassword]); // anytime these values changes, the useEffect hook should run
 
+  const handleClientSideErrors = () => {
+    const errors = {};
+
+    const validEmailRe =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+    if (!validEmailRe.test(email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (validEmailRe.test(username)) {
+      errors.username = "Username cannot be an email address";
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // client side validation here
+    const clientSideErrors = handleClientSideErrors();
+
+    if (Object.values(clientSideErrors).length > 0) {
+      setUserErrors(clientSideErrors);
+      return;
+    }
+
     const response = await dispatch(
       sessionActions.signupUserThunk({
         email,
@@ -45,7 +72,7 @@ const SignupFormModal = () => {
       })
     );
     if (response.errors) {
-      setUserErrors(response.errors); // errors are coming from the backend
+      setUserErrors({ serverErrors: response.errors }); // errors are coming from the backend
       return;
     }
     closeModal(); // only close modal if there are no errors because of return on line 50
@@ -54,13 +81,13 @@ const SignupFormModal = () => {
   return (
     <div className="modal-container">
       <h1>Sign Up</h1>
-      {Object.values(userErrors).map((userError, index) => {
-        return (
-          <span key={index} className="error-text">
-            {userError}
-          </span>
-        );
-      })}
+      <div className="server-errors-container">
+        {userErrors.serverErrors &&
+          Object.values(userErrors.serverErrors).map((serverError, index) => {
+            return <ErrorText key={index} text={serverError} />;
+          })}
+      </div>
+
       <form
         className="form-container flex-container col"
         onSubmit={handleSubmit}
@@ -74,6 +101,7 @@ const SignupFormModal = () => {
             placeholder="Email"
           />
         </label>
+        {userErrors.email && <ErrorText text={userErrors.email} />}
         <label>
           <input
             type="text"
@@ -83,6 +111,7 @@ const SignupFormModal = () => {
             placeholder="Username"
           />
         </label>
+        {userErrors.username && <ErrorText text={userErrors.username} />}
         <label>
           <input
             type="text"

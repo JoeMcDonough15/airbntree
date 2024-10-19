@@ -1,7 +1,7 @@
 .spot-tile {
   gap: 4px;
   position: relative;
-  width: 100%;
+  width: 200px;
 }
 
 .spot-tooltip {
@@ -31,6 +31,12 @@
 
 .spot-tile:hover .spot-tooltip {
   display: block;
+}
+
+.spot-preview-image {
+  border: 1px solid var(--black);
+  height: 210px;
+  width: 100%;
 }
 
 .location-and-rating {

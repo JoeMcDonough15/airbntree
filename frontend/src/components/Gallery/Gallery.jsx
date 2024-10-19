@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import TileImage from "../TileImage";
-import ImageRow from "./ImageRow";
 import "./Gallery.css";
 
 const Gallery = () => {
@@ -11,26 +10,41 @@ const Gallery = () => {
   if (imagesArr?.length === 0) {
     return;
   }
-  const imagesArrCopy = imagesArr?.slice(); // so we do not mutate state when we splice out the preview
-  const featuredImageIdx = imagesArrCopy?.findIndex((image) => image.preview);
-  const featuredImage = imagesArrCopy?.splice(featuredImageIdx, 1)[0]; // so we do not mutate state
+
+  const sortedImages = imagesArr?.toSorted((imageObjA) => {
+    if (imageObjA.preview) {
+      return -1;
+    }
+    return 1;
+  });
 
   return (
     <div className="gallery flex-container">
-      <div className="gallery-featured">
-        <TileImage
-          imageSrc={featuredImage?.url}
-          imageAltText="featured image for this treehouse"
-        />
-      </div>
-      <div className="gallery-unfeatured">
-        {imagesArrCopy && (
-          <>
-            <ImageRow imageArr={[imagesArrCopy[0], imagesArrCopy[1]]} />
-            <ImageRow imageArr={[imagesArrCopy[2], imagesArrCopy[3]]} />
-          </>
-        )}
-      </div>
+      {sortedImages && (
+        <>
+          <TileImage
+            containerClasses="gallery-featured"
+            imageSrc={sortedImages[0]?.url}
+            imageAltText="featured image for this treehouse"
+          />
+
+          <div className="additional-image-grid">
+            {sortedImages.map((additionalImage, index) => {
+              return (
+                index > 0 &&
+                additionalImage && (
+                  <TileImage
+                    key={additionalImage.id}
+                    containerClasses="additional-image"
+                    imageSrc={additionalImage.url}
+                    imageAltText="additional image of this spot"
+                  />
+                )
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ const FormField = ({
   setInputVal,
   inputId,
   errorText,
-  errorIsInline = false,
+  errorIsInline,
 }) => {
   return (
     <div className="form-field flex-container col">
@@ -34,7 +34,7 @@ const FormField = ({
               <textarea
                 value={inputVal}
                 id={inputId}
-                placeholder={labelText}
+                placeholder="Please write at least 30 characters"
                 onChange={(e) => {
                   setInputVal(e.target.value);
                 }}

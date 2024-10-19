@@ -30,13 +30,15 @@ const SpotDetailsPage = () => {
 
       <Gallery />
       <div className="details-and-reserve flex-container">
-        <div className="host-and-description">
-          <p>
+        <div className="host-and-description flex-container col">
+          <p className="host-text">
             Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
           </p>
           <p>{spot?.description}</p>
         </div>
-        <BookReservation price={spot?.price} />
+        <div className="reservations-callout">
+          <BookReservation price={spot?.price} />
+        </div>
       </div>
 
       <SpotReviewsSection />
