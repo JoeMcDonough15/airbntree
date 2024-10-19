@@ -10,11 +10,14 @@
 
 .profile-dropdown.flex-container.col {
   align-items: center;
-  padding: 5px 20px;
+  gap: 10px;
+  padding: 20px;
 }
 
-.profile-dropdown > li:hover,
-.manage-options-redirect {
+.signup-button:hover,
+.login-button:hover,
+.logout-button:hover,
+.manage-options-redirect:hover {
   cursor: pointer;
 }
 
@@ -24,4 +27,8 @@
 
 .logout-button {
   margin-top: 15px;
+}
+
+.logged-in-user-menu {
+  gap: 10px;
 }

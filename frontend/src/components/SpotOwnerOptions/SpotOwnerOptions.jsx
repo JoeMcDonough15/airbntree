@@ -10,6 +10,7 @@ const SpotOwnerOptions = ({ spotId }) => {
   return (
     <div className="spot-owner-options flex-container">
       <button
+        className="spot-owner-button small-button"
         onClick={() => {
           navigate(linkTo);
         }}
@@ -19,6 +20,7 @@ const SpotOwnerOptions = ({ spotId }) => {
 
       <OpenModalController
         elementName="button"
+        customClasses="spot-owner-button small-button"
         modalComponent={
           <DeleteConfirmationModal
             subjectId={spotId}

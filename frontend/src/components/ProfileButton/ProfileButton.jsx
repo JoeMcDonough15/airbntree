@@ -56,7 +56,7 @@ function ProfileButton({ user }) {
         {user ? (
           <>
             <li>
-              <ul>
+              <ul className="logged-in-user-menu col">
                 <li>Hello, {user.firstName}</li>
                 <li>{user.email}</li>
                 <li
@@ -89,6 +89,7 @@ function ProfileButton({ user }) {
           <>
             <OpenModalController
               controllerText="Sign Up"
+              customClasses="signup-button"
               elementName="li"
               onButtonClick={() => {
                 setShowMenu(false);
@@ -97,6 +98,7 @@ function ProfileButton({ user }) {
             />
             <OpenModalController
               controllerText="Log In"
+              customClasses="login-button"
               elementName="li"
               onButtonClick={() => {
                 setShowMenu(false);
