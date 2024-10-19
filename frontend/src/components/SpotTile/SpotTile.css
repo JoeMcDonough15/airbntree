@@ -1,7 +1,7 @@
 .spot-tile {
   gap: 4px;
   position: relative;
-  width: 200px;
+  /* width: 200px; */
 }
 
 .spot-tooltip {
@@ -17,12 +17,13 @@
   );
   display: none;
   font-size: 1rem;
-  left: 20%;
+  left: 10%;
   padding: 0.5em 0.2em;
   position: absolute;
   text-align: center;
   top: 40%;
-  width: fit-content;
+  width: max-content;
+  z-index: 999;
 }
 
 .spot-tile:hover {
@@ -42,4 +43,8 @@
 .location-and-rating {
   align-items: center;
   justify-content: space-between;
+}
+
+.spot-tile-spot-location {
+  width: 65%;
 }

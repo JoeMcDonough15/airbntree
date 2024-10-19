@@ -7,7 +7,7 @@ import {
   createNewSpotThunk,
   editASpotThunk,
 } from "../../store/spots";
-// import FormSection from "../FormSection";
+
 import FormField from "../FormField";
 import "./SpotForm.css";
 
@@ -193,9 +193,9 @@ export const SpotForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <section>
-        <h2>Where's your place located?</h2>
+    <form className="spot-form col" onSubmit={handleSubmit}>
+      <section className="spot-form-section-1">
+        <h2>Where&apos;s your place located?</h2>
         <p>
           Guests will only get your exact address once they booked a
           reservation.
@@ -219,26 +219,30 @@ export const SpotForm = () => {
             errorText={userErrors.address}
             errorIsInline
           />
-          <div className="flex-container">
-            <FormField
-              labelText="City"
-              inputType="text"
-              inputVal={city}
-              setInputVal={setCity}
-              inputId="city-input"
-              errorText={userErrors.city}
-              errorIsInline
-            />
+          <div className="flex-container split-input-row">
+            <div className="form-field-half-row">
+              <FormField
+                labelText="City"
+                inputType="text"
+                inputVal={city}
+                setInputVal={setCity}
+                inputId="city-input"
+                errorText={userErrors.city}
+                errorIsInline
+              />
+            </div>
             <span style={{ alignSelf: "flex-end" }}>,</span>
-            <FormField
-              labelText="State"
-              inputType="text"
-              inputVal={state}
-              setInputVal={setState}
-              inputId="state-input"
-              errorText={userErrors.state}
-              errorIsInline
-            />
+            <div className="form-field-half-row">
+              <FormField
+                labelText="State"
+                inputType="text"
+                inputVal={state}
+                setInputVal={setState}
+                inputId="state-input"
+                errorText={userErrors.state}
+                errorIsInline
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -266,8 +270,8 @@ export const SpotForm = () => {
           Create a title for your spot
         </h2>
         <p className="spot-form-section-3-caption">
-          Catch guests' attention with a spot title that highlights what makes
-          your place special.
+          Catch guests&apos; attention with a spot title that highlights what
+          makes your place special.
         </p>
 
         <FormField

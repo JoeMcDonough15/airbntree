@@ -1,7 +1,13 @@
 import stateMap from "./stateMap";
 import "./SpotLocation.css";
 
-const SpotLocation = ({ city, state, country, abbreviateState }) => {
+const SpotLocation = ({
+  containerClasses,
+  city,
+  state,
+  country,
+  abbreviateState,
+}) => {
   const formatStateName = (nameOfState, abbreviate = false) => {
     if (
       (abbreviate && nameOfState.length > 2) ||
@@ -20,7 +26,11 @@ const SpotLocation = ({ city, state, country, abbreviateState }) => {
   }
 
   return (
-    <div className="spot-location flex-container">
+    <div
+      className={`spot-location flex-container ${
+        containerClasses ? containerClasses : ""
+      }`}
+    >
       <span className="city prevent-text-overflow">{city}</span>
       <span className="state prevent-text-overflow">, {state}</span>
       {country && (

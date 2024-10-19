@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TileImage from "../TileImage";
 import SpotLocation from "../SpotLocation";
 import SpotRating from "../SpotRating";
@@ -29,7 +29,12 @@ const SpotTile = ({ spotId }) => {
       />
 
       <div className="location-and-rating flex-container">
-        <SpotLocation city={city} state={state} abbreviateState />
+        <SpotLocation
+          containerClasses="spot-tile-spot-location"
+          city={city}
+          state={state}
+          abbreviateState
+        />
         <SpotRating rating={avgRating} />
       </div>
       <SpotPrice price={price} />

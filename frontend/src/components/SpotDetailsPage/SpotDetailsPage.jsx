@@ -23,6 +23,7 @@ const SpotDetailsPage = () => {
     <section className="flex-container main-container spot-details-container col">
       <h1>{spot?.name}</h1>
       <SpotLocation
+        containerClasses="spot-details-spot-location"
         city={spot?.city}
         state={spot?.state}
         country={spot?.country}

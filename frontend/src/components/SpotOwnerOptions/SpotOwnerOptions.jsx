@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import OpenModalController from "../OpenModalController";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
+import "./SpotOwnerOptions.css";
 
 const SpotOwnerOptions = ({ spotId }) => {
   const navigate = useNavigate();
   const linkTo = `/spots/${spotId}/edit`;
 
   return (
-    <div>
+    <div className="spot-owner-options flex-container">
       <button
         onClick={() => {
           navigate(linkTo);
@@ -26,8 +27,6 @@ const SpotOwnerOptions = ({ spotId }) => {
           />
         }
         controllerText="Delete"
-        // onButtonClick // optional: callback function that will be called once the button that opens the modal is clicked
-        // onModalClose// optional: callback function that will be called once the modal is closed
       />
     </div>
   );

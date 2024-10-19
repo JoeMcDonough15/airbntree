@@ -1,0 +1,11 @@
+.spot-owner-options {
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.spot-owner-options > button {
+  width: 100%;
+}

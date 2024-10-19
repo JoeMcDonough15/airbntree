@@ -3,6 +3,10 @@
   padding: 20px 0;
 }
 
+.spot-details-spot-location {
+  width: 100%;
+}
+
 .details-and-reserve {
   justify-content: space-between;
 }

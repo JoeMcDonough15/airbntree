@@ -10,12 +10,6 @@
 /* global styles  */
 
 html {
-  /* body font styles */
-  font-family: "Afacad Flux", sans-serif;
-  font-size: 14pt;
-  font-style: normal;
-  font-weight: normal;
-
   /* colors */
   --black: #000;
   --brown: brown;
@@ -25,6 +19,13 @@ html {
   --light-gray: #ccc;
   --red: #ff5a5f;
   --white: #fff;
+}
+
+body {
+  font-family: "Afacad Flux", sans-serif;
+  font-size: 1.16625rem; /* aka 14pt */
+  font-style: normal;
+  font-weight: normal;
 }
 
 h1,
@@ -38,7 +39,7 @@ h6 {
 }
 
 h1 {
-  font-size: 24pt;
+  font-size: 2rem; /* aka 24pt */
 }
 
 a {
@@ -68,8 +69,13 @@ button:hover {
 
 /* containers */
 
+.main-container {
+  margin: auto;
+  max-width: 1000px;
+  width: 88%;
+}
+
 .flex-container,
-.main-container,
 .col,
 .icon-container,
 .modal-container {
@@ -77,26 +83,17 @@ button:hover {
 }
 
 .col,
-.modal-container,
-.main-container {
+.modal-container {
   flex-direction: column;
-}
-
-.main-container {
-  margin: auto;
-  max-width: 1000px;
-  width: 88%;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 0.8em;
-  margin: 50px auto;
   width: 100%;
 }
 
-.icon-container {
+.icon-container,
+.modal-container {
   align-items: center;
   justify-content: center;
 }
@@ -105,11 +102,8 @@ button:hover {
   padding: 0 25%;
 }
 
-.modal-container {
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px 20px;
-  width: 400px;
+.create-edit-spot-page {
+  padding: 5% 25%;
 }
 
 /* global text styles */
@@ -153,7 +147,13 @@ button:hover {
 
 /* Media Queries */
 
-@media screen and (max-width: 840px) {
+@media screen and (min-width: 1150px) {
+  .main-container {
+    max-width: none;
+  }
+}
+
+/* @media screen and (max-width: 840px) {
   .grid-container {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -169,4 +169,4 @@ button:hover {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
-}
+} */

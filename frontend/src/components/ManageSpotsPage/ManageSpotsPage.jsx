@@ -14,7 +14,7 @@ const ManageSpotsPage = () => {
   }, [dispatch]);
 
   return (
-    <section className="main-container col">
+    <section className="manage-spots-page col">
       <div className="intro-section flex-container col">
         <h1>Manage Your Spots</h1>
         <button>
