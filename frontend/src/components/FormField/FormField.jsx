@@ -15,7 +15,7 @@ const FormField = ({
         <>
           <div className="flex-container">
             <label htmlFor={inputId}>{labelText}</label>
-            {errorText && <ErrorText text={errorText} />}
+            {errorText && <ErrorText inlineError text={errorText} />}
           </div>
           <input
             value={inputVal}
@@ -29,9 +29,15 @@ const FormField = ({
         </>
       ) : (
         <>
-          <label htmlFor={inputId}>
+          <label
+            htmlFor={inputId}
+            className={`${
+              inputId === "price-input" ? "price-input-container" : ""
+            }`}
+          >
             {inputType === "textarea" ? (
               <textarea
+                rows="8"
                 value={inputVal}
                 id={inputId}
                 placeholder="Please write at least 30 characters"
@@ -65,7 +71,7 @@ const FormField = ({
               </>
             )}
           </label>
-          {errorText && <ErrorText text={errorText} />}
+          {errorText && <ErrorText errorBelowLine text={errorText} />}
         </>
       )}
     </div>

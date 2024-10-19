@@ -65,13 +65,20 @@ export const SpotForm = () => {
     spotImageFiveUrl,
   ];
 
-  // ! Handle any errors before submitting
+  // ! Handle any client side errors before submitting
   const handleErrors = () => {
     const errors = {};
 
     Object.keys(requiredFields).forEach((requiredField) => {
       if (requiredFields[requiredField].length === 0) {
-        errors[requiredField] = `${requiredField} is required`;
+        let fieldName = requiredField[0].toUpperCase() + requiredField.slice(1);
+        if (fieldName.startsWith("PreviewImage")) {
+          fieldName = "Preview Image URL";
+        }
+        if (fieldName === "Price") {
+          fieldName = "Price per night";
+        }
+        errors[requiredField] = `${fieldName} is required`;
       }
     });
 
@@ -88,7 +95,7 @@ export const SpotForm = () => {
     // price must be non negative number error
     let priceAsNum = Number(price);
     if (isNaN(priceAsNum) || priceAsNum < 0) {
-      errors["price"] = "Price must be a positive number";
+      errors["price"] = "Price per night must be a positive number";
     }
 
     const incorrectFileExtension = "Image URL must end in .png, .jpg, or .jpeg";
@@ -195,11 +202,13 @@ export const SpotForm = () => {
   return (
     <form className="spot-form col" onSubmit={handleSubmit}>
       <section className="spot-form-section-1">
-        <h2>Where&apos;s your place located?</h2>
-        <p>
-          Guests will only get your exact address once they booked a
-          reservation.
-        </p>
+        <div className="spot-form-section-heading">
+          <h2>Where&apos;s your place located?</h2>
+          <p>
+            Guests will only get your exact address once they booked a
+            reservation.
+          </p>
+        </div>
         <div>
           <FormField
             labelText="Country"
@@ -248,31 +257,33 @@ export const SpotForm = () => {
       </section>
 
       <section className="spot-form-section-2">
-        <h2 className="spot-form-section-2-heading">
-          Describe your place to guests
-        </h2>
-        <p className="spot-form-section-2-caption">
-          Mention the best features of your space, any special amentities like
-          fast wifi or parking, and what you love about the neighborhood.
-        </p>{" "}
+        <div className="spot-form-section-heading">
+          <h2 className="spot-form-section-2-heading">
+            Describe your place to guests
+          </h2>
+          <p className="spot-form-section-2-caption">
+            Mention the best features of your space, any special amentities like
+            fast wifi or parking, and what you love about the neighborhood.
+          </p>
+        </div>
         <FormField
-          labelText="Description"
           inputType="textarea"
           inputVal={description}
           setInputVal={setDescription}
           inputId="description-input"
-          placeholderText="Please write at least 30 characters"
           errorText={userErrors.description}
         />
       </section>
       <section className="spot-form-section-3">
-        <h2 className="spot-form-section-3-heading">
-          Create a title for your spot
-        </h2>
-        <p className="spot-form-section-3-caption">
-          Catch guests&apos; attention with a spot title that highlights what
-          makes your place special.
-        </p>
+        <div className="spot-form-section-heading">
+          <h2 className="spot-form-section-3-heading">
+            Create a title for your spot
+          </h2>
+          <p className="spot-form-section-3-caption">
+            Catch guests&apos; attention with a spot title that highlights what
+            makes your place special.
+          </p>
+        </div>
 
         <FormField
           labelText="Name of your spot"
@@ -286,13 +297,15 @@ export const SpotForm = () => {
       </section>
 
       <section className="spot-form-section-4">
-        <h2 className="spot-form-section-4-heading">
-          Set a base price for your spot
-        </h2>
-        <p className="spot-form-section-4-caption">
-          Competitive pricing can help your listing stand out and rank higher in
-          search results.
-        </p>
+        <div className="spot-form-section-heading">
+          <h2 className="spot-form-section-4-heading">
+            Set a base price for your spot
+          </h2>
+          <p className="spot-form-section-4-caption">
+            Competitive pricing can help your listing stand out and rank higher
+            in search results.
+          </p>
+        </div>
         <FormField
           labelText="Price per night (USD)"
           inputType="number"
@@ -304,12 +317,14 @@ export const SpotForm = () => {
         />
       </section>
       <section className="spot-form-section-5">
-        <h2 className="spot-form-section-5-heading">
-          Liven up your spot with photos
-        </h2>
-        <p className="spot-form-section-5-caption">
-          Submit a link to at least one photo to publish your spot.
-        </p>
+        <div className="spot-form-section-heading">
+          <h2 className="spot-form-section-5-heading">
+            Liven up your spot with photos
+          </h2>
+          <p className="spot-form-section-5-caption">
+            Submit a link to at least one photo to publish your spot.
+          </p>
+        </div>
         <FormField
           labelText="Preview Image URL"
           inputType="text"
@@ -356,7 +371,7 @@ export const SpotForm = () => {
           errorText={userErrors.spotImage5Url}
         />
       </section>
-      <button className="active-button">
+      <button className="small-button active-button">
         {`${spotToEdit ? "Update your" : "Create"} Spot`}
       </button>
     </form>

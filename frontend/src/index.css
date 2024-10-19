@@ -113,10 +113,6 @@ button:hover {
 
 /* global text styles */
 
-.error-text {
-  color: var(--red);
-}
-
 .prevent-text-overflow {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -135,15 +131,25 @@ button:hover {
   padding: 6px 10px;
 }
 
-.full-width-button {
+.full-width-button,
+.small-button {
   border: 2px solid var(--dark-gray);
   box-shadow: 2px 2px var(--dark-gray);
-  margin-top: 20px;
   padding: 10px 40px;
+}
+
+.full-width-button {
+  margin-top: 20px;
   width: 100%;
 }
 
-.full-width-button.active-button {
+.small-button {
+  margin: auto;
+  width: fit-content;
+}
+
+.full-width-button.active-button,
+.small-button.active-button {
   background-color: var(--red);
   border-color: var(--black);
   box-shadow: 2px 2px var(--black);

@@ -6,11 +6,18 @@
 .spot-form-section-5 {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .spot-form {
   gap: 20px;
+}
+
+.spot-form-main-heading {
+  margin-bottom: 20px;
+}
+
+.spot-form-section-heading {
+  margin-bottom: 10px;
 }
 
 .form-field,
@@ -31,4 +38,16 @@
 
 .form-field-half-row {
   width: 49%;
+}
+
+.price-input-container {
+  padding-left: 20px;
+  position: relative;
+}
+
+.dollar-sign {
+  font-size: 1.4rem;
+  left: 0;
+  position: absolute;
+  top: 7%;
 }
