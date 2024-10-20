@@ -39,9 +39,11 @@ const LoginFormModal = () => {
 
   return (
     <div className="login-modal modal-container">
-      <h2 className="login-header">Login</h2>
+      <h2 className="login-header">Log In</h2>
       {userErrors.message && (
-        <ErrorText text="The provided credentials were invalid" />
+        <div className="server-errors-container">
+          <ErrorText text="The provided credentials were invalid" />
+        </div>
       )}
       <form
         className="form-container flex-container col"

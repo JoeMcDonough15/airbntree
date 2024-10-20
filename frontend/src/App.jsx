@@ -22,7 +22,9 @@ const Layout = () => {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+      <header>
+        <Navigation isLoaded={isLoaded} />{" "}
+      </header>
       {isLoaded && (
         <main className="main-container">
           <Outlet />

@@ -28,6 +28,10 @@ const DeleteConfirmationModal = ({
     });
   };
 
+  const subjectTypeCapitalized = `${subjectType[0].toUpperCase()}${subjectType.slice(
+    1
+  )}`;
+
   return (
     <>
       <div className="deleteConfirmationContainer modal-container">
@@ -38,13 +42,13 @@ const DeleteConfirmationModal = ({
             onClick={handleDelete}
             className="delete-modal-button small-button active-button"
           >
-            {`Yes (Delete ${subjectType})`}
+            {`Yes (Delete ${subjectTypeCapitalized})`}
           </button>
           <button
             onClick={closeModal}
             className="delete-modal-button small-button active-button dark-button"
           >
-            {`No (Keep ${subjectType})`}
+            {`No (Keep ${subjectTypeCapitalized})`}
           </button>
         </div>
       </div>

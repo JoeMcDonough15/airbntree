@@ -113,6 +113,12 @@ button:hover {
   width: 100%;
 }
 
+.server-errors-container {
+  align-items: center;
+  gap: 5px;
+  margin: 20px 0;
+}
+
 .create-edit-spot-page {
   padding: var(--spot-form-padding);
 }

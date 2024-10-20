@@ -4,7 +4,6 @@ import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import FormField from "../FormField";
 import ErrorText from "../ErrorText";
-import "./SignupFormModal.css";
 
 const SignupFormModal = () => {
   const dispatch = useDispatch();
@@ -85,7 +84,7 @@ const SignupFormModal = () => {
       <div className="server-errors-container col">
         {userErrors.serverErrors &&
           Object.values(userErrors.serverErrors).map((serverError, index) => {
-            return <ErrorText key={index} text={serverError} />;
+            return <ErrorText errorBelowLine key={index} text={serverError} />;
           })}
       </div>
 
@@ -93,22 +92,6 @@ const SignupFormModal = () => {
         className="form-container flex-container col"
         onSubmit={handleSubmit}
       >
-        <FormField
-          inputType="text"
-          inputVal={email}
-          setInputVal={setEmail}
-          labelText="Email"
-          errorText={userErrors.email}
-        />
-
-        <FormField
-          inputType="text"
-          inputVal={username}
-          setInputVal={setUsername}
-          labelText="username"
-          errorText={userErrors.username}
-        />
-
         <FormField
           inputType="text"
           inputVal={firstName}
@@ -121,6 +104,22 @@ const SignupFormModal = () => {
           inputVal={lastName}
           setInputVal={setLastName}
           labelText="Last Name"
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={email}
+          setInputVal={setEmail}
+          labelText="Email"
+          errorText={userErrors.email}
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={username}
+          setInputVal={setUsername}
+          labelText="Username"
+          errorText={userErrors.username}
         />
 
         <FormField

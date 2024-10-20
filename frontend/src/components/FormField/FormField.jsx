@@ -13,7 +13,7 @@ const FormField = ({
     <div className="form-field flex-container col">
       {errorIsInline ? (
         <>
-          <div className="flex-container">
+          <div className="flex-container label-error-row">
             <label htmlFor={inputId}>{labelText}</label>
             {errorText && <ErrorText inlineError text={errorText} />}
           </div>
