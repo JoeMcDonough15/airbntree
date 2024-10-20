@@ -1,1 +1,53 @@
+.spot-form,
+.spot-form-section-1,
+.spot-form-section-2,
+.spot-form-section-3,
+.spot-form-section-4,
+.spot-form-section-5 {
+  display: flex;
+  flex-direction: column;
+}
 
+.spot-form {
+  gap: 20px;
+}
+
+.spot-form-main-heading {
+  margin-bottom: 20px;
+}
+
+.spot-form-section-heading {
+  margin-bottom: 10px;
+}
+
+.form-field,
+.form-field > label,
+.form-field > label > input,
+.form-field > label > textarea {
+  width: 100%;
+}
+
+.form-field + .form-field,
+.split-input-row {
+  margin-top: 20px;
+}
+
+.split-input-row {
+  justify-content: space-between;
+}
+
+.form-field-half-row {
+  width: 49%;
+}
+
+.price-input-container {
+  padding-left: 20px;
+  position: relative;
+}
+
+.dollar-sign {
+  font-size: 1.4rem;
+  left: 0;
+  position: absolute;
+  top: 7%;
+}

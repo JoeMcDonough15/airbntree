@@ -29,7 +29,8 @@ const spotsData = [
     lat: 40.238479,
     lng: -58.38648276,
     name: "Great Spot",
-    description: "This is an awesome place to stay",
+    description:
+      "Great spot! vfiouj57541729292489073 vfiouj57541729292489073. See you there!",
     price: 354,
   },
   {

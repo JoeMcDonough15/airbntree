@@ -6,7 +6,6 @@ import SpotLocation from "../SpotLocation";
 import BookReservation from "../BookReservation";
 import Gallery from "../Gallery";
 import SpotReviewsSection from "../SpotReviewsSection";
-
 import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
@@ -23,6 +22,7 @@ const SpotDetailsPage = () => {
     <section className="flex-container main-container spot-details-container col">
       <h1>{spot?.name}</h1>
       <SpotLocation
+        containerClasses="spot-details-spot-location"
         city={spot?.city}
         state={spot?.state}
         country={spot?.country}
@@ -30,13 +30,15 @@ const SpotDetailsPage = () => {
 
       <Gallery />
       <div className="details-and-reserve flex-container">
-        <div className="host-and-description">
-          <p>
+        <div className="host-and-description flex-container col">
+          <p className="host-text">
             Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
           </p>
-          <p>{spot?.description}</p>
+          <p className="spot-description-text">{spot?.description}</p>
         </div>
-        <BookReservation price={spot?.price} />
+        <div className="reservations-callout col">
+          <BookReservation price={spot?.price} />
+        </div>
       </div>
 
       <SpotReviewsSection />

@@ -1,0 +1,24 @@
+.review {
+  gap: 10px;
+}
+
+.review:not(:last-of-type) {
+  margin-bottom: 40px;
+}
+
+.review-date {
+  color: var(--dark-gray);
+}
+
+.review-control-buttons {
+  gap: 1.17vw;
+  width: fit-content;
+}
+
+.review-control-button.post-review-button.small-button {
+  margin-top: 20px;
+}
+
+.review-control-button.small-button {
+  margin: 0;
+}

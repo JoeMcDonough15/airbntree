@@ -1,3 +1,8 @@
+.star-icons,
+.star-icon {
+  align-items: center;
+}
+
 .star-icon {
   color: var(--light-gray);
 }

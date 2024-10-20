@@ -1,4 +1,4 @@
-import ReviewsSection from "../ReviewsSection";
+import ReviewsList from "../ReviewsList";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllReviewsByUserThunk } from "../../store/reviews";
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ const ManageReviewsPage = () => {
     <section className="main-container">
       {" "}
       <h1>Manage Reviews</h1>
-      <ReviewsSection reviewsArr={allReviewsByUser} />{" "}
+      <ReviewsList reviewsArr={allReviewsByUser} />{" "}
     </section>
   );
 };

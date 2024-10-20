@@ -4,7 +4,7 @@ import "./BookReservation.css";
 
 const BookReservation = ({ price }) => {
   return (
-    <div className="reservations-container">
+    <>
       <div className="flex-container reservation-spot-details">
         <SpotPrice price={price} />
         <RatingAndReviews />
@@ -17,7 +17,7 @@ const BookReservation = ({ price }) => {
       >
         Reserve
       </button>
-    </div>
+    </>
   );
 };
 

@@ -1,19 +1,20 @@
 .profile-dropdown {
+  align-items: center;
   background-color: var(--white);
   border: 2px solid var(--black);
-  padding: 5px 70px 5px 20px;
+  filter: drop-shadow(2px 2px 2px);
+  gap: 10px;
+  padding: 20px;
   position: absolute;
   right: 20px;
   top: 58px;
+  z-index: 999;
 }
 
-.profile-dropdown.flex-container.col {
-  align-items: center;
-  padding: 5px 20px;
-}
-
-.profile-dropdown > li:hover,
-.manage-options-redirect {
+.signup-button:hover,
+.login-button:hover,
+.logout-button:hover,
+.manage-options-redirect:hover {
   cursor: pointer;
 }
 
@@ -21,6 +22,13 @@
   display: none;
 }
 
-.logout-button {
+.oval-button.logout-button {
+  background-color: var(--dark-gray);
+  color: white;
   margin-top: 15px;
+  padding: 6px 20px;
+}
+
+.logged-in-user-menu {
+  gap: 10px;
 }

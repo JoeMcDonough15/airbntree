@@ -1,0 +1,4 @@
+.home-page.spots-container .fixed-city-width,
+.manage-spots-page.spots-container .fixed-city-width {
+  width: 75%;
+}

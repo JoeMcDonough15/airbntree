@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
+import FormField from "../FormField";
+import ErrorText from "../ErrorText";
 import "./SignupFormModal.css";
 
 const SignupFormModal = () => {
@@ -33,8 +35,34 @@ const SignupFormModal = () => {
     setSubmitDisabled(disabled);
   }, [email, username, firstName, lastName, password, confirmPassword]); // anytime these values changes, the useEffect hook should run
 
+  const handleClientSideErrors = () => {
+    const errors = {};
+
+    const validEmailRe =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+    if (!validEmailRe.test(email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (validEmailRe.test(username)) {
+      errors.username = "Username cannot be an email address";
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // client side validation here
+    const clientSideErrors = handleClientSideErrors();
+
+    if (Object.values(clientSideErrors).length > 0) {
+      setUserErrors(clientSideErrors);
+      return;
+    }
+
     const response = await dispatch(
       sessionActions.signupUserThunk({
         email,
@@ -45,80 +73,70 @@ const SignupFormModal = () => {
       })
     );
     if (response.errors) {
-      setUserErrors(response.errors); // errors are coming from the backend
+      setUserErrors({ serverErrors: response.errors }); // errors are coming from the backend
       return;
     }
     closeModal(); // only close modal if there are no errors because of return on line 50
   };
 
   return (
-    <div className="modal-container">
-      <h1>Sign Up</h1>
-      {Object.values(userErrors).map((userError, index) => {
-        return (
-          <span key={index} className="error-text">
-            {userError}
-          </span>
-        );
-      })}
+    <div className="modal-container signup-modal">
+      <h2>Sign Up</h2>
+      <div className="server-errors-container col">
+        {userErrors.serverErrors &&
+          Object.values(userErrors.serverErrors).map((serverError, index) => {
+            return <ErrorText key={index} text={serverError} />;
+          })}
+      </div>
+
       <form
         className="form-container flex-container col"
         onSubmit={handleSubmit}
       >
-        <label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Email"
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            placeholder="Username"
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-            placeholder="First Name"
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-            placeholder="Last Name"
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Password"
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            placeholder="Confirm Password"
-          />
-        </label>
+        <FormField
+          inputType="text"
+          inputVal={email}
+          setInputVal={setEmail}
+          labelText="Email"
+          errorText={userErrors.email}
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={username}
+          setInputVal={setUsername}
+          labelText="username"
+          errorText={userErrors.username}
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={firstName}
+          setInputVal={setFirstName}
+          labelText="First Name"
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={lastName}
+          setInputVal={setLastName}
+          labelText="Last Name"
+        />
+
+        <FormField
+          inputType="password"
+          inputVal={password}
+          setInputVal={setPassword}
+          labelText="Password"
+        />
+
+        <FormField
+          inputType="password"
+          inputVal={confirmPassword}
+          setInputVal={setConfirmPassword}
+          labelText="Confirm Password"
+        />
+
         <button
           className={`full-width-button ${
             !submitDisabled ? " active-button" : ""

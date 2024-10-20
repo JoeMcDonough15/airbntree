@@ -1,12 +1,22 @@
 import stateMap from "./stateMap";
+import "./SpotLocation.css";
 
-const SpotLocation = ({ city, state, country, abbreviateState }) => {
+const SpotLocation = ({
+  containerClasses,
+  city,
+  state,
+  country,
+  abbreviateState,
+}) => {
   const formatStateName = (nameOfState, abbreviate = false) => {
     if (
       (abbreviate && nameOfState.length > 2) ||
       (!abbreviate && nameOfState.length === 2)
     ) {
       nameOfState = stateMap[nameOfState];
+      if (!nameOfState) {
+        nameOfState = state.slice(0, 2).toUpperCase();
+      }
     }
     return nameOfState;
   };
@@ -16,9 +26,23 @@ const SpotLocation = ({ city, state, country, abbreviateState }) => {
   }
 
   return (
-    <span className="spot-location">{`${city}, ${state}${
-      country ? `, ${country}` : ""
-    }`}</span>
+    <div
+      className={`spot-location flex-container ${
+        containerClasses ? containerClasses : ""
+      }`}
+    >
+      <span
+        className={`prevent-text-overflow ${
+          city?.length > 20 ? "fixed-city-width" : ""
+        }`}
+      >
+        {city}
+      </span>
+      <span className={`${!abbreviateState ? "prevent-text-overflow" : ""}`}>
+        , {state}
+      </span>
+      {country && <span className="prevent-text-overflow">, {country}</span>}
+    </div>
   );
 };
 

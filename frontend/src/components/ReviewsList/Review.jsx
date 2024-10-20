@@ -1,9 +1,11 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { getAllSpotsThunk } from "../../store/spots";
 import OpenModalController from "../OpenModalController";
 import ReviewFormModal from "../ReviewFormModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
+import "./Review.css";
 
 const Review = ({ currentReview }) => {
   const { spotId } = useParams(); // for use when rendering the h2 of the Review component
@@ -11,8 +13,11 @@ const Review = ({ currentReview }) => {
   const flattenedSpots = useSelector((state) => state.spots.spotsFlattened); // possibly an empty {}
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getAllSpotsThunk());
+
     const dateString = currentReview?.createdAt;
 
     if (!dateString) return;
@@ -36,23 +41,24 @@ const Review = ({ currentReview }) => {
 
     setMonth(monthMap[monthAndYear[1]]);
     setYear(monthAndYear[0]);
-  }, [setMonth, setYear, currentReview]);
+  }, [setMonth, setYear, currentReview, dispatch]);
 
   /* even though currentReview is passed in as a prop, that prop depends on a useEffect so we still need conditional chaining */
   return (
-    <div className="col">
+    <div className="review col">
       {/* useParams tells us the location where this component is rendering, so !spotId tells us we are on the ManageReviewsPage */}
       <h2>
         {!spotId
           ? flattenedSpots[currentReview?.spotId]?.name
           : currentReview?.User?.firstName}
       </h2>
-      <p>{`${month} ${year}`}</p>
+      <p className="review-date">{`${month} ${year}`}</p>
       <p>{currentReview?.review}</p>
       {currentReview && currentUser?.id === currentReview?.userId && (
-        <>
+        <div className="review-control-buttons flex-container">
           <OpenModalController
-            controllerText="Update Your Review"
+            controllerText="Update"
+            customClasses="review-control-button small-button"
             elementName="button"
             modalComponent={
               <ReviewFormModal
@@ -62,17 +68,18 @@ const Review = ({ currentReview }) => {
             }
           />
           <OpenModalController
-            controllerText="Delete Your Review"
+            controllerText="Delete"
+            customClasses="review-control-button small-button"
             elementName="button"
             modalComponent={
               <DeleteConfirmationModal
-                confirmationMessage="custom message here"
+                confirmationMessage="Are you sure you want to delete this review?"
                 subjectType="review"
                 subjectId={currentReview?.id}
               />
             }
           />
-        </>
+        </div>
       )}
     </div>
   );

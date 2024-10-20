@@ -24,7 +24,7 @@ const Layout = () => {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
-        <main>
+        <main className="main-container">
           <Outlet />
         </main>
       )}

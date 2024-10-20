@@ -42,9 +42,7 @@ function ProfileButton({ user }) {
     navigate("/");
   };
 
-  const ulClassName =
-    "profile-dropdown" +
-    (showMenu && user ? " flex-container col" : showMenu ? "" : " hidden");
+  const ulClassName = "profile-dropdown col" + (!showMenu ? " hidden" : "");
 
   return (
     <>
@@ -55,28 +53,30 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <div>
-              <li>Hello, {user.firstName}</li>
-              <li>{user.email}</li>
-              <li
-                className="manage-options-redirect"
-                onClick={(e) => {
-                  toggleMenu(e);
-                  navigate("/spots/current");
-                }}
-              >
-                Manage Spots
-              </li>
-              <li
-                className="manage-options-redirect"
-                onClick={(e) => {
-                  toggleMenu(e);
-                  navigate("/reviews/current");
-                }}
-              >
-                Manage Reviews
-              </li>
-            </div>
+            <li>
+              <ul className="logged-in-user-menu col">
+                <li>Hello, {user.firstName}</li>
+                <li>{user.email}</li>
+                <li
+                  className="manage-options-redirect"
+                  onClick={(e) => {
+                    toggleMenu(e);
+                    navigate("/spots/current");
+                  }}
+                >
+                  Manage Spots
+                </li>
+                <li
+                  className="manage-options-redirect"
+                  onClick={(e) => {
+                    toggleMenu(e);
+                    navigate("/reviews/current");
+                  }}
+                >
+                  Manage Reviews
+                </li>
+              </ul>
+            </li>
             <li>
               <button className="oval-button logout-button" onClick={logout}>
                 Log Out
@@ -87,6 +87,7 @@ function ProfileButton({ user }) {
           <>
             <OpenModalController
               controllerText="Sign Up"
+              customClasses="signup-button"
               elementName="li"
               onButtonClick={() => {
                 setShowMenu(false);
@@ -95,6 +96,7 @@ function ProfileButton({ user }) {
             />
             <OpenModalController
               controllerText="Log In"
+              customClasses="login-button"
               elementName="li"
               onButtonClick={() => {
                 setShowMenu(false);

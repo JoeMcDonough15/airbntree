@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { loginUserThunk } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import FormField from "../FormField";
+import ErrorText from "../ErrorText";
 import "./LoginFormModal.css";
 
 const LoginFormModal = () => {
@@ -36,40 +38,30 @@ const LoginFormModal = () => {
   };
 
   return (
-    <div className="modal-container">
-      <h1>Login</h1>
+    <div className="login-modal modal-container">
+      <h2 className="login-header">Login</h2>
       {userErrors.message && (
-        <span className="error-text">
-          The provided credentials were invalid
-        </span>
+        <ErrorText text="The provided credentials were invalid" />
       )}
       <form
         className="form-container flex-container col"
         onSubmit={handleSubmit}
       >
-        <label htmlFor="">
-          <input
-            id="credential"
-            onChange={(e) => {
-              setCredential(e.target.value);
-            }}
-            value={credential}
-            type="text"
-            placeholder="Username or email"
-          />
-        </label>
+        <FormField
+          inputId="credential"
+          setInputVal={setCredential}
+          inputVal={credential}
+          inputType="text"
+          labelText="Username or email"
+        />
 
-        <label>
-          <input
-            id="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            value={password}
-            type="password"
-            placeholder="Password"
-          />
-        </label>
+        <FormField
+          inputId="password"
+          setInputVal={setPassword}
+          inputVal={password}
+          inputType="password"
+          labelText="Password"
+        />
 
         <button
           className={`full-width-button ${
