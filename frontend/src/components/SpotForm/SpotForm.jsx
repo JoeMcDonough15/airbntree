@@ -9,6 +9,7 @@ import {
 } from "../../store/spots";
 
 import FormField from "../FormField";
+import ErrorText from "../ErrorText";
 import "./SpotForm.css";
 
 export const SpotForm = () => {
@@ -175,7 +176,7 @@ export const SpotForm = () => {
     }
 
     if (spot.message) {
-      setUserErrors(spot.message);
+      setUserErrors({ serverError: spot.message });
       return;
     }
 
@@ -201,6 +202,7 @@ export const SpotForm = () => {
 
   return (
     <form className="spot-form col" onSubmit={handleSubmit}>
+      {userErrors.serverError && <ErrorText text={userErrors.serverError} />}
       <section className="spot-form-section-1">
         <div className="spot-form-section-heading">
           <h2>Where&apos;s your place located?</h2>
