@@ -374,7 +374,7 @@ export const SpotForm = () => {
           errorText={userErrors.spotImage5Url}
         />
       </section>
-      <button className="small-button active-button">
+      <button type="submit" className="small-button active-button">
         {`${spotToEdit ? "Update your" : "Create"} Spot`}
       </button>
     </form>

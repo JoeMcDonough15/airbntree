@@ -85,7 +85,7 @@ const SignupFormModal = () => {
       <div className="server-errors-container col">
         {userErrors.serverErrors &&
           Object.values(userErrors.serverErrors).map((serverError, index) => {
-            return <ErrorText key={index} text={serverError} />;
+            return <ErrorText errorBelowLine key={index} text={serverError} />;
           })}
       </div>
 

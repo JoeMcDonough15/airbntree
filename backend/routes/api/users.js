@@ -13,7 +13,7 @@ const router = express.Router();
 // Sign up
 router.post("/", validateSignup, async (req, res, next) => {
   const { email, password, username, firstName, lastName } = req.body;
-  const existingUser = await User.unscoped().findOne({
+  const usersFound = await User.unscoped().findAll({
     where: {
       [Op.or]: {
         username,
@@ -22,22 +22,29 @@ router.post("/", validateSignup, async (req, res, next) => {
     },
   });
 
-  if (existingUser) {
-    const err = {
-      message: "User already exists",
-      errors: {},
-    };
-    if (existingUser.email === email && existingUser.username === username) {
-      err.errors.email = "User with that email already exists";
-      err.errors.username = "User with that username already exists";
-    } else if (existingUser.username === username) {
-      err.errors.username = "User with that username already exists";
-    } else if (existingUser.email === email) {
-      err.errors.email = "User with that email already exists";
-    }
+  const existingUserError = {
+    message: "User already exists",
+    errors: {},
+  };
 
-    return next(err);
+  const emailExistsError = "The provided email is invalid";
+  const usernameExistsError = "Username must be unique";
+
+  usersFound.forEach((existingUser) => {
+    if (existingUser.email === email && existingUser.username === username) {
+      existingUserError.errors.email = emailExistsError;
+      existingUserError.errors.username = usernameExistsError;
+    } else if (existingUser.username === username) {
+      existingUserError.errors.username = usernameExistsError;
+    } else if (existingUser.email === email) {
+      existingUserError.errors.email = emailExistsError;
+    }
+  });
+
+  if (Object.values(existingUserError.errors).length > 0) {
+    return next(existingUserError);
   }
+
   const hashedPassword = bcrypt.hashSync(password);
   const user = await User.create({
     email,
