@@ -15,20 +15,28 @@ html {
   --brown: brown;
   --dark-gray: #999;
   --green: green;
+  --header-brown: #e5c69f;
   --light-brown: burlywood;
+  --very-light-brown: #f4e7d7;
+  --dark-brown: #5b4b37;
   --light-gray: #ccc;
   --red: #ff5a5f;
   --white: #fff;
-  --main-container-width: 88vw;
+  --main-container-width: 93vw;
   --mobile-modal-max-width: 320px;
   --spot-form-padding: 5% 18%;
 }
 
 body {
+  background-color: var(--very-light-brown);
   font-family: "Afacad Flux", sans-serif;
   font-size: 1.16625rem; /* aka 14pt */
   font-style: normal;
   font-weight: normal;
+}
+
+header {
+  background-color: var(--header-brown);
 }
 
 h1,
@@ -124,6 +132,11 @@ button:hover {
 }
 
 /* global text styles */
+
+.page-header {
+  font-size: 3rem;
+  margin: 10px 0;
+}
 
 .prevent-text-overflow {
   overflow: hidden;

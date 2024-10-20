@@ -27,17 +27,18 @@ const SpotTile = ({ spotId }) => {
         imageSrc={previewImage}
         imageAltText="A preview image of the spot"
       />
-
-      <div className="location-and-rating flex-container">
-        <SpotLocation
-          containerClasses="spot-tile-spot-location"
-          city={city}
-          state={state}
-          abbreviateState
-        />
-        <SpotRating rating={avgRating} />
+      <div className="spot-details">
+        <div className="location-and-rating flex-container">
+          <SpotLocation
+            containerClasses="spot-tile-spot-location"
+            city={city}
+            state={state}
+            abbreviateState
+          />
+          <SpotRating rating={avgRating} />
+        </div>
+        <SpotPrice price={price} />
       </div>
-      <SpotPrice price={price} />
       <Tooltip spotName={name} />
     </div>
   );

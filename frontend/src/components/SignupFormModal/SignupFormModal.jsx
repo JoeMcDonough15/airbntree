@@ -143,7 +143,7 @@ const SignupFormModal = () => {
           disabled={submitDisabled}
           type="submit"
         >
-          Sign Up
+          Sign up
         </button>
       </form>
     </div>

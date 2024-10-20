@@ -1,6 +1,13 @@
 .spot-tile {
+  background-color: var(--white);
+  border-radius: 8px;
   gap: 7px;
+  max-width: 230px;
   position: relative;
+}
+
+.spot-details {
+  padding: 4px 3% 8px;
 }
 
 .spot-tooltip {
@@ -34,7 +41,9 @@
 }
 
 .spot-preview-image {
-  border: 1px solid var(--black);
+  border: 1px solid var(--dark-brown);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   height: 210px;
   width: 100%;
 }

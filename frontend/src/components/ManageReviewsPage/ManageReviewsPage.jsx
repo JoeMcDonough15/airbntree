@@ -15,7 +15,7 @@ const ManageReviewsPage = () => {
   return (
     <section className="main-container">
       {" "}
-      <h1>Manage Reviews</h1>
+      <h1 className="page-header">Manage Reviews</h1>
       <ReviewsList reviewsArr={allReviewsByUser} />{" "}
     </section>
   );
