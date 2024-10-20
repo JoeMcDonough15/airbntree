@@ -24,7 +24,7 @@ const SpotOwnerOptions = ({ spotId }) => {
         modalComponent={
           <DeleteConfirmationModal
             subjectId={spotId}
-            confirmationMessage="Are you sure you want to remvove this spot from the listings?"
+            confirmationMessage="Are you sure you want to remove this spot?"
             subjectType="spot"
           />
         }

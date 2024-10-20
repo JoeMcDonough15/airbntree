@@ -2,6 +2,7 @@ import { useModal } from "../../context/Modal";
 import { deleteASpotThunk, getSpotDetailsThunk } from "../../store/spots";
 import { deleteAReviewThunk } from "../../store/reviews";
 import { useDispatch, useSelector } from "react-redux";
+import "./DeleteConfirmationModal.css";
 
 const DeleteConfirmationModal = ({
   confirmationMessage,
@@ -31,17 +32,17 @@ const DeleteConfirmationModal = ({
     <>
       <div className="deleteConfirmationContainer modal-container">
         <h2>Confirm Delete</h2>
-        <p>{`${confirmationMessage}`}</p>
-        <div className="flex-container">
+        <p className="delete-confirmation-text">{`${confirmationMessage}`}</p>
+        <div className="flex-container delete-modal-button-row">
           <button
             onClick={handleDelete}
-            className="full-width-button active-button"
+            className="delete-modal-button small-button active-button"
           >
-            {`Yes (Remove ${subjectType})`}
+            {`Yes (Delete ${subjectType})`}
           </button>
           <button
             onClick={closeModal}
-            className="full-width-button active-button dark-button"
+            className="delete-modal-button small-button active-button dark-button"
           >
             {`No (Keep ${subjectType})`}
           </button>

@@ -38,7 +38,7 @@ const SpotLocation = ({
       >
         {city}
       </span>
-      <span className={`${!abbreviateState && "prevent-text-overflow"}`}>
+      <span className={`${!abbreviateState ? "prevent-text-overflow" : ""}`}>
         , {state}
       </span>
       {country && <span className="prevent-text-overflow">, {country}</span>}

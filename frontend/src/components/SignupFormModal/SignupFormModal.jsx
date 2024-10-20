@@ -81,7 +81,7 @@ const SignupFormModal = () => {
 
   return (
     <div className="modal-container signup-modal">
-      <h1>Sign Up</h1>
+      <h2>Sign Up</h2>
       <div className="server-errors-container col">
         {userErrors.serverErrors &&
           Object.values(userErrors.serverErrors).map((serverError, index) => {

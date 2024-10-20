@@ -69,7 +69,7 @@ const ReviewForm = ({ reviewToEdit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form-container" onSubmit={handleSubmit}>
       {userErrors.serverError && <ErrorText text={userErrors.serverError} />}
       <FormField
         inputId="review-text-input"

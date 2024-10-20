@@ -37,7 +37,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 18pt;
+  font-size: 1.5rem; /* aka 18pt; */
   font-weight: bold;
 }
 
@@ -157,6 +157,11 @@ button:hover {
   color: var(--white);
   font-weight: bold;
   letter-spacing: 0.06em;
+}
+
+.full-width-button.active-button.dark-button,
+.small-button.active-button.dark-button {
+  background-color: var(--dark-gray);
 }
 
 /* Media Queries */

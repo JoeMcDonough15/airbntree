@@ -39,7 +39,7 @@ const LoginFormModal = () => {
 
   return (
     <div className="login-modal modal-container">
-      <h1 className="login-header">Login</h1>
+      <h2 className="login-header">Login</h2>
       {userErrors.message && (
         <ErrorText text="The provided credentials were invalid" />
       )}
