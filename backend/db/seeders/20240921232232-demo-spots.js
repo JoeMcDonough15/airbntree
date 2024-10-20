@@ -29,8 +29,7 @@ const spotsData = [
     lat: 40.238479,
     lng: -58.38648276,
     name: "Great Spot",
-    description:
-      "Great spot! vfiouj57541729292489073 vfiouj57541729292489073. See you there!",
+    description: "This is an awesome place to stay",
     price: 354,
   },
   {
@@ -97,7 +96,7 @@ const spotsData = [
   {
     ownerId: 9,
     address: "West 54th St",
-    city: "Eugene",
+    city: "Seattle",
     state: "Oregon",
     country: "United States of America",
     lat: 77.2348978,
@@ -123,7 +122,7 @@ const spotsData = [
     ownerId: 6,
     address: "10 Fatal Fields",
     city: "New Orleans",
-    state: "Louisiana",
+    state: "Louisana",
     country: "United States of America",
     lat: 45,
     lng: -134,

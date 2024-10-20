@@ -13,9 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       url: {
         type: DataTypes.STRING,
         allowNull: false,
-        // validate: {
-        //   len: [1, 550],
-        // },
+        validate: {
+          isUrl: true,
+          len: [1, 150],
+        },
       },
     },
     {
