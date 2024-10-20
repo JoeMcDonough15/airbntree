@@ -50,6 +50,11 @@ a {
   text-decoration: none;
 }
 
+p,
+span {
+  overflow-wrap: break-word;
+}
+
 ul,
 li {
   list-style: none;
@@ -119,6 +124,10 @@ button:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* .break-long-word {
+  overflow-wrap: break-word;
+} */
 
 /* global button styles */
 

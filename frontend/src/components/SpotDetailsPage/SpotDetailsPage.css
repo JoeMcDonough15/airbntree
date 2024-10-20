@@ -8,7 +8,7 @@
 }
 
 .details-and-reserve {
-  gap: 13.19vw;
+  /* gap: 13.19vw; */
   justify-content: space-between;
 }
 
@@ -33,4 +33,8 @@
   max-height: 160px;
   padding: 40px 2.21%;
   width: 45%;
+}
+
+.reservations-callout > .reservation-spot-details > .price {
+  width: 40%;
 }

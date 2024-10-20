@@ -25,6 +25,11 @@ const SpotLocation = ({
     state = formatStateName(state, abbreviateState);
   }
 
+  const fixedWidthAllSizes = city?.length > 20 ? "fixed-all-sizes" : "";
+
+  const fixedWidthAllSizesBelowBreakpoint =
+    city?.length > 10 ? "fixed-below-breakpoint" : "";
+
   return (
     <div
       className={`spot-location flex-container ${
@@ -32,9 +37,7 @@ const SpotLocation = ({
       }`}
     >
       <span
-        className={`prevent-text-overflow ${
-          city?.length > 20 ? "fixed-city-width" : ""
-        }`}
+        className={`prevent-text-overflow ${fixedWidthAllSizes} ${fixedWidthAllSizesBelowBreakpoint}`}
       >
         {city}
       </span>

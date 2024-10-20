@@ -1,4 +1,13 @@
-.home-page.spots-container .fixed-city-width,
-.manage-spots-page.spots-container .fixed-city-width {
+.home-page.spots-container .fixed-all-sizes,
+.manage-spots-page.spots-container .fixed-all-sizes {
   width: 75%;
+}
+
+@media screen and (max-width: 935px) {
+  .home-page.spots-container .fixed-all-sizes,
+  .manage-spots-page.spots-container .fixed-all-sizes,
+  .home-page.spots-container .fixed-below-breakpoint,
+  .manage-spots-page.spots-container .fixed-below-breakpoint {
+    width: 30%;
+  }
 }
