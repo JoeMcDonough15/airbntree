@@ -174,8 +174,8 @@ export const SpotForm = () => {
       spot = await createASpot(spotDetails);
     }
 
-    if (spot.errors) {
-      setUserErrors(spot.errors);
+    if (spot.message) {
+      setUserErrors(spot.message);
       return;
     }
 
