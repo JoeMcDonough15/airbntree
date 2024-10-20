@@ -100,7 +100,7 @@ const EditASpotPage = () => {
 
   return (
     <section className="create-edit-spot-page">
-      <h1 className="spot-form-main-heading">Update your Spot</h1>
+      <h1 className="spot-form-main-heading page-header">Update your Spot</h1>
       <SpotForm />
     </section>
   );

@@ -17,7 +17,7 @@ const ManageSpotsPage = () => {
   return (
     <section className="manage-spots-page col">
       <div className="intro-section flex-container col">
-        <h1>Manage Spots</h1>
+        <h1 className="page-header">Manage Spots</h1>
       </div>
 
       {allSpotsByUser.length > 0 ? (
