@@ -18,19 +18,19 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         address: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         city: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         state: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         country: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         lat: {
@@ -42,11 +42,11 @@ module.exports = {
           allowNull: false,
         },
         name: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         description: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         price: {

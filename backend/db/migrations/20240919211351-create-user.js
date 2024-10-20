@@ -17,20 +17,20 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         username: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
           unique: true,
         },
         firstName: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         lastName: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
         },
         email: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(10000),
           allowNull: false,
           unique: true,
         },
