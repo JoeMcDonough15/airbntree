@@ -58,7 +58,7 @@ const CreateASpotPage = () => {
 
   return (
     <section className="create-edit-spot-page">
-      <h1 className="spot-form-main-heading">Create a Spot</h1>
+      <h1 className="spot-form-main-heading">Create a New Spot</h1>
       <SpotForm />
     </section>
   );

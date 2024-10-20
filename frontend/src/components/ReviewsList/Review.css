@@ -12,6 +12,7 @@
 
 .review-control-buttons {
   gap: 1.17vw;
+  margin-top: 15px;
   width: fit-content;
 }
 

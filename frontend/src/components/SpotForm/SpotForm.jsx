@@ -85,7 +85,7 @@ export const SpotForm = () => {
 
     // description length minimum error
     if (description.length < 30) {
-      errors["description"] = "Description needs a minimum of 30 characters";
+      errors["description"] = "Description needs 30 or more characters";
     }
 
     // name length maximum error
@@ -175,8 +175,9 @@ export const SpotForm = () => {
       spot = await createASpot(spotDetails);
     }
 
-    if (spot.message) {
-      setUserErrors({ serverError: spot.message });
+    if (spot.message || spot.errors) {
+      spot.message && setUserErrors({ serverError: spot.message });
+      spot.errors && setUserErrors(spot.errors);
       return;
     }
 
@@ -204,9 +205,11 @@ export const SpotForm = () => {
     <form className="spot-form col" onSubmit={handleSubmit}>
       {userErrors.serverError && <ErrorText text={userErrors.serverError} />}
       <section className="spot-form-section-1">
-        <div className="spot-form-section-heading">
-          <h2>Where&apos;s your place located?</h2>
-          <p>
+        <div className="spot-form-section-introduction">
+          <h2 className="spot-form-heading">
+            Where&apos;s your place located?
+          </h2>
+          <p className="spot-form-section-caption spot-form-section-1-caption">
             Guests will only get your exact address once they booked a
             reservation.
           </p>
@@ -259,11 +262,9 @@ export const SpotForm = () => {
       </section>
 
       <section className="spot-form-section-2">
-        <div className="spot-form-section-heading">
-          <h2 className="spot-form-section-2-heading">
-            Describe your place to guests
-          </h2>
-          <p className="spot-form-section-2-caption">
+        <div className="spot-form-section-introduction">
+          <h2 className="spot-form-heading">Describe your place to guests</h2>
+          <p className="spot-form-section-caption">
             Mention the best features of your space, any special amentities like
             fast wifi or parking, and what you love about the neighborhood.
           </p>
@@ -278,11 +279,9 @@ export const SpotForm = () => {
         />
       </section>
       <section className="spot-form-section-3">
-        <div className="spot-form-section-heading">
-          <h2 className="spot-form-section-3-heading">
-            Create a title for your spot
-          </h2>
-          <p className="spot-form-section-3-caption">
+        <div className="spot-form-section-introduction">
+          <h2 className="spot-form-heading">Create a title for your spot</h2>
+          <p className="spot-form-section-caption">
             Catch guests&apos; attention with a spot title that highlights what
             makes your place special.
           </p>
@@ -300,11 +299,9 @@ export const SpotForm = () => {
       </section>
 
       <section className="spot-form-section-4">
-        <div className="spot-form-section-heading">
-          <h2 className="spot-form-section-4-heading">
-            Set a base price for your spot
-          </h2>
-          <p className="spot-form-section-4-caption">
+        <div className="spot-form-section-introduction">
+          <h2 className="spot-form-heading">Set a base price for your spot</h2>
+          <p className="spot-form-section-caption">
             Competitive pricing can help your listing stand out and rank higher
             in search results.
           </p>
@@ -320,11 +317,9 @@ export const SpotForm = () => {
         />
       </section>
       <section className="spot-form-section-5">
-        <div className="spot-form-section-heading">
-          <h2 className="spot-form-section-5-heading">
-            Liven up your spot with photos
-          </h2>
-          <p className="spot-form-section-5-caption">
+        <div className="spot-form-section-introduction">
+          <h2 className="spot-form-heading">Liven up your spot with photos</h2>
+          <p className="spot-form-section-caption">
             Submit a link to at least one photo to publish your spot.
           </p>
         </div>

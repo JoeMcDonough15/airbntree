@@ -4,7 +4,6 @@ import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import FormField from "../FormField";
 import ErrorText from "../ErrorText";
-import "./SignupFormModal.css";
 
 const SignupFormModal = () => {
   const dispatch = useDispatch();
@@ -95,22 +94,6 @@ const SignupFormModal = () => {
       >
         <FormField
           inputType="text"
-          inputVal={email}
-          setInputVal={setEmail}
-          labelText="Email"
-          errorText={userErrors.email}
-        />
-
-        <FormField
-          inputType="text"
-          inputVal={username}
-          setInputVal={setUsername}
-          labelText="username"
-          errorText={userErrors.username}
-        />
-
-        <FormField
-          inputType="text"
           inputVal={firstName}
           setInputVal={setFirstName}
           labelText="First Name"
@@ -121,6 +104,22 @@ const SignupFormModal = () => {
           inputVal={lastName}
           setInputVal={setLastName}
           labelText="Last Name"
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={email}
+          setInputVal={setEmail}
+          labelText="Email"
+          errorText={userErrors.email}
+        />
+
+        <FormField
+          inputType="text"
+          inputVal={username}
+          setInputVal={setUsername}
+          labelText="Username"
+          errorText={userErrors.username}
         />
 
         <FormField

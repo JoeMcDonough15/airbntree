@@ -16,8 +16,21 @@
   margin-bottom: 20px;
 }
 
-.spot-form-section-heading {
+.spot-form-section-introduction {
   margin-bottom: 10px;
+}
+
+.spot-form-heading {
+  font-size: 1.6rem;
+}
+
+.spot-form-section-caption {
+  font-size: 1.3125rem;
+  padding: 5px 0;
+}
+
+.spot-form-section-1-caption {
+  padding-right: 12%;
 }
 
 .form-field,
@@ -25,6 +38,10 @@
 .form-field > label > input,
 .form-field > label > textarea {
   width: 100%;
+}
+
+.label-error-row {
+  margin-bottom: 3px;
 }
 
 .form-field + .form-field,
