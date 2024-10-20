@@ -32,7 +32,7 @@ const ManageSpotsPage = () => {
           })}
         </div>
       ) : (
-        <button className="full-width-button active-button">
+        <button className="no-spots-yet-button full-width-button active-button">
           <Link to="/spots/new">Create a New Spot</Link>
         </button>
       )}
