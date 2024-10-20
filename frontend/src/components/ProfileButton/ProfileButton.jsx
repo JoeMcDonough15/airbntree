@@ -42,9 +42,7 @@ function ProfileButton({ user }) {
     navigate("/");
   };
 
-  const ulClassName =
-    "profile-dropdown" +
-    (showMenu && user ? " flex-container col" : showMenu ? "" : " hidden");
+  const ulClassName = "profile-dropdown col" + (!showMenu ? " hidden" : "");
 
   return (
     <>
