@@ -26,12 +26,12 @@ const spotImageData = [
 
   {
     spotId: 1,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 2,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse1.jpg",
     preview: true,
   },
 
@@ -52,12 +52,12 @@ const spotImageData = [
 
   {
     spotId: 2,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 3,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse2.jpg",
     preview: true,
   },
 
@@ -78,12 +78,12 @@ const spotImageData = [
 
   {
     spotId: 3,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 4,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse3.jpg",
     preview: true,
   },
 
@@ -104,12 +104,12 @@ const spotImageData = [
 
   {
     spotId: 4,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 5,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse4.jpg",
     preview: true,
   },
 
@@ -130,12 +130,12 @@ const spotImageData = [
 
   {
     spotId: 5,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 6,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse5.jpg",
     preview: true,
   },
 
@@ -156,12 +156,12 @@ const spotImageData = [
 
   {
     spotId: 6,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 7,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse6.jpg",
     preview: true,
   },
 
@@ -182,12 +182,12 @@ const spotImageData = [
 
   {
     spotId: 7,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 8,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse7.jpg",
     preview: true,
   },
 
@@ -208,12 +208,12 @@ const spotImageData = [
 
   {
     spotId: 8,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 9,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse8.jpg",
     preview: true,
   },
 
@@ -234,12 +234,12 @@ const spotImageData = [
 
   {
     spotId: 9,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 10,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse9.jpg",
     preview: true,
   },
 
@@ -260,12 +260,12 @@ const spotImageData = [
 
   {
     spotId: 10,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 11,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse10.jpg",
     preview: true,
   },
 
@@ -286,12 +286,12 @@ const spotImageData = [
 
   {
     spotId: 11,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 12,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse11.jpg",
     preview: true,
   },
 
@@ -312,12 +312,12 @@ const spotImageData = [
 
   {
     spotId: 12,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 13,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse12.jpg",
     preview: true,
   },
 
@@ -338,12 +338,12 @@ const spotImageData = [
 
   {
     spotId: 13,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 14,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse13.jpg",
     preview: true,
   },
 
@@ -364,12 +364,12 @@ const spotImageData = [
 
   {
     spotId: 14,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 15,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse14.jpg",
     preview: true,
   },
 
@@ -390,12 +390,12 @@ const spotImageData = [
 
   {
     spotId: 15,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 16,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse15.jpg",
     preview: true,
   },
 
@@ -416,12 +416,12 @@ const spotImageData = [
 
   {
     spotId: 16,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 17,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse16.jpg",
     preview: true,
   },
 
@@ -442,12 +442,12 @@ const spotImageData = [
 
   {
     spotId: 17,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 18,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse17.jpg",
     preview: true,
   },
 
@@ -468,12 +468,12 @@ const spotImageData = [
 
   {
     spotId: 18,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 19,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse18.jpg",
     preview: true,
   },
 
@@ -494,12 +494,12 @@ const spotImageData = [
 
   {
     spotId: 19,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 
   {
     spotId: 20,
-    url: "/assets/images/yard.png",
+    url: "/assets/images/treehouse20.jpg",
     preview: true,
   },
 
@@ -520,7 +520,7 @@ const spotImageData = [
 
   {
     spotId: 20,
-    url: "/assets/images/bridge.jpg",
+    url: "/assets/images/kitchen.jpg",
   },
 ];
 
