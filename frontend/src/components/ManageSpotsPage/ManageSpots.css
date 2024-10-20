@@ -41,3 +41,9 @@
     width: var(--main-container-width);
   }
 }
+
+.no-spots-yet-button.full-width-button.active-button {
+  background-color: var(--green);
+  margin: 50px 0;
+  width: 45%;
+}
