@@ -77,7 +77,6 @@ const ReviewForm = ({ reviewToEdit }) => {
         inputVal={reviewText}
         setInputVal={setReviewText}
         labelText="Leave your review here..."
-        placeholderText="Leave your review here..."
       />
       <div className="flex-container star-row">
         <StarRating />

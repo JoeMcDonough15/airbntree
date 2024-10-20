@@ -272,6 +272,7 @@ export const SpotForm = () => {
           setInputVal={setDescription}
           inputId="description-input"
           errorText={userErrors.description}
+          labelText="Please write at least 30 characters"
         />
       </section>
       <section className="spot-form-section-3">

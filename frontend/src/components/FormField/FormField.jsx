@@ -40,7 +40,7 @@ const FormField = ({
                 rows="8"
                 value={inputVal}
                 id={inputId}
-                placeholder="Please write at least 30 characters"
+                placeholder={labelText}
                 onChange={(e) => {
                   setInputVal(e.target.value);
                 }}
