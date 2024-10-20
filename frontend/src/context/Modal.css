@@ -46,10 +46,6 @@
   background: rgba(0, 128, 0, 0.1);
 }
 
-#modal-content .form-container button {
-  margin-top: 30px;
-}
-
 @media screen and (max-width: 575px) {
   #modal-content {
     max-width: var(--mobile-modal-max-width);

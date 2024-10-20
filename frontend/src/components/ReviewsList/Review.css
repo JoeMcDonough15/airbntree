@@ -6,8 +6,27 @@
   margin-bottom: 40px;
 }
 
+.review-title-and-stars {
+  align-items: center;
+  gap: 0.5vw;
+}
+
+.review-title-and-stars .star-icons .star-icon {
+  align-items: center;
+  color: var(--green);
+  display: flex;
+}
+
+.review-title-and-stars .star-icons .star-icon:hover {
+  cursor: initial;
+}
+
 .review-date {
   color: var(--dark-gray);
+}
+
+.review-text {
+  padding-right: 50%;
 }
 
 .review-control-buttons {

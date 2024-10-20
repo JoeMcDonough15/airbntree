@@ -5,6 +5,7 @@ import { getAllSpotsThunk } from "../../store/spots";
 import OpenModalController from "../OpenModalController";
 import ReviewFormModal from "../ReviewFormModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
+import { FaStar } from "react-icons/fa6";
 import "./Review.css";
 
 const Review = ({ currentReview }) => {
@@ -47,13 +48,27 @@ const Review = ({ currentReview }) => {
   return (
     <div className="review col">
       {/* useParams tells us the location where this component is rendering, so !spotId tells us we are on the ManageReviewsPage */}
-      <h2>
-        {!spotId
-          ? flattenedSpots[currentReview?.spotId]?.name
-          : currentReview?.User?.firstName}
-      </h2>
+      <div className="review-title-and-stars flex-container">
+        <h2>
+          {!spotId
+            ? flattenedSpots[currentReview?.spotId]?.name
+            : currentReview?.User?.firstName}
+        </h2>
+        <div className="star-icons flex-container">
+          {Array(currentReview?.stars)
+            .fill(null)
+            .map((_, index) => {
+              return (
+                <div key={index} className="star-icon">
+                  {" "}
+                  <FaStar />{" "}
+                </div>
+              );
+            })}
+        </div>
+      </div>
       <p className="review-date">{`${month} ${year}`}</p>
-      <p>{currentReview?.review}</p>
+      <p className="review-text">{currentReview?.review}</p>
       {currentReview && currentUser?.id === currentReview?.userId && (
         <div className="review-control-buttons flex-container">
           <OpenModalController
