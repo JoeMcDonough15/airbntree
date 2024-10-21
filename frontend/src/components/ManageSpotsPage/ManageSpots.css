@@ -10,6 +10,12 @@
   width: 21.3vw;
 }
 
+.manage-spots-page.spots-container.grid-container
+  > .manage-spot-tile
+  .spot-tile {
+  max-width: none;
+}
+
 @media screen and (max-width: 840px) {
   .manage-spots-page.spots-container.grid-container {
     grid-template-columns: repeat(3, 1fr);
